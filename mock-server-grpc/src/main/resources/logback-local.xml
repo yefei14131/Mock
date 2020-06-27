@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <contextName>${HOSTNAME}</contextName>
+
+    <Property name="LOG_PROJECT" value="mock-server-grpc" />
+    <Property name="LOG_BASE_PATH" value="/tmp/logs/${LOG_PROJECT}" />
+    <Property name="DEFAULT_PATTERN" value="%d{ISO8601}$$[%thread]$$[%logger]$$[%p]$$[%L]$$[%msg]%n" />
+    <Property name="CONSOLE_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n" />
+    <Property name="MAX_HISTORY" value="30" />
+    <Property name="ENCODE" value="UTF-8" />
+
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                ${CONSOLE_PATTERN}
+            </Pattern>
+        </layout>
+    </appender>
+
+    <appender name="FILE_STDOUT"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_BASE_PATH}/${HOSTNAME}-%d{yyyyMMdd}.log</fileNamePattern>
+        </rollingPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>
+                ${DEFAULT_PATTERN}
+            </Pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE_STDERR"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_BASE_PATH}/${HOSTNAME}-error-%d{yyyyMMdd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>
+                ${DEFAULT_PATTERN}
+            </Pattern>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE_STDOUT"/>
+    </root>
+
+
+</configuration>

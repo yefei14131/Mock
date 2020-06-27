@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.yefei.qa.mock.model.gen.dao.TblGrpcInterfaceJarMapper">
+  <resultMap id="BaseResultMap" type="org.yefei.qa.mock.model.gen.pojo.TblGrpcInterfaceJar">
+    <id column="itemID" jdbcType="INTEGER" property="itemID" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="groupID" jdbcType="VARCHAR" property="groupID" />
+    <result column="artifactID" jdbcType="VARCHAR" property="artifactID" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="jarUrl" jdbcType="VARCHAR" property="jarUrl" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="isActive" jdbcType="BIT" property="isActive" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    itemID, memo, groupID, artifactID, version, jarUrl, updateTime, isActive
+  </sql>
+  <select id="selectByExample" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcInterfaceJarExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tbl_grpc_interface_jar
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_grpc_interface_jar
+    where itemID = #{itemID,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tbl_grpc_interface_jar
+    where itemID = #{itemID,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcInterfaceJarExample">
+    delete from tbl_grpc_interface_jar
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcInterfaceJar">
+    insert into tbl_grpc_interface_jar (itemID, memo, groupID, 
+      artifactID, version, jarUrl, 
+      updateTime, isActive)
+    values (#{itemID,jdbcType=INTEGER}, #{memo,jdbcType=VARCHAR}, #{groupID,jdbcType=VARCHAR}, 
+      #{artifactID,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, #{jarUrl,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{isActive,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcInterfaceJar">
+    insert into tbl_grpc_interface_jar
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="itemID != null">
+        itemID,
+      </if>
+      <if test="memo != null">
+        memo,
+      </if>
+      <if test="groupID != null">
+        groupID,
+      </if>
+      <if test="artifactID != null">
+        artifactID,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="jarUrl != null">
+        jarUrl,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+      <if test="isActive != null">
+        isActive,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="itemID != null">
+        #{itemID,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null">
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="groupID != null">
+        #{groupID,jdbcType=VARCHAR},
+      </if>
+      <if test="artifactID != null">
+        #{artifactID,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="jarUrl != null">
+        #{jarUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isActive != null">
+        #{isActive,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcInterfaceJarExample" resultType="java.lang.Long">
+    select count(*) from tbl_grpc_interface_jar
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tbl_grpc_interface_jar
+    <set>
+      <if test="record.itemID != null">
+        itemID = #{record.itemID,jdbcType=INTEGER},
+      </if>
+      <if test="record.memo != null">
+        memo = #{record.memo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupID != null">
+        groupID = #{record.groupID,jdbcType=VARCHAR},
+      </if>
+      <if test="record.artifactID != null">
+        artifactID = #{record.artifactID,jdbcType=VARCHAR},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jarUrl != null">
+        jarUrl = #{record.jarUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isActive != null">
+        isActive = #{record.isActive,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tbl_grpc_interface_jar
+    set itemID = #{record.itemID,jdbcType=INTEGER},
+      memo = #{record.memo,jdbcType=VARCHAR},
+      groupID = #{record.groupID,jdbcType=VARCHAR},
+      artifactID = #{record.artifactID,jdbcType=VARCHAR},
+      version = #{record.version,jdbcType=VARCHAR},
+      jarUrl = #{record.jarUrl,jdbcType=VARCHAR},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      isActive = #{record.isActive,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcInterfaceJar">
+    update tbl_grpc_interface_jar
+    <set>
+      <if test="memo != null">
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="groupID != null">
+        groupID = #{groupID,jdbcType=VARCHAR},
+      </if>
+      <if test="artifactID != null">
+        artifactID = #{artifactID,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="jarUrl != null">
+        jarUrl = #{jarUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isActive != null">
+        isActive = #{isActive,jdbcType=BIT},
+      </if>
+    </set>
+    where itemID = #{itemID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcInterfaceJar">
+    update tbl_grpc_interface_jar
+    set memo = #{memo,jdbcType=VARCHAR},
+      groupID = #{groupID,jdbcType=VARCHAR},
+      artifactID = #{artifactID,jdbcType=VARCHAR},
+      version = #{version,jdbcType=VARCHAR},
+      jarUrl = #{jarUrl,jdbcType=VARCHAR},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      isActive = #{isActive,jdbcType=BIT}
+    where itemID = #{itemID,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="org.yefei.qa.mock.model.gen.pojo.TblGrpcInterfaceJar">
+    <id column="itemID" jdbcType="INTEGER" property="itemID" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="groupID" jdbcType="VARCHAR" property="groupID" />
+    <result column="artifactID" jdbcType="VARCHAR" property="artifactID" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="jarUrl" jdbcType="VARCHAR" property="jarUrl" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="isActive" jdbcType="BIT" property="isActive" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    itemID, memo, groupID, artifactID, version, jarUrl, updateTime, isActive
+  </sql>
+  <select id="selectByExample" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcInterfaceJarExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tbl_grpc_interface_jar
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_grpc_interface_jar
+    where itemID = #{itemID,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tbl_grpc_interface_jar
+    where itemID = #{itemID,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcInterfaceJarExample">
+    delete from tbl_grpc_interface_jar
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcInterfaceJar">
+    insert into tbl_grpc_interface_jar (itemID, memo, groupID, 
+      artifactID, version, jarUrl, 
+      updateTime, isActive)
+    values (#{itemID,jdbcType=INTEGER}, #{memo,jdbcType=VARCHAR}, #{groupID,jdbcType=VARCHAR}, 
+      #{artifactID,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, #{jarUrl,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{isActive,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcInterfaceJar">
+    insert into tbl_grpc_interface_jar
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="itemID != null">
+        itemID,
+      </if>
+      <if test="memo != null">
+        memo,
+      </if>
+      <if test="groupID != null">
+        groupID,
+      </if>
+      <if test="artifactID != null">
+        artifactID,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="jarUrl != null">
+        jarUrl,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+      <if test="isActive != null">
+        isActive,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="itemID != null">
+        #{itemID,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null">
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="groupID != null">
+        #{groupID,jdbcType=VARCHAR},
+      </if>
+      <if test="artifactID != null">
+        #{artifactID,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="jarUrl != null">
+        #{jarUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isActive != null">
+        #{isActive,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcInterfaceJarExample" resultType="java.lang.Long">
+    select count(*) from tbl_grpc_interface_jar
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tbl_grpc_interface_jar
+    <set>
+      <if test="record.itemID != null">
+        itemID = #{record.itemID,jdbcType=INTEGER},
+      </if>
+      <if test="record.memo != null">
+        memo = #{record.memo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupID != null">
+        groupID = #{record.groupID,jdbcType=VARCHAR},
+      </if>
+      <if test="record.artifactID != null">
+        artifactID = #{record.artifactID,jdbcType=VARCHAR},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jarUrl != null">
+        jarUrl = #{record.jarUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isActive != null">
+        isActive = #{record.isActive,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tbl_grpc_interface_jar
+    set itemID = #{record.itemID,jdbcType=INTEGER},
+      memo = #{record.memo,jdbcType=VARCHAR},
+      groupID = #{record.groupID,jdbcType=VARCHAR},
+      artifactID = #{record.artifactID,jdbcType=VARCHAR},
+      version = #{record.version,jdbcType=VARCHAR},
+      jarUrl = #{record.jarUrl,jdbcType=VARCHAR},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      isActive = #{record.isActive,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcInterfaceJar">
+    update tbl_grpc_interface_jar
+    <set>
+      <if test="memo != null">
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="groupID != null">
+        groupID = #{groupID,jdbcType=VARCHAR},
+      </if>
+      <if test="artifactID != null">
+        artifactID = #{artifactID,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="jarUrl != null">
+        jarUrl = #{jarUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isActive != null">
+        isActive = #{isActive,jdbcType=BIT},
+      </if>
+    </set>
+    where itemID = #{itemID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcInterfaceJar">
+    update tbl_grpc_interface_jar
+    set memo = #{memo,jdbcType=VARCHAR},
+      groupID = #{groupID,jdbcType=VARCHAR},
+      artifactID = #{artifactID,jdbcType=VARCHAR},
+      version = #{version,jdbcType=VARCHAR},
+      jarUrl = #{jarUrl,jdbcType=VARCHAR},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      isActive = #{isActive,jdbcType=BIT}
+    where itemID = #{itemID,jdbcType=INTEGER}
+  </update>
+</mapper>

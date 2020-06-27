@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.yefei.qa.mock</groupId>
+    <artifactId>mock-server</artifactId>
+    <version>1.0.0</version>
+    <modules>
+        <module>plugins</module>
+    </modules>
+    <packaging>pom</packaging>
+
+    <properties>
+        <!--<project.version>1.0.0</project.version>-->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <springboot.vertion>2.0.3.RELEASE</springboot.vertion>
+        <jackson.version>2.9.6</jackson.version>
+        <jar.directory>target</jar.directory>
+        <grpc.version>1.8.0</grpc.version>
+        <netty.version>4.1.16.Final</netty.version>
+        <protobuf.java.version>3.4.0</protobuf.java.version>
+        <sandbox.api.version>1.3.2-SNAPSHOT</sandbox.api.version>
+        <metainf-services.version>1.8</metainf-services.version>
+        <httpclient.version>4.5.10</httpclient.version>
+        <okhttp.version>4.1.0</okhttp.version>
+        <lombok.version>1.18.2</lombok.version>
+        <spring.mybatis.version>1.3.1</spring.mybatis.version>
+        <spring.aop.version>4.3.12.RELEASE</spring.aop.version>
+        <exec-maven-plugin.version>1.5.0</exec-maven-plugin.version>
+        <maven-plugin.version>3.0.0-M4</maven-plugin.version>
+        <mysql.version>5.1.46</mysql.version>
+        <WebSocket.version>1.5.1</WebSocket.version>
+        <!-- -->
+
+    </properties>
+    <profiles>
+        <profile>
+            <id>agent</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>agent-protocol</module>
+                <module>mock-agent</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>grpc</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>mock-server-grpc</module>
+                <module>common</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>interface</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>grpc-interface</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>rest</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>common</module>
+                <module>mock-server-rest</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>admin</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>agent-protocol</module>
+                <module>common</module>
+                <module>admin</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>scheduler</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>common</module>
+                <module>scheduler</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>all</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <modules>
+                <module>common</module>
+                <module>admin</module>
+                <module>mock-server-rest</module>
+                <module>mock-server-grpc</module>
+                <module>scheduler</module>
+            </modules>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>${exec-maven-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>git submodule update</id>
+                                <phase>initialize</phase>
+                                <inherited>false</inherited>
+                                <configuration>
+                                    <executable>git</executable>
+                                    <arguments>
+                                        <argument>submodule</argument>
+                                        <argument>update</argument>
+                                        <argument>--init</argument>
+                                        <argument>--recursive</argument>
+                                    </arguments>
+                                </configuration>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>CI-with-IT</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    <dependencyManagement>
+        <dependencies>
+
+            <!--log4j-->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>2.10.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.25</version>
+            </dependency>
+
+
+            <!--  groovy  -->
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-all</artifactId>
+                <version>2.4.7</version>
+            </dependency>
+
+            <!--  guava  -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>19.0</version>
+                <!--<type>bundle</type>-->
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <!-- database connect pool support -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>1.1.5</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>1.1.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${spring.mybatis.version}</version>
+            </dependency>
+
+
+            <!-- fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.69</version>
+            </dependency>
+
+
+            <!-- StringUtils  ExceptionUtils  -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.7</version>
+            </dependency>
+
+            <!-- springboot  -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-configuration-processor</artifactId>
+                <version>${springboot.vertion}</version>
+                <optional>true</optional>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${springboot.vertion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-aop</artifactId>
+                <version>${springboot.vertion}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-amqp</artifactId>
+                <version>${springboot.vertion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.grpc</groupId>
+                        <artifactId>*</artifactId>
+                        <!--<artifactId>grpc-okhttp</artifactId>-->
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-tomcat</artifactId>
+                <version>${springboot.vertion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.grpc</groupId>
+                        <artifactId>*</artifactId>
+                        <!--<artifactId>grpc-okhttp</artifactId>-->
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${springboot.vertion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-websocket</artifactId>
+                <version>${springboot.vertion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-freemarker</artifactId>
+                <version>${springboot.vertion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${springboot.vertion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.amqp</groupId>
+                <artifactId>spring-rabbit</artifactId>
+                <version>${springboot.vertion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.grpc</groupId>
+                        <artifactId>*</artifactId>
+                        <!--<artifactId>grpc-okhttp</artifactId>-->
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+
+            <!--<dependency>-->
+            <!--<groupId>io.github.lognet</groupId>-->
+            <!--<artifactId>grpc-spring-boot-starter</artifactId>-->
+            <!--<version>2.4.4</version>-->
+            <!--</dependency>-->
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-quartz</artifactId>
+                <version>2.0.3.RELEASE</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.googlecode.protobuf-java-format</groupId>
+                <artifactId>protobuf-java-format</artifactId>
+                <version>1.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>3.4.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-all</artifactId>
+                <version>${grpc.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.grpc</groupId>
+                        <artifactId>grpc-okhttp</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+
+            <!--<dependency>-->
+            <!--<groupId>com.googlecode.protobuf-java-format</groupId>-->
+            <!--<artifactId>protobuf-java-format</artifactId>-->
+            <!--<version>1.4</version>-->
+            <!--</dependency>-->
+
+
+            <!-- jackson -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.jvm.sandbox</groupId>
+                <artifactId>sandbox-api</artifactId>
+                <version>${sandbox.api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.jvm.sandbox</groupId>
+                <artifactId>sandbox-core</artifactId>
+                <version>${sandbox.api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kohsuke.metainf-services</groupId>
+                <artifactId>metainf-services</artifactId>
+                <version>${metainf-services.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <!-- Import dependency management from Spring Boot -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${springboot.vertion}</version>
+                <type>pom</type>
+                <scope>import</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.grpc</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <repositories>
+        <repository>
+            <id>public</id>
+            <name>Public Repositories</name>
+            <url>http://repo.hualala.com/nexus/content/groups/Public/</url>
+        </repository>
+        <repository>
+            <id>release</id>
+            <name>Public Repositories</name>
+            <url>http://repo.hualala.com/nexus/content/repositories/releases/</url>
+        </repository>
+        <repository>
+            <id>nexus-snapshots</id>
+            <name>Nexus Snapshot Repository</name>
+            <url>http://repo.hualala.com/nexus/content/repositories/snapshots/</url>
+        </repository>
+    </repositories>
+    <distributionManagement>
+        <repository>
+            <id>nexus-releases</id>
+            <name>Nexus Release Repository</name>
+            <url>http://repo.hualala.com/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>Nexus Snapshot Repository</name>
+            <url>http://repo.hualala.com/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+</project>

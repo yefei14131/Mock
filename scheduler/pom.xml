@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.yefei.qa.mock</groupId>
+	<artifactId>scheduler</artifactId>
+    <version>1.0.0</version>
+	<packaging>jar</packaging>
+
+	<name>scheduler</name>
+	<description>scheduler of mocker-server</description>
+
+	<parent>
+		<groupId>org.yefei.qa.mock</groupId>
+		<artifactId>mock-server</artifactId>
+        <version>1.0.0</version>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<springboot.vertion>2.0.3.RELEASE</springboot.vertion>
+		<jackson.version>2.9.6</jackson.version>
+        <jar.directory>target</jar.directory>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.yefei.qa.mock</groupId>
+			<artifactId>common</artifactId>
+            <version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-all</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.protobuf-java-format</groupId>
+			<artifactId>protobuf-java-format</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!-- 调度器 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-quartz</artifactId>
+		</dependency>
+
+		<!-- rabbitmq -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
+		<!--使用durid连接池的依赖-->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid-spring-boot-starter</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.22</version>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.46</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.googlecode.protobuf-java-format</groupId>
+			<artifactId>protobuf-java-format</artifactId>
+			<version>1.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId>
+			<version>3.4.0</version>
+			<!--<type>bundle</type>-->
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.6</version>
+		</dependency>
+
+		<!--&lt;!&ndash; jackson &ndash;&gt;-->
+		<!--<dependency>-->
+			<!--<groupId>com.fasterxml.jackson.core</groupId>-->
+			<!--<artifactId>jackson-core</artifactId>-->
+			<!--<version>${jackson.version}</version>-->
+		<!--</dependency>-->
+
+		<!--<dependency>-->
+			<!--<groupId>com.fasterxml.jackson.core</groupId>-->
+			<!--<artifactId>jackson-annotations</artifactId>-->
+			<!--<version>${jackson.version}</version>-->
+		<!--</dependency>-->
+
+		<!--<dependency>-->
+			<!--<groupId>com.fasterxml.jackson.core</groupId>-->
+			<!--<artifactId>jackson-databind</artifactId>-->
+			<!--<version>${jackson.version}</version>-->
+		<!--</dependency>-->
+
+
+		<!--<dependency>-->
+			<!--<groupId>org.apache.commons</groupId>-->
+			<!--<artifactId>commons-lang3</artifactId>-->
+			<!--<version>3.7</version>-->
+		<!--</dependency>-->
+
+
+		<!--&lt;!&ndash; groovy支持&ndash;&gt;-->
+		<!--<dependency>-->
+			<!--<groupId>org.codehaus.groovy</groupId>-->
+			<!--<artifactId>groovy-all</artifactId>-->
+			<!--<version>2.4.7</version>-->
+		<!--</dependency>-->
+
+
+		<!--&lt;!&ndash;  guava  &ndash;&gt;-->
+		<!--<dependency>-->
+			<!--<groupId>com.google.guava</groupId>-->
+			<!--<artifactId>guava</artifactId>-->
+			<!--<version>19.0</version>-->
+			<!--&lt;!&ndash;<type>bundle</type>&ndash;&gt;-->
+		<!--</dependency>-->
+
+	</dependencies>
+
+	<build>
+		<finalName>mock-server-scheduler</finalName>
+		<directory>${jar.directory}</directory>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.properties</include>
+					<include>**/*.yml</include>
+					<include>**/*.ini</include>
+					<include>**/*.xml</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
+	</build>
+
+</project>

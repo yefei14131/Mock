@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.yefei.qa.mock.model.gen.dao.TblMappingTaskMapper">
+  <resultMap id="BaseResultMap" type="org.yefei.qa.mock.model.gen.pojo.TblMappingTask">
+    <id column="taskID" jdbcType="INTEGER" property="taskID" />
+    <result column="jobID" jdbcType="INTEGER" property="jobID" />
+    <result column="taskType" jdbcType="INTEGER" property="taskType" />
+    <result column="sortIndex" jdbcType="INTEGER" property="sortIndex" />
+    <result column="isActive" jdbcType="BIT" property="isActive" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.yefei.qa.mock.model.gen.pojo.TblMappingTask">
+    <result column="configs" jdbcType="LONGVARCHAR" property="configs" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    taskID, jobID, taskType, sortIndex, isActive, updateTime
+  </sql>
+  <sql id="Blob_Column_List">
+    configs
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="org.yefei.qa.mock.model.gen.pojo.TblMappingTaskExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tbl_mapping_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="org.yefei.qa.mock.model.gen.pojo.TblMappingTaskExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tbl_mapping_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tbl_mapping_task
+    where taskID = #{taskID,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tbl_mapping_task
+    where taskID = #{taskID,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.yefei.qa.mock.model.gen.pojo.TblMappingTaskExample">
+    delete from tbl_mapping_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.yefei.qa.mock.model.gen.pojo.TblMappingTask">
+    <selectKey keyProperty="taskID" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tbl_mapping_task (jobID, taskType, sortIndex, 
+      isActive, updateTime, configs
+      )
+    values (#{jobID,jdbcType=INTEGER}, #{taskType,jdbcType=INTEGER}, #{sortIndex,jdbcType=INTEGER}, 
+      #{isActive,jdbcType=BIT}, #{updateTime,jdbcType=TIMESTAMP}, #{configs,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.yefei.qa.mock.model.gen.pojo.TblMappingTask">
+    <selectKey keyProperty="taskID" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tbl_mapping_task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="jobID != null">
+        jobID,
+      </if>
+      <if test="taskType != null">
+        taskType,
+      </if>
+      <if test="sortIndex != null">
+        sortIndex,
+      </if>
+      <if test="isActive != null">
+        isActive,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+      <if test="configs != null">
+        configs,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="jobID != null">
+        #{jobID,jdbcType=INTEGER},
+      </if>
+      <if test="taskType != null">
+        #{taskType,jdbcType=INTEGER},
+      </if>
+      <if test="sortIndex != null">
+        #{sortIndex,jdbcType=INTEGER},
+      </if>
+      <if test="isActive != null">
+        #{isActive,jdbcType=BIT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="configs != null">
+        #{configs,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.yefei.qa.mock.model.gen.pojo.TblMappingTaskExample" resultType="java.lang.Long">
+    select count(*) from tbl_mapping_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tbl_mapping_task
+    <set>
+      <if test="record.taskID != null">
+        taskID = #{record.taskID,jdbcType=INTEGER},
+      </if>
+      <if test="record.jobID != null">
+        jobID = #{record.jobID,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskType != null">
+        taskType = #{record.taskType,jdbcType=INTEGER},
+      </if>
+      <if test="record.sortIndex != null">
+        sortIndex = #{record.sortIndex,jdbcType=INTEGER},
+      </if>
+      <if test="record.isActive != null">
+        isActive = #{record.isActive,jdbcType=BIT},
+      </if>
+      <if test="record.updateTime != null">
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.configs != null">
+        configs = #{record.configs,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update tbl_mapping_task
+    set taskID = #{record.taskID,jdbcType=INTEGER},
+      jobID = #{record.jobID,jdbcType=INTEGER},
+      taskType = #{record.taskType,jdbcType=INTEGER},
+      sortIndex = #{record.sortIndex,jdbcType=INTEGER},
+      isActive = #{record.isActive,jdbcType=BIT},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      configs = #{record.configs,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tbl_mapping_task
+    set taskID = #{record.taskID,jdbcType=INTEGER},
+      jobID = #{record.jobID,jdbcType=INTEGER},
+      taskType = #{record.taskType,jdbcType=INTEGER},
+      sortIndex = #{record.sortIndex,jdbcType=INTEGER},
+      isActive = #{record.isActive,jdbcType=BIT},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.yefei.qa.mock.model.gen.pojo.TblMappingTask">
+    update tbl_mapping_task
+    <set>
+      <if test="jobID != null">
+        jobID = #{jobID,jdbcType=INTEGER},
+      </if>
+      <if test="taskType != null">
+        taskType = #{taskType,jdbcType=INTEGER},
+      </if>
+      <if test="sortIndex != null">
+        sortIndex = #{sortIndex,jdbcType=INTEGER},
+      </if>
+      <if test="isActive != null">
+        isActive = #{isActive,jdbcType=BIT},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="configs != null">
+        configs = #{configs,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where taskID = #{taskID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.yefei.qa.mock.model.gen.pojo.TblMappingTask">
+    update tbl_mapping_task
+    set jobID = #{jobID,jdbcType=INTEGER},
+      taskType = #{taskType,jdbcType=INTEGER},
+      sortIndex = #{sortIndex,jdbcType=INTEGER},
+      isActive = #{isActive,jdbcType=BIT},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      configs = #{configs,jdbcType=LONGVARCHAR}
+    where taskID = #{taskID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.yefei.qa.mock.model.gen.pojo.TblMappingTask">
+    update tbl_mapping_task
+    set jobID = #{jobID,jdbcType=INTEGER},
+      taskType = #{taskType,jdbcType=INTEGER},
+      sortIndex = #{sortIndex,jdbcType=INTEGER},
+      isActive = #{isActive,jdbcType=BIT},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP}
+    where taskID = #{taskID,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="org.yefei.qa.mock.model.gen.pojo.TblMappingTask">
+    <id column="taskID" jdbcType="INTEGER" property="taskID" />
+    <result column="jobID" jdbcType="INTEGER" property="jobID" />
+    <result column="taskType" jdbcType="INTEGER" property="taskType" />
+    <result column="sortIndex" jdbcType="INTEGER" property="sortIndex" />
+    <result column="isActive" jdbcType="BIT" property="isActive" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.yefei.qa.mock.model.gen.pojo.TblMappingTask">
+    <result column="configs" jdbcType="LONGVARCHAR" property="configs" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    taskID, jobID, taskType, sortIndex, isActive, updateTime
+  </sql>
+  <sql id="Blob_Column_List">
+    configs
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="org.yefei.qa.mock.model.gen.pojo.TblMappingTaskExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tbl_mapping_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="org.yefei.qa.mock.model.gen.pojo.TblMappingTaskExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tbl_mapping_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tbl_mapping_task
+    where taskID = #{taskID,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tbl_mapping_task
+    where taskID = #{taskID,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.yefei.qa.mock.model.gen.pojo.TblMappingTaskExample">
+    delete from tbl_mapping_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.yefei.qa.mock.model.gen.pojo.TblMappingTask">
+    <selectKey keyProperty="taskID" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tbl_mapping_task (jobID, taskType, sortIndex, 
+      isActive, updateTime, configs
+      )
+    values (#{jobID,jdbcType=INTEGER}, #{taskType,jdbcType=INTEGER}, #{sortIndex,jdbcType=INTEGER}, 
+      #{isActive,jdbcType=BIT}, #{updateTime,jdbcType=TIMESTAMP}, #{configs,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.yefei.qa.mock.model.gen.pojo.TblMappingTask">
+    <selectKey keyProperty="taskID" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tbl_mapping_task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="jobID != null">
+        jobID,
+      </if>
+      <if test="taskType != null">
+        taskType,
+      </if>
+      <if test="sortIndex != null">
+        sortIndex,
+      </if>
+      <if test="isActive != null">
+        isActive,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+      <if test="configs != null">
+        configs,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="jobID != null">
+        #{jobID,jdbcType=INTEGER},
+      </if>
+      <if test="taskType != null">
+        #{taskType,jdbcType=INTEGER},
+      </if>
+      <if test="sortIndex != null">
+        #{sortIndex,jdbcType=INTEGER},
+      </if>
+      <if test="isActive != null">
+        #{isActive,jdbcType=BIT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="configs != null">
+        #{configs,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.yefei.qa.mock.model.gen.pojo.TblMappingTaskExample" resultType="java.lang.Long">
+    select count(*) from tbl_mapping_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tbl_mapping_task
+    <set>
+      <if test="record.taskID != null">
+        taskID = #{record.taskID,jdbcType=INTEGER},
+      </if>
+      <if test="record.jobID != null">
+        jobID = #{record.jobID,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskType != null">
+        taskType = #{record.taskType,jdbcType=INTEGER},
+      </if>
+      <if test="record.sortIndex != null">
+        sortIndex = #{record.sortIndex,jdbcType=INTEGER},
+      </if>
+      <if test="record.isActive != null">
+        isActive = #{record.isActive,jdbcType=BIT},
+      </if>
+      <if test="record.updateTime != null">
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.configs != null">
+        configs = #{record.configs,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update tbl_mapping_task
+    set taskID = #{record.taskID,jdbcType=INTEGER},
+      jobID = #{record.jobID,jdbcType=INTEGER},
+      taskType = #{record.taskType,jdbcType=INTEGER},
+      sortIndex = #{record.sortIndex,jdbcType=INTEGER},
+      isActive = #{record.isActive,jdbcType=BIT},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      configs = #{record.configs,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tbl_mapping_task
+    set taskID = #{record.taskID,jdbcType=INTEGER},
+      jobID = #{record.jobID,jdbcType=INTEGER},
+      taskType = #{record.taskType,jdbcType=INTEGER},
+      sortIndex = #{record.sortIndex,jdbcType=INTEGER},
+      isActive = #{record.isActive,jdbcType=BIT},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.yefei.qa.mock.model.gen.pojo.TblMappingTask">
+    update tbl_mapping_task
+    <set>
+      <if test="jobID != null">
+        jobID = #{jobID,jdbcType=INTEGER},
+      </if>
+      <if test="taskType != null">
+        taskType = #{taskType,jdbcType=INTEGER},
+      </if>
+      <if test="sortIndex != null">
+        sortIndex = #{sortIndex,jdbcType=INTEGER},
+      </if>
+      <if test="isActive != null">
+        isActive = #{isActive,jdbcType=BIT},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="configs != null">
+        configs = #{configs,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where taskID = #{taskID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.yefei.qa.mock.model.gen.pojo.TblMappingTask">
+    update tbl_mapping_task
+    set jobID = #{jobID,jdbcType=INTEGER},
+      taskType = #{taskType,jdbcType=INTEGER},
+      sortIndex = #{sortIndex,jdbcType=INTEGER},
+      isActive = #{isActive,jdbcType=BIT},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      configs = #{configs,jdbcType=LONGVARCHAR}
+    where taskID = #{taskID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.yefei.qa.mock.model.gen.pojo.TblMappingTask">
+    update tbl_mapping_task
+    set jobID = #{jobID,jdbcType=INTEGER},
+      taskType = #{taskType,jdbcType=INTEGER},
+      sortIndex = #{sortIndex,jdbcType=INTEGER},
+      isActive = #{isActive,jdbcType=BIT},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP}
+    where taskID = #{taskID,jdbcType=INTEGER}
+  </update>
+</mapper>

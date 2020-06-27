@@ -1,0 +1,19 @@
+spring:
+  profiles:
+    active: local
+  application:
+    name: mock-server-grpc
+
+  quartz:
+    properties:
+      org:
+        quartz:
+          scheduler:
+
+
+server:
+  port: 8083
+  tomcat:
+    max-threads: 2000
+    max-connections: 2000
+

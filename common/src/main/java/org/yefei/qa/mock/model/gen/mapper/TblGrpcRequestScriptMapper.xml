@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.yefei.qa.mock.model.gen.dao.TblGrpcRequestScriptMapper">
+  <resultMap id="BaseResultMap" type="org.yefei.qa.mock.model.gen.pojo.TblGrpcRequestScript">
+    <id column="scriptID" jdbcType="INTEGER" property="scriptID" />
+    <result column="groupID" jdbcType="INTEGER" property="groupID" />
+    <result column="scriptLanguage" jdbcType="CHAR" property="scriptLanguage" />
+    <result column="serviceName" jdbcType="VARCHAR" property="serviceName" />
+    <result column="methodName" jdbcType="VARCHAR" property="methodName" />
+    <result column="isActive" jdbcType="BIT" property="isActive" />
+    <result column="sortIndex" jdbcType="INTEGER" property="sortIndex" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.yefei.qa.mock.model.gen.pojo.TblGrpcRequestScript">
+    <result column="scriptContent" jdbcType="LONGVARCHAR" property="scriptContent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    scriptID, groupID, scriptLanguage, serviceName, methodName, isActive, sortIndex, 
+    updateTime
+  </sql>
+  <sql id="Blob_Column_List">
+    scriptContent
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcRequestScriptExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tbl_grpc_request_script
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcRequestScriptExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tbl_grpc_request_script
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tbl_grpc_request_script
+    where scriptID = #{scriptID,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tbl_grpc_request_script
+    where scriptID = #{scriptID,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcRequestScriptExample">
+    delete from tbl_grpc_request_script
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcRequestScript">
+    <selectKey keyProperty="scriptID" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tbl_grpc_request_script (groupID, scriptLanguage, serviceName, 
+      methodName, isActive, sortIndex, 
+      updateTime, scriptContent)
+    values (#{groupID,jdbcType=INTEGER}, #{scriptLanguage,jdbcType=CHAR}, #{serviceName,jdbcType=VARCHAR}, 
+      #{methodName,jdbcType=VARCHAR}, #{isActive,jdbcType=BIT}, #{sortIndex,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{scriptContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcRequestScript">
+    <selectKey keyProperty="scriptID" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tbl_grpc_request_script
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="groupID != null">
+        groupID,
+      </if>
+      <if test="scriptLanguage != null">
+        scriptLanguage,
+      </if>
+      <if test="serviceName != null">
+        serviceName,
+      </if>
+      <if test="methodName != null">
+        methodName,
+      </if>
+      <if test="isActive != null">
+        isActive,
+      </if>
+      <if test="sortIndex != null">
+        sortIndex,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+      <if test="scriptContent != null">
+        scriptContent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="groupID != null">
+        #{groupID,jdbcType=INTEGER},
+      </if>
+      <if test="scriptLanguage != null">
+        #{scriptLanguage,jdbcType=CHAR},
+      </if>
+      <if test="serviceName != null">
+        #{serviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="methodName != null">
+        #{methodName,jdbcType=VARCHAR},
+      </if>
+      <if test="isActive != null">
+        #{isActive,jdbcType=BIT},
+      </if>
+      <if test="sortIndex != null">
+        #{sortIndex,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scriptContent != null">
+        #{scriptContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcRequestScriptExample" resultType="java.lang.Long">
+    select count(*) from tbl_grpc_request_script
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tbl_grpc_request_script
+    <set>
+      <if test="record.scriptID != null">
+        scriptID = #{record.scriptID,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupID != null">
+        groupID = #{record.groupID,jdbcType=INTEGER},
+      </if>
+      <if test="record.scriptLanguage != null">
+        scriptLanguage = #{record.scriptLanguage,jdbcType=CHAR},
+      </if>
+      <if test="record.serviceName != null">
+        serviceName = #{record.serviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.methodName != null">
+        methodName = #{record.methodName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isActive != null">
+        isActive = #{record.isActive,jdbcType=BIT},
+      </if>
+      <if test="record.sortIndex != null">
+        sortIndex = #{record.sortIndex,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.scriptContent != null">
+        scriptContent = #{record.scriptContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update tbl_grpc_request_script
+    set scriptID = #{record.scriptID,jdbcType=INTEGER},
+      groupID = #{record.groupID,jdbcType=INTEGER},
+      scriptLanguage = #{record.scriptLanguage,jdbcType=CHAR},
+      serviceName = #{record.serviceName,jdbcType=VARCHAR},
+      methodName = #{record.methodName,jdbcType=VARCHAR},
+      isActive = #{record.isActive,jdbcType=BIT},
+      sortIndex = #{record.sortIndex,jdbcType=INTEGER},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      scriptContent = #{record.scriptContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tbl_grpc_request_script
+    set scriptID = #{record.scriptID,jdbcType=INTEGER},
+      groupID = #{record.groupID,jdbcType=INTEGER},
+      scriptLanguage = #{record.scriptLanguage,jdbcType=CHAR},
+      serviceName = #{record.serviceName,jdbcType=VARCHAR},
+      methodName = #{record.methodName,jdbcType=VARCHAR},
+      isActive = #{record.isActive,jdbcType=BIT},
+      sortIndex = #{record.sortIndex,jdbcType=INTEGER},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcRequestScript">
+    update tbl_grpc_request_script
+    <set>
+      <if test="groupID != null">
+        groupID = #{groupID,jdbcType=INTEGER},
+      </if>
+      <if test="scriptLanguage != null">
+        scriptLanguage = #{scriptLanguage,jdbcType=CHAR},
+      </if>
+      <if test="serviceName != null">
+        serviceName = #{serviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="methodName != null">
+        methodName = #{methodName,jdbcType=VARCHAR},
+      </if>
+      <if test="isActive != null">
+        isActive = #{isActive,jdbcType=BIT},
+      </if>
+      <if test="sortIndex != null">
+        sortIndex = #{sortIndex,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scriptContent != null">
+        scriptContent = #{scriptContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where scriptID = #{scriptID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcRequestScript">
+    update tbl_grpc_request_script
+    set groupID = #{groupID,jdbcType=INTEGER},
+      scriptLanguage = #{scriptLanguage,jdbcType=CHAR},
+      serviceName = #{serviceName,jdbcType=VARCHAR},
+      methodName = #{methodName,jdbcType=VARCHAR},
+      isActive = #{isActive,jdbcType=BIT},
+      sortIndex = #{sortIndex,jdbcType=INTEGER},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      scriptContent = #{scriptContent,jdbcType=LONGVARCHAR}
+    where scriptID = #{scriptID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcRequestScript">
+    update tbl_grpc_request_script
+    set groupID = #{groupID,jdbcType=INTEGER},
+      scriptLanguage = #{scriptLanguage,jdbcType=CHAR},
+      serviceName = #{serviceName,jdbcType=VARCHAR},
+      methodName = #{methodName,jdbcType=VARCHAR},
+      isActive = #{isActive,jdbcType=BIT},
+      sortIndex = #{sortIndex,jdbcType=INTEGER},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP}
+    where scriptID = #{scriptID,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="org.yefei.qa.mock.model.gen.pojo.TblGrpcRequestScript">
+    <id column="scriptID" jdbcType="INTEGER" property="scriptID" />
+    <result column="groupID" jdbcType="INTEGER" property="groupID" />
+    <result column="scriptLanguage" jdbcType="CHAR" property="scriptLanguage" />
+    <result column="serviceName" jdbcType="VARCHAR" property="serviceName" />
+    <result column="methodName" jdbcType="VARCHAR" property="methodName" />
+    <result column="isActive" jdbcType="BIT" property="isActive" />
+    <result column="sortIndex" jdbcType="INTEGER" property="sortIndex" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.yefei.qa.mock.model.gen.pojo.TblGrpcRequestScript">
+    <result column="scriptContent" jdbcType="LONGVARCHAR" property="scriptContent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    scriptID, groupID, scriptLanguage, serviceName, methodName, isActive, sortIndex, 
+    updateTime
+  </sql>
+  <sql id="Blob_Column_List">
+    scriptContent
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcRequestScriptExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tbl_grpc_request_script
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcRequestScriptExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tbl_grpc_request_script
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tbl_grpc_request_script
+    where scriptID = #{scriptID,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tbl_grpc_request_script
+    where scriptID = #{scriptID,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcRequestScriptExample">
+    delete from tbl_grpc_request_script
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcRequestScript">
+    <selectKey keyProperty="scriptID" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tbl_grpc_request_script (groupID, scriptLanguage, serviceName, 
+      methodName, isActive, sortIndex, 
+      updateTime, scriptContent)
+    values (#{groupID,jdbcType=INTEGER}, #{scriptLanguage,jdbcType=CHAR}, #{serviceName,jdbcType=VARCHAR}, 
+      #{methodName,jdbcType=VARCHAR}, #{isActive,jdbcType=BIT}, #{sortIndex,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{scriptContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcRequestScript">
+    <selectKey keyProperty="scriptID" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tbl_grpc_request_script
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="groupID != null">
+        groupID,
+      </if>
+      <if test="scriptLanguage != null">
+        scriptLanguage,
+      </if>
+      <if test="serviceName != null">
+        serviceName,
+      </if>
+      <if test="methodName != null">
+        methodName,
+      </if>
+      <if test="isActive != null">
+        isActive,
+      </if>
+      <if test="sortIndex != null">
+        sortIndex,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+      <if test="scriptContent != null">
+        scriptContent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="groupID != null">
+        #{groupID,jdbcType=INTEGER},
+      </if>
+      <if test="scriptLanguage != null">
+        #{scriptLanguage,jdbcType=CHAR},
+      </if>
+      <if test="serviceName != null">
+        #{serviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="methodName != null">
+        #{methodName,jdbcType=VARCHAR},
+      </if>
+      <if test="isActive != null">
+        #{isActive,jdbcType=BIT},
+      </if>
+      <if test="sortIndex != null">
+        #{sortIndex,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scriptContent != null">
+        #{scriptContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcRequestScriptExample" resultType="java.lang.Long">
+    select count(*) from tbl_grpc_request_script
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tbl_grpc_request_script
+    <set>
+      <if test="record.scriptID != null">
+        scriptID = #{record.scriptID,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupID != null">
+        groupID = #{record.groupID,jdbcType=INTEGER},
+      </if>
+      <if test="record.scriptLanguage != null">
+        scriptLanguage = #{record.scriptLanguage,jdbcType=CHAR},
+      </if>
+      <if test="record.serviceName != null">
+        serviceName = #{record.serviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.methodName != null">
+        methodName = #{record.methodName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isActive != null">
+        isActive = #{record.isActive,jdbcType=BIT},
+      </if>
+      <if test="record.sortIndex != null">
+        sortIndex = #{record.sortIndex,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.scriptContent != null">
+        scriptContent = #{record.scriptContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update tbl_grpc_request_script
+    set scriptID = #{record.scriptID,jdbcType=INTEGER},
+      groupID = #{record.groupID,jdbcType=INTEGER},
+      scriptLanguage = #{record.scriptLanguage,jdbcType=CHAR},
+      serviceName = #{record.serviceName,jdbcType=VARCHAR},
+      methodName = #{record.methodName,jdbcType=VARCHAR},
+      isActive = #{record.isActive,jdbcType=BIT},
+      sortIndex = #{record.sortIndex,jdbcType=INTEGER},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      scriptContent = #{record.scriptContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tbl_grpc_request_script
+    set scriptID = #{record.scriptID,jdbcType=INTEGER},
+      groupID = #{record.groupID,jdbcType=INTEGER},
+      scriptLanguage = #{record.scriptLanguage,jdbcType=CHAR},
+      serviceName = #{record.serviceName,jdbcType=VARCHAR},
+      methodName = #{record.methodName,jdbcType=VARCHAR},
+      isActive = #{record.isActive,jdbcType=BIT},
+      sortIndex = #{record.sortIndex,jdbcType=INTEGER},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcRequestScript">
+    update tbl_grpc_request_script
+    <set>
+      <if test="groupID != null">
+        groupID = #{groupID,jdbcType=INTEGER},
+      </if>
+      <if test="scriptLanguage != null">
+        scriptLanguage = #{scriptLanguage,jdbcType=CHAR},
+      </if>
+      <if test="serviceName != null">
+        serviceName = #{serviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="methodName != null">
+        methodName = #{methodName,jdbcType=VARCHAR},
+      </if>
+      <if test="isActive != null">
+        isActive = #{isActive,jdbcType=BIT},
+      </if>
+      <if test="sortIndex != null">
+        sortIndex = #{sortIndex,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scriptContent != null">
+        scriptContent = #{scriptContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where scriptID = #{scriptID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcRequestScript">
+    update tbl_grpc_request_script
+    set groupID = #{groupID,jdbcType=INTEGER},
+      scriptLanguage = #{scriptLanguage,jdbcType=CHAR},
+      serviceName = #{serviceName,jdbcType=VARCHAR},
+      methodName = #{methodName,jdbcType=VARCHAR},
+      isActive = #{isActive,jdbcType=BIT},
+      sortIndex = #{sortIndex,jdbcType=INTEGER},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      scriptContent = #{scriptContent,jdbcType=LONGVARCHAR}
+    where scriptID = #{scriptID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.yefei.qa.mock.model.gen.pojo.TblGrpcRequestScript">
+    update tbl_grpc_request_script
+    set groupID = #{groupID,jdbcType=INTEGER},
+      scriptLanguage = #{scriptLanguage,jdbcType=CHAR},
+      serviceName = #{serviceName,jdbcType=VARCHAR},
+      methodName = #{methodName,jdbcType=VARCHAR},
+      isActive = #{isActive,jdbcType=BIT},
+      sortIndex = #{sortIndex,jdbcType=INTEGER},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP}
+    where scriptID = #{scriptID,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.yefei.qa.mock.mapper.dao.InnerTblMappingTaskMapper">
+    <insert id="cloneTask">
+      insert into tbl_mapping_task (jobID,
+          <foreach collection="fieldList" item="field" separator=", ">${field.fieldName}</foreach>
+      ) select ${destJobID},
+        <foreach collection="fieldList" item="field" separator=", ">${field.fieldName}</foreach>
+        from tbl_mapping_task where jobID = #{sourceJobID};
+    </insert>
+</mapper>

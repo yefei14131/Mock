@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>grpc-interface</artifactId>
+	<packaging>jar</packaging>
+
+	<name>grpc-interface</name>
+	<description>grpc interface</description>
+
+	<parent>
+		<groupId>org.yefei.qa.mock</groupId>
+		<artifactId>mock-server</artifactId>
+        <version>1.0.0</version>
+	</parent>
+
+	<properties>
+		<hualala.grpc.version>1.3.0</hualala.grpc.version>
+		<grpc.all.version>1.8.0</grpc.all.version>
+	</properties>
+
+
+	<dependencies>
+		<!-- gRPC support -->
+        <!--<dependency>-->
+        <!--<groupId>com.hualala.grpc</groupId>-->
+        <!--<artifactId>grpc-spring-boot-starter</artifactId>-->
+        <!--<scope>provided</scope>-->
+        <!--</dependency>-->
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-all</artifactId>
+			<version>${grpc.all.version}</version>
+        </dependency>
+
+    </dependencies>
+
+
+	<!-- build settings -->
+	<build>
+		<extensions>
+			<extension>
+				<groupId>kr.motd.maven</groupId>
+				<artifactId>os-maven-plugin</artifactId>
+				<version>1.4.1.Final</version>
+			</extension>
+		</extensions>
+
+		<plugins>
+
+			<!-- compiler -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+
+			<!--  -->
+			<plugin>
+				<groupId>org.xolstice.maven.plugins</groupId>
+				<artifactId>protobuf-maven-plugin</artifactId>
+				<version>0.5.0</version>
+				<extensions>true</extensions>
+				<configuration>
+					<!--
+                      The version of protoc must match protobuf-java. If you don't depend on
+                      protobuf-java directly, you will be transitively depending on the
+                      protobuf-java version that grpc depends on.
+                    -->
+					<protocArtifact>com.google.protobuf:protoc:3.0.0:exe:${os.detected.classifier}
+					</protocArtifact>
+					<!--<clearOutputDirectory>true</clearOutputDirectory>-->
+					<clearOutputDirectory>false</clearOutputDirectory>
+					<outputDirectory>src/main/java</outputDirectory>
+					<pluginId>grpc-java</pluginId>
+					<pluginArtifact>io.grpc:protoc-gen-grpc-java:1.0.0:exe:${os.detected.classifier}</pluginArtifact>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+							<goal>compile-custom</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+
+</project>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.yefei.qa.mock.mapper.dao.InnerTblRestMappingScriptMapper">
+    <insert id="cloneScript" parameterType="java.util.HashMap" useGeneratedKeys="true" >
+        insert into tbl_rest_request_script (path,
+          <foreach collection="fieldList" item="field" separator=", ">${field.fieldName}</foreach>
+      ) select #{destPath},
+        <foreach collection="fieldList" item="field" separator=", ">${field.fieldName}</foreach>
+        from tbl_rest_request_script where groupID = #{groupID} and path = #{sourcePath};
+    </insert>
+</mapper>

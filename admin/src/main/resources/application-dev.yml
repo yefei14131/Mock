@@ -1,0 +1,77 @@
+
+spring:
+  profiles: local
+  aop:
+    auto: true
+  mvc:
+    throw-exception-if-no-handler-found: true
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
+
+  freemarker:
+    cache: false
+    request-context-attribute: req  #req访问request
+    suffix: .tpl  #后缀名
+    content-type: text/html
+    enabled: true
+    template-loader-path: classpath:/templates #模板加载路径 按需配置
+    charset: UTF-8 #编码格式
+    settings:
+      number_format: '0.##'   #数字格式化，无小数点
+
+
+rabbitmq:
+  consumer: 20
+  # 异步任务
+  callbackJobExchangeName: hll:qa:mockserver:callback:job:exchange
+  callbackJobQueueName: hll:qa:mockserver:callback:job:queue
+  callbackJobRoutingKey: hll:qa:mockserver:callback:job:RoutingKey:main
+# 系统通知消息
+  systemNoticeExchangeName: hll:qa:mockserver:system:notice:exchange
+  systemNoticeQueueName: hll:qa:mockserver:admin:system:notice:queue
+
+# agent 推送消息
+  agentPushExchangeName: hll:qa:mockserver:agent:push:exchange
+  agentPushQueueName: hll:qa:mockserver:admin:agent:push:queue
+
+
+
+datasource:
+  url: jdbc:mysql://localhost:3306/db_mock_server?useSSL=false&useUnicode=true&characterEncoding=utf8
+  username: dev
+  password: dev
+  driverClassName: com.mysql.jdbc.Driver
+  initialSize: 2
+  maxActive: 10
+  minIdle: 5
+  validationQuery: SELECT 1
+
+mybatis:
+  config-location: classpath:mybatis-config.xml
+
+
+http:
+  maxTotal: 100                       #最大连接数
+  defaultMaxPerRoute: 20              #并发数
+  connectTimeout: 1000                #创建连接的最长时间
+  connectionRequestTimeout: 500       #从连接池中获取到连接的最长时间
+  socketTimeout: 10000                #数据传输的最长时间
+  staleConnectionCheckEnabled: true   #提交请求前测试连接是否可用
+
+
+logging:
+  config: classpath:logback-local.xml
+
+
+grpc:
+  port: 6565
+  cacheDir: /tmp/mock-server-admin/jars

@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package proto.msg;
+
+option java_multiple_files = true;
+option java_package = "org.yefei.qa.mock.grpc.idl";
+
+service QaDemoService {
+
+    rpc QueryTPService (TPRequest) returns (TPInfoReply) {
+    }
+
+
+}
+
+
+message TPRequest {
+    int64 orderID = 1; //  orderID
+    int64 orderKey = 2; // orderKey
+
+}
+
+message TPInfoReply {
+    int64 orderID = 1; //  orderID
+    int64 orderKey = 2;
+    string shopOrderKey = 3;
+
+}
+
+

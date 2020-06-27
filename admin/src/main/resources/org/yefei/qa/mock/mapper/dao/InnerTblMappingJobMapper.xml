@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.yefei.qa.mock.mapper.dao.InnerTblMappingJobMapper">
+    <insert id="cloneJob" parameterType="java.util.HashMap" useGeneratedKeys="true" keyProperty="jobID">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="jobID">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+      insert into tbl_mapping_job (requestID,
+          <foreach collection="fieldList" item="field" separator=", ">${field.fieldName}</foreach>
+      ) select ${destRequestID},
+        <foreach collection="fieldList" item="field" separator=", ">${field.fieldName}</foreach>
+        from tbl_mapping_job where jobID = #{sourceJobID} ;
+    </insert>
+</mapper>

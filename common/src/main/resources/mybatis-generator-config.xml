@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+    <!-- !!!! Driver Class Path !!!! -->
+    <classPathEntry location="/Users/yefei/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>
+
+    <context id="context" targetRuntime="MyBatis3">
+        <property name="javaFileEncoding" value="utf-8"></property>
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+        <!-- !!!! Database Configurations !!!! -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://dohko.mysql.001.master.hualala.com:3306/db_mock_server"
+                        userId="myorderdev" password="mydev@pwd"/>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="true"/>
+        </javaTypeResolver>
+
+        <!-- !!!! Model Configurations !!!! -->
+        <!-- 生成模型的包名和位置-->
+        <javaModelGenerator targetPackage="com.hualala.qa.mockserver.model.gen.pojo" targetProject="src/main/java">
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- !!!! Mapper XML Configurations !!!! -->
+        <!-- 生成映射文件的包名和位置-->
+        <sqlMapGenerator targetPackage="com.hualala.qa.mockserver.model.gen.mapper" targetProject="src/main/java">
+        </sqlMapGenerator>
+
+        <!-- !!!! Mapper Interface Configurations !!!! -->
+        <!-- 生成DAO的包名和位置-->
+        <javaClientGenerator targetPackage="com.hualala.qa.mockserver.model.gen.dao" targetProject="src/main/java" type="XMLMAPPER">
+        </javaClientGenerator>
+
+
+        <!-- !!!! Table Configurations !!!! -->
+        <table tableName="tbl_rest_request_group"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"
+               enableUpdateByPrimaryKey="true">
+            <property name="useActualColumnNames" value="true" />
+            <generatedKey column="groupID" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="tbl_mapping_rules_detail"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"
+               enableUpdateByPrimaryKey="true">
+            <property name="useActualColumnNames" value="true" />
+            <generatedKey column="rulesDetailID" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="tbl_rest_request_mapping"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"
+               enableUpdateByPrimaryKey="true">
+            <property name="useActualColumnNames" value="true" />
+            <generatedKey column="requestID" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="tbl_rules_compare_method"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"
+               enableUpdateByPrimaryKey="true">
+            <property name="useActualColumnNames" value="true" />
+            <generatedKey column="compareMethodID" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="tbl_rest_request_script"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"
+               enableUpdateByPrimaryKey="true">
+            <property name="useActualColumnNames" value="true" />
+            <generatedKey column="scriptID" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tbl_mapping_job"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"
+               enableUpdateByPrimaryKey="true">
+            <property name="useActualColumnNames" value="true" />
+            <generatedKey column="jobID" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tbl_mapping_task"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"
+               enableUpdateByPrimaryKey="true">
+            <property name="useActualColumnNames" value="true" />
+            <generatedKey column="taskID" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tbl_system_config"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"
+               enableUpdateByPrimaryKey="true">
+            <property name="useActualColumnNames" value="true" />
+            <generatedKey column="configID" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tbl_grpc_request_mapping"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"
+               enableUpdateByPrimaryKey="true">
+            <property name="useActualColumnNames" value="true" />
+            <generatedKey column="requestID" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tbl_grpc_request_group"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"
+               enableUpdateByPrimaryKey="true">
+            <property name="useActualColumnNames" value="true" />
+            <generatedKey column="groupID" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tbl_grpc_request_script"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"
+               enableUpdateByPrimaryKey="true">
+            <property name="useActualColumnNames" value="true" />
+            <generatedKey column="scriptID" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tbl_grpc_interface_jar"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"
+               enableUpdateByPrimaryKey="true">
+            <property name="useActualColumnNames" value="true" />
+            <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tbl_request_log"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"
+               enableUpdateByPrimaryKey="true">
+            <property name="useActualColumnNames" value="true" />
+            <generatedKey column="requestID" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tbl_request_event"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"
+               enableUpdateByPrimaryKey="true">
+            <property name="useActualColumnNames" value="true" />
+            <generatedKey column="requestEventID" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="tbl_agent_instance"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"
+               enableUpdateByPrimaryKey="true">
+            <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
+        </table>
+
+    </context>
+</generatorConfiguration>

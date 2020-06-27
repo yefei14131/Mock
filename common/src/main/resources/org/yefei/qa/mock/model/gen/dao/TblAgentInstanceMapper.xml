@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.yefei.qa.mock.model.gen.dao.TblAgentInstanceMapper">
+    <resultMap id="BaseResultMap" type="org.yefei.qa.mock.model.gen.pojo.TblAgentInstance">
+        <id column="ID" jdbcType="INTEGER" property="ID"/>
+        <result column="serviceName" jdbcType="VARCHAR" property="serviceName"/>
+        <result column="agentName" jdbcType="VARCHAR" property="agentName"/>
+        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+        <result column="isActive" jdbcType="BIT" property="isActive"/>
+        <result column="accessToken" jdbcType="VARCHAR" property="accessToken"/>
+        <result column="firstRequestTime" jdbcType="TIMESTAMP" property="firstRequestTime"/>
+        <result column="lastRequestTime" jdbcType="TIMESTAMP" property="lastRequestTime"/>
+        <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        ID, serviceName, agentName, ip, isActive, accessToken, firstRequestTime, lastRequestTime,
+        updateTime
+    </sql>
+    <select id="selectByExample" parameterType="org.yefei.qa.mock.model.gen.pojo.TblAgentInstanceExample"
+            resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from tbl_agent_instance
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tbl_agent_instance
+        where ID = #{ID,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from tbl_agent_instance
+        where ID = #{ID,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByExample" parameterType="org.yefei.qa.mock.model.gen.pojo.TblAgentInstanceExample">
+        delete from tbl_agent_instance
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="org.yefei.qa.mock.model.gen.pojo.TblAgentInstance">
+        <selectKey keyProperty="ID" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into tbl_agent_instance (serviceName, agentName, ip,
+        isActive, accessToken, firstRequestTime,
+        lastRequestTime, updateTime)
+        values (#{serviceName,jdbcType=VARCHAR}, #{agentName,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR},
+        #{isActive,jdbcType=BIT}, #{accessToken,jdbcType=VARCHAR}, #{firstRequestTime,jdbcType=TIMESTAMP},
+        #{lastRequestTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="org.yefei.qa.mock.model.gen.pojo.TblAgentInstance">
+        <selectKey keyProperty="ID" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into tbl_agent_instance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="serviceName != null">
+                serviceName,
+            </if>
+            <if test="agentName != null">
+                agentName,
+            </if>
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="isActive != null">
+                isActive,
+            </if>
+            <if test="accessToken != null">
+                accessToken,
+            </if>
+            <if test="firstRequestTime != null">
+                firstRequestTime,
+            </if>
+            <if test="lastRequestTime != null">
+                lastRequestTime,
+            </if>
+            <if test="updateTime != null">
+                updateTime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="serviceName != null">
+                #{serviceName,jdbcType=VARCHAR},
+            </if>
+            <if test="agentName != null">
+                #{agentName,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="isActive != null">
+                #{isActive,jdbcType=BIT},
+            </if>
+            <if test="accessToken != null">
+                #{accessToken,jdbcType=VARCHAR},
+            </if>
+            <if test="firstRequestTime != null">
+                #{firstRequestTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastRequestTime != null">
+                #{lastRequestTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="org.yefei.qa.mock.model.gen.pojo.TblAgentInstanceExample"
+            resultType="java.lang.Long">
+        select count(*) from tbl_agent_instance
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update tbl_agent_instance
+        <set>
+            <if test="record.ID != null">
+                ID = #{record.ID,jdbcType=INTEGER},
+            </if>
+            <if test="record.serviceName != null">
+                serviceName = #{record.serviceName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.agentName != null">
+                agentName = #{record.agentName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.ip != null">
+                ip = #{record.ip,jdbcType=VARCHAR},
+            </if>
+            <if test="record.isActive != null">
+                isActive = #{record.isActive,jdbcType=BIT},
+            </if>
+            <if test="record.accessToken != null">
+                accessToken = #{record.accessToken,jdbcType=VARCHAR},
+            </if>
+            <if test="record.firstRequestTime != null">
+                firstRequestTime = #{record.firstRequestTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.lastRequestTime != null">
+                lastRequestTime = #{record.lastRequestTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.updateTime != null">
+                updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update tbl_agent_instance
+        set ID = #{record.ID,jdbcType=INTEGER},
+        serviceName = #{record.serviceName,jdbcType=VARCHAR},
+        agentName = #{record.agentName,jdbcType=VARCHAR},
+        ip = #{record.ip,jdbcType=VARCHAR},
+        isActive = #{record.isActive,jdbcType=BIT},
+        accessToken = #{record.accessToken,jdbcType=VARCHAR},
+        firstRequestTime = #{record.firstRequestTime,jdbcType=TIMESTAMP},
+        lastRequestTime = #{record.lastRequestTime,jdbcType=TIMESTAMP},
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="org.yefei.qa.mock.model.gen.pojo.TblAgentInstance">
+        update tbl_agent_instance
+        <set>
+            <if test="serviceName != null">
+                serviceName = #{serviceName,jdbcType=VARCHAR},
+            </if>
+            <if test="agentName != null">
+                agentName = #{agentName,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                ip = #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="isActive != null">
+                isActive = #{isActive,jdbcType=BIT},
+            </if>
+            <if test="accessToken != null">
+                accessToken = #{accessToken,jdbcType=VARCHAR},
+            </if>
+            <if test="firstRequestTime != null">
+                firstRequestTime = #{firstRequestTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastRequestTime != null">
+                lastRequestTime = #{lastRequestTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where ID = #{ID,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="org.yefei.qa.mock.model.gen.pojo.TblAgentInstance">
+        update tbl_agent_instance
+        set serviceName = #{serviceName,jdbcType=VARCHAR},
+        agentName = #{agentName,jdbcType=VARCHAR},
+        ip = #{ip,jdbcType=VARCHAR},
+        isActive = #{isActive,jdbcType=BIT},
+        accessToken = #{accessToken,jdbcType=VARCHAR},
+        firstRequestTime = #{firstRequestTime,jdbcType=TIMESTAMP},
+        lastRequestTime = #{lastRequestTime,jdbcType=TIMESTAMP},
+        updateTime = #{updateTime,jdbcType=TIMESTAMP}
+        where ID = #{ID,jdbcType=INTEGER}
+    </update>
+</mapper>

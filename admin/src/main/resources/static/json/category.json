@@ -1,0 +1,78 @@
+{
+    "system":[
+        {
+            "title":"系统设置",
+            "url":"/mock_server/system/config.html",
+            "sub":[
+                {
+                    "title":"系统设置",
+                    "url":"/mock_server/system/config.html"
+                }
+                ,{
+                    "title":"运行日志",
+                    "url":"/mock_server/system/log/list.html"
+              },
+              {
+                "title": "agent在线列表",
+                "url": "/mock_server/system/agent/list.html"
+              }
+            ]
+        }
+    ],
+    "rest":[
+        {
+          "title": "rest mock配置",
+            "url":"/mock_server/rest/group/list.html",
+            "sub":[
+                {
+                    "title":"分组列表",
+                    "url":"/mock_server/rest/group/list.html"
+                }
+            ]
+        }
+    ],
+    "grpc":[
+        {
+          "title": "grpc mock配置",
+            "url":"/mock_server/grpc/group/list.html",
+            "sub":[
+                {
+                    "title":"分组列表",
+                    "url":"/mock_server/grpc/group/list.html"
+                },
+              {
+                "title": "grpc interface 配置",
+                "url": "/mock_server/system/grpc/interface/list.html"
+                }
+            ]
+        }
+    ],
+    "tools":[
+        {
+            "title":"工具",
+            "url": "/mock_server/tools/grpc_log_decoder",
+            "sub":[
+                {
+                    "title":"GRPC日志解码",
+                    "url":"/mock_server/tools/grpc_log_decoder.html"
+                },
+                {
+                    "title": "订单IDC信息查询",
+                    "url": "/mock_server/tools/order_idc.html"
+                },
+                {
+                    "title": "Json差异对比",
+                    "url": "/mock_server/tools/json_diff.html"
+                },
+                {
+                    "title": "Json差异Key对比",
+                    "url": "/mock_server/tools/json_key_diff.html"
+                },
+                {
+                    "title": "PrepareSql合并",
+                    "url": "/mock_server/tools/prepare_sql.html"
+                }
+            ]
+        }
+    ]
+}

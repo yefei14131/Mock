@@ -1,0 +1,49 @@
+
+spring:
+  profiles: local
+  aop:
+    auto: true
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
+
+datasource:
+  url: jdbc:mysql://localhost:3306/db_mock_server?useSSL=false&useUnicode=true&characterEncoding=utf8
+  username: dev
+  password: dev
+  driverClassName: com.mysql.jdbc.Driver
+  initialSize: 10
+  maxActive: 30
+  minIdle: 5
+  validationQuery: SELECT 1
+
+
+logging:
+  config: classpath:logback-local.xml
+
+
+mybatis:
+  config-location: classpath:mybatis-config.xml
+
+
+rabbitmq:
+  consumer: 20
+  callbackJobExchangeName: hll:qa:mockserver:callback:job:exchange
+  callbackJobQueueName: hll:qa:mockserver:callback:job:queue
+  callbackJobRoutingKey: hll:qa:mockserver:callback:job:RoutingKey:main
+
+  systemNoticeExchangeName: hll:qa:mockserver:system:notice:exchange
+  systemNoticeQueueName: hll:qa:mockserver:rest:system:notice:queue

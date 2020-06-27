@@ -1,0 +1,63 @@
+
+spring:
+  profiles: local
+  aop:
+    auto: true
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+  rabbitmq:
+    host: dohko.inner.rabbitmq.hualala.com
+    port: 5672
+    username: admin
+    password: admin
+
+rabbitmq:
+  consumer: 20
+  callbackJobExchangeName: hll:qa:mockserver:callback:job:exchange
+  callbackJobQueueName: hll:qa:mockserver:callback:job:queue
+  callbackJobRoutingKey: hll:qa:mockserver:callback:job:RoutingKey:main
+
+  systemNoticeExchangeName: hll:qa:mockserver:system:notice:exchange
+  systemNoticeQueueName: hll:qa:mockserver:scheduler:system:notice:queue
+
+
+
+datasource:
+  url: jdbc:mysql://localhost:3306/db_mock_server?useSSL=false&useUnicode=true&characterEncoding=utf8
+  username: dev
+  password: dev
+  driverClassName: com.mysql.jdbc.Driver
+  initialSize: 10
+  maxActive: 20
+  minIdle: 5
+  validationQuery: SELECT 1
+
+mybatis:
+  config-location: classpath:mybatis-config.xml
+
+
+http:
+  maxTotal: 100                       #最大连接数
+  defaultMaxPerRoute: 20              #并发数
+  connectTimeout: 1000                #创建连接的最长时间
+  connectionRequestTimeout: 500       #从连接池中获取到连接的最长时间
+  socketTimeout: 10000                #数据传输的最长时间
+  staleConnectionCheckEnabled: true   #提交请求前测试连接是否可用
+
+
+grpc:
+  cacheDir: /tmp/cache/mock-server-scheduler/jars
+
+logging:
+  config: classpath:logback-local.xml
+
+
+

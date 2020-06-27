@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    active: local
+  application:
+    name: mock-server-rest
+
+
+server:
+  port: 8081
+  tomcat:
+    max-threads: 2000
+    max-connections: 2000
