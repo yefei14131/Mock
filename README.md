@@ -32,12 +32,12 @@ mock-agent与服务端(admin)之间的业务协议。网络协议使用websocket
 + #### 编译与部署
 项目使用微服务架构，需要分别部署相关服务。部署服务之前，需要先准备mysql和rabbitmq服务，代码里有提供mysql表结构。编译之前需要修改项目的配置信息，在各自项目下的yml文件中，src/main/resources/application-dev.yml。
 
-|  服务   | 服务端口  | 占用端口 |编译命令 |启动命令
-|  ----  | ----  | ---- | ---- |
-| admin  | 8080 | 8080 | mvn clean package -DskipTests -Padmin | java -jar admin/target/mock-server-admin.jar
-| schuler  | 不需要 | 8082 | mvn clean package -DskipTests -Pscheduler | java -jar schuler/target/mock-server-schuler.jar
-| mock-server-grpc| 6565 | 6565、8083 | mvn clean package -DskipTests -Pgrpc | java -jar mock-server-grpc/target/mock-server-grpc.jar
-| mock-server-rest| 8081 | 8081 | mvn clean package -DskipTests -Prest | java -jar mock-server-grpc/target/mock-server-rest.jar
+|  服务   | 服务端口  | 占用端口 |编译命令 |启动命令 |
+|  ----  | ----  | ---- | ---- | ---- |
+| admin  | 8080 | 8080 | mvn clean package -DskipTests -Padmin | java -jar admin/target/mock-server-admin.jar |
+| schuler  | 不需要 | 8082 | mvn clean package -DskipTests -Pscheduler | java -jar schuler/target/mock-server-schuler.jar |
+| mock-server-grpc| 6565 | 6565、8083 | mvn clean package -DskipTests -Pgrpc | java -jar mock-server-grpc/target/mock-server-grpc.jar |
+| mock-server-rest| 8081 | 8081 | mvn clean package -DskipTests -Prest | java -jar mock-server-grpc/target/mock-server-rest.jar |
 
 + #### mock配置及使用
 		各项目启动完成之后，进入管理后台 http://localhost:8080 。操作手册手续会更新到管理后台界面中，不在这里介绍。
