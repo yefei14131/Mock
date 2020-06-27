@@ -10,6 +10,7 @@
 ### 项目子模块简介
 + #### admin
 管理后台，配置mock相关规则，查看调试日志等。
+
 + #### mock-server-rest
 http服务，接收http请求，根据mock规则，输出响应结果。通过mq添加异步任务给scheduler。
 
@@ -30,7 +31,8 @@ mock-agent与服务端(admin)之间的业务协议。网络协议使用websocket
 
 # 开始使用
 + #### 编译与部署
-项目使用微服务架构，需要分别部署相关服务。部署服务之前，需要先准备mysql和rabbitmq服务，代码里有提供mysql表结构。编译之前需要修改项目的配置信息，在各自项目下的yml文件中，src/main/resources/application-dev.yml。
+
+        项目使用微服务架构，需要分别部署相关服务。部署服务之前，需要先准备mysql和rabbitmq服务，代码里有提供mysql表结构。编译之前需要修改项目的配置信息，在各自项目下的yml文件中，src/main/resources/application-dev.yml。
 
 |  服务   | 服务端口  | 占用端口 |编译命令 |启动命令 |
 |  ----  | ----  | ---- | ---- | ---- |
@@ -40,6 +42,7 @@ mock-agent与服务端(admin)之间的业务协议。网络协议使用websocket
 | mock-server-rest| 8081 | 8081 | mvn clean package -DskipTests -Prest | java -jar mock-server-grpc/target/mock-server-rest.jar |
 
 + #### mock配置及使用
+
 		各项目启动完成之后，进入管理后台 http://localhost:8080 。操作手册手续会更新到管理后台界面中，不在这里介绍。
 		管理后台界面比较丑，现在使用 freemarker + layui完成，以后会使用vue重构。
 
