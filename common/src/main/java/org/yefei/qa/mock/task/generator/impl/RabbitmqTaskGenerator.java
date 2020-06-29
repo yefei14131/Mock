@@ -52,8 +52,8 @@ public class RabbitmqTaskGenerator implements ITaskGenerator {
             //替换变量
             msgData = VariableManager.replaceContent(msgData, newDataPool);
 
-            //执行插件
-            if (SourceServerEnum.REST.equals(taskSourceInfo.getRestRequestMapping())) {
+            //执行rest插件
+            if (SourceServerEnum.REST.equals(taskSourceInfo.getSourceServer())) {
                 msgData = restPluginExecutor.buildCallbackContent(taskSourceInfo.getRestRequestMapping().getGroupCode(), taskSourceInfo.getRestRequestMapping().getPath(), params, msgData);
             }
 

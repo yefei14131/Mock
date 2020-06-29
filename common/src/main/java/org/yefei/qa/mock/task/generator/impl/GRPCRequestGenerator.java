@@ -58,8 +58,9 @@ public class GRPCRequestGenerator implements ITaskGenerator {
 
             //替换 body 中的变量
             body = VariableManager.replaceContent(body, newDataPool);
-            //执行插件
-            if (SourceServerEnum.REST.equals(taskSourceInfo.getRestRequestMapping())) {
+
+            //执行rest插件
+            if (SourceServerEnum.REST.equals(taskSourceInfo.getSourceServer())) {
                 body = restPluginExecutor.buildCallbackContent(taskSourceInfo.getRestRequestMapping().getGroupCode(), taskSourceInfo.getRestRequestMapping().getPath(), params, body);
             }
 
