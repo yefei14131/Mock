@@ -53,7 +53,7 @@ public class AgentPushConfig {
 
     @Bean
     Queue agentPushQueue() {
-        return new Queue(getQueueName(), true, true, true);
+        return new Queue(getQueueName(), true, false, true);
     }
 
     @Bean

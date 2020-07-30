@@ -54,7 +54,7 @@ public class SystemNoticeConfig {
 
     @Bean
     Queue systemNoticeQueue() {
-        return new Queue(getQueueName(), true, true, false);
+        return new Queue(getQueueName(), true, false, true);
     }
 
     @Bean
