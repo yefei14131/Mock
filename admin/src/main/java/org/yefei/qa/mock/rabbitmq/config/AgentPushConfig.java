@@ -1,6 +1,7 @@
 package org.yefei.qa.mock.rabbitmq.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.yefei.qa.mock.utils.SystemUtils;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.FanoutExchange;
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.DependsOn;
 import org.yefei.qa.mock.rabbitmq.RabbitmqProps;
 import org.yefei.qa.mock.rabbitmq.listener.AgentPushListener;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 /**
@@ -35,7 +37,10 @@ public class AgentPushConfig {
 
     private synchronized String getQueueName() {
         if (queueName == null) {
-            queueName = rabbitmqProps.getAgentPushQueueName() + "_" + UUID.randomUUID().toString();
+            queueName = MessageFormat.format("{0}_[{1}]_{2}",
+                    rabbitmqProps.getAgentPushQueueName(),
+                    SystemUtils.getHostName(),
+                    UUID.randomUUID().toString());
         }
         log.info("queueName: {}", queueName);
         return queueName;
@@ -48,7 +53,7 @@ public class AgentPushConfig {
 
     @Bean
     Queue agentPushQueue() {
-        return new Queue(getQueueName(), true, true, false);
+        return new Queue(getQueueName(), true, true, true);
     }
 
     @Bean

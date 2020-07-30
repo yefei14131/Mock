@@ -25,7 +25,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Data
 public class WebSocketServer {
 
-    private static AtomicInteger cnt = new AtomicInteger();
     private static ConcurrentHashMap<String, WebSocketServer> webSocketSet = new ConcurrentHashMap<>();
     private String serviceName;
     private String agentName;
@@ -51,7 +50,7 @@ public class WebSocketServer {
         this.session = session;
         webSocketSet.put(genRoutingKey(this), this);
 
-        log.info("websocket connect cnt: {}", cnt.incrementAndGet());
+        log.info("websocket connect cnt: {}", webSocketSet.size());
         log.info("websocket connect:   " + genRoutingKey(this));
 
         try {
@@ -105,9 +104,10 @@ public class WebSocketServer {
             // 推送异常则关闭连接，让客户端重连，目的是保持数据的一致性
             this.session.close();
         } catch (IOException e1) {
-            // 关闭失败，连接可以已经删除，移除缓存
-            webSocketSet.remove(genRoutingKey(this));
+            log.error("", e1);
         }
+        // 关闭失败，连接可以已经删除，移除缓存
+        webSocketSet.remove(genRoutingKey(this));
     }
 
     public void sendMessage(byte[] message) {
@@ -145,6 +145,10 @@ public class WebSocketServer {
         if (webSocketSet.containsKey(routingKey)) {
             webSocketSet.get(routingKey).sendMessage(msg);
         }
+    }
+
+    private boolean checkStat() {
+        return this.session.isOpen();
     }
 
 }

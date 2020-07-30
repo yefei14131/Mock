@@ -14,7 +14,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.yefei.qa.mock.rabbitmq.RabbitmqProps;
 import org.yefei.qa.mock.rabbitmq.listener.impl.SystemNoticeListener;
+import org.yefei.qa.mock.utils.SystemUtils;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 /**
@@ -36,7 +38,10 @@ public class SystemNoticeConfig {
 
     private synchronized String getQueueName() {
         if (queueName == null) {
-            queueName = rabbitmqProps.getSystemNoticeQueueName() + "_" + UUID.randomUUID().toString();
+            queueName = MessageFormat.format("{0}_[{1}]_{2}",
+                    rabbitmqProps.getSystemNoticeQueueName(),
+                    SystemUtils.getHostName(),
+                    UUID.randomUUID().toString());
         }
         log.info("queueName: {}", queueName);
         return queueName;
