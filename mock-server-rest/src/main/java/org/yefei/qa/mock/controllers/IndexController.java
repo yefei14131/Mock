@@ -149,7 +149,7 @@ public class IndexController {
 
         }catch (ServerBaseException e){
             log.error(e.getMessage());
-            systemDebugger.addSystemLog("业务异常", ExceptionUtils.getStackTrace(e));
+            systemDebugger.addSystemLog("业务异常", e.getMessage());
             responseAdapter.failure(response, e);
         } catch (Exception e){
             log.error(ExceptionUtils.getStackTrace(e));
