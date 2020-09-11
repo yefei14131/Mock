@@ -22,7 +22,7 @@ public class SystemDebugger {
     @Autowired
     private IRequestLogService requestLogService;
 
-    private ThreadLocal<Boolean> isUsed = new ThreadLocal<>();
+    private ThreadLocal<Boolean> debugging = new ThreadLocal<>();
 
     private ReentrantLock lock = new ReentrantLock();
 
@@ -34,7 +34,7 @@ public class SystemDebugger {
 
     public void init(String requestPath) {
 
-        if (lock.tryLock() ) {
+        if (lock.tryLock()) {
             Counter counter = Counter.getCounter();
             counter.increment();
 
@@ -52,10 +52,10 @@ public class SystemDebugger {
                 currentCounter = counter;
             }
 
-            isUsed.set(true);
+            debugging.set(needDebug());
             lock.unlock();
         } else {
-            isUsed.set(false);
+            debugging.set(false);
         }
 
         if (this.isDebugging()){
@@ -67,16 +67,12 @@ public class SystemDebugger {
     }
 
 
-    public boolean isDebugging() {
-        if (isUsed.get() == null || !isUsed.get()) {
-            return false;
-        }
-
+    private boolean needDebug() {
         if (currentCounter == null) {
             return true;
         }
 
-        if ( currentCounter.isOverLimit() ){
+        if (currentCounter.isOverLimit()) {
             return false;
         }
 
@@ -93,6 +89,13 @@ public class SystemDebugger {
         }
 
         return false;
+    }
+
+    public boolean isDebugging() {
+        if (debugging.get() == null) {
+            return false;
+        }
+        return debugging.get();
     }
 
     public void addSystemLog(String eventName, String eventDesc) {
