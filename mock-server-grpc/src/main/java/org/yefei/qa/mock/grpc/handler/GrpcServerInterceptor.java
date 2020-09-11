@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.google.protobuf.MessageOrBuilder;
 import com.google.protobuf.util.JsonFormat;
 import io.grpc.*;
+import io.grpc.internal.GrpcUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +70,6 @@ public class GrpcServerInterceptor implements ServerInterceptor {
                 }
 
                 systemDebugger.init(fullMethodName);
-                Metadata headers = new Metadata();
                 try {
                     String inputJson = JsonFormat.printer().print((MessageOrBuilder) message);
                     log.info("{} 请求参数：{}", fullMethodName, inputJson);
@@ -78,7 +78,7 @@ public class GrpcServerInterceptor implements ServerInterceptor {
 
                     systemDebugger.addSystemLog("解析请求参数", inputJson);
 
-                    // TODO 准备 headers
+                    log.info("grpc timeout: {}", headers.get(GrpcUtil.TIMEOUT_KEY));
 
                     // 自定义变量
                     HashMap userDefined = new HashMap();

@@ -40,14 +40,16 @@ public class FutureCallClientBusinessInterceptor extends ForwardingClientCall.Si
 
     private final MethodDescriptor businessMethod;
     private Listener<Message> businessRespListener;
+    private CallOptions callOptions;
     private final Channel channel;
-    private boolean isMocking = false;
-    private String fullMethodName = null;
+    private boolean isMocking;
+    private String fullMethodName;
 
-    public FutureCallClientBusinessInterceptor(ClientCall delegate, MethodDescriptor method, Channel channel) {
+    public FutureCallClientBusinessInterceptor(ClientCall delegate, MethodDescriptor method, Channel channel, CallOptions callOptions) {
         super(delegate);
         this.businessMethod = method;
         this.channel = channel;
+        this.callOptions = callOptions;
 
         Class reqClass = ((MethodDescriptor.PrototypeMarshaller) method.getRequestMarshaller()).getMessagePrototype().getClass();
         String javaPackage = reqClass.getPackage().getName();
@@ -94,7 +96,7 @@ public class FutureCallClientBusinessInterceptor extends ForwardingClientCall.Si
                     }
                 };
 
-                GrpcMockServerStub.asyncCall(businessMethod, businessReqMessage, businessRespListener, callback, countDownLatch);
+                GrpcMockServerStub.asyncCall(businessMethod, businessReqMessage, businessRespListener, callback, countDownLatch, callOptions);
                 countDownLatch.await();
             }
 

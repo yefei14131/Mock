@@ -2,6 +2,7 @@ package org.apache.skywalking.apm.mock.plugin.grpc.v1.core.client;
 
 
 import com.google.protobuf.Message;
+import io.grpc.CallOptions;
 import io.grpc.ClientCall;
 import io.grpc.ManagedChannel;
 import io.grpc.MethodDescriptor;
@@ -25,21 +26,20 @@ public class GrpcMockServerStub {
 
     /**
      * 异步调用grpc mock服务
-     *
-     * @param businessMethod       被拦截的业务方法
+     *  @param businessMethod       被拦截的业务方法
      * @param businessReqMessage   被拦截的业务请求消息
      * @param businessRespListener grpc client response listener
      * @param callback             mock调用成功后的回调
      * @param countDownLatch       阻塞计数器
+     * @param callOptions
      */
-    public static void asyncCall(MethodDescriptor businessMethod, Message businessReqMessage, ClientCall.Listener<Message> businessRespListener, Runnable callback, CountDownLatch countDownLatch) {
+    public static void asyncCall(MethodDescriptor businessMethod, Message businessReqMessage, ClientCall.Listener<Message> businessRespListener, Runnable callback, CountDownLatch countDownLatch, CallOptions callOptions) {
         try {
             GrpcMockResquestHolder.set(businessMethod, businessReqMessage, businessRespListener, callback, countDownLatch);
             logger.debug("调用mock服务：{},  {}", grpcMockTarget, GrpcMockResquestHolder.getMockMethod().getFullMethodName());
             ManagedChannel channel = ChannelManager.getChannel(grpcMockTarget);
             QaDemoServiceGrpc.QaDemoServiceFutureStub stub = QaDemoServiceGrpc.newFutureStub(channel);
-            stub.queryTPService(TPRequest.newBuilder().build());
-
+            stub.withDeadline(callOptions.getDeadline()).queryTPService(TPRequest.newBuilder().build());
         } catch (Exception e) {
             logger.error("调用grpc mock异常", e);
             countDownLatch.countDown();

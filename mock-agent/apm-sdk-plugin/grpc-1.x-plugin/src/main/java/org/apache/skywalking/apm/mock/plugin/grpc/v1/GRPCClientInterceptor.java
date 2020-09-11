@@ -39,14 +39,20 @@ public class GRPCClientInterceptor implements ClientInterceptor {
 
         if (MOCK_METHOD.equals(fullMethodName)) {
             // 调用mock服务
-            return new FutureCallClientMockInterceptor(channel.newCall(GrpcMockResquestHolder.getMockMethod(), callOptions), GrpcMockResquestHolder.getMockMethod(), channel,
-                    GrpcMockResquestHolder.getMessage(), GrpcMockResquestHolder.getBusinessRespListener(), GrpcMockResquestHolder.getCallback(), GrpcMockResquestHolder.getCountDownLatch());
+            return new FutureCallClientMockInterceptor(
+                    channel.newCall(GrpcMockResquestHolder.getMockMethod(), callOptions),
+                    GrpcMockResquestHolder.getMockMethod(),
+                    channel,
+                    GrpcMockResquestHolder.getMessage(),
+                    GrpcMockResquestHolder.getBusinessRespListener(),
+                    GrpcMockResquestHolder.getCallback(),
+                    GrpcMockResquestHolder.getCountDownLatch());
         }
 //
         if (method.getType() != MethodDescriptor.MethodType.UNARY) {
             return new StreamCallClientInterceptor(channel.newCall(method, callOptions), method, channel);
         }
-        return new FutureCallClientBusinessInterceptor(channel.newCall(method, callOptions), method, channel);
+        return new FutureCallClientBusinessInterceptor(channel.newCall(method, callOptions), method, channel, callOptions);
     }
 
 }

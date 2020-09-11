@@ -44,8 +44,15 @@ public class FutureCallClientMockInterceptor extends ForwardingClientCall.Simple
     private final Runnable callback;
     private final CountDownLatch countDownLatch;
 
-    public FutureCallClientMockInterceptor(ClientCall delegate, MethodDescriptor method, Channel channel,
-                                           Message businessReqMessage, ClientCall.Listener<Message> businessRespListener, Runnable callback, CountDownLatch countDownLatch) {
+    public FutureCallClientMockInterceptor(
+            ClientCall delegate,
+            MethodDescriptor method,
+            Channel channel,
+            Message businessReqMessage,
+            ClientCall.Listener<Message> businessRespListener,
+            Runnable callback,
+            CountDownLatch countDownLatch) {
+
         super(delegate);
         this.method = method;
         this.channel = channel;
