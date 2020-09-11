@@ -22,7 +22,7 @@ public class SystemDebugger {
     @Autowired
     private IRequestLogService requestLogService;
 
-    private ThreadLocal<Boolean> debugging = new ThreadLocal<>();
+    private static ThreadLocal<Boolean> debugging = new ThreadLocal<>();
 
     private ReentrantLock lock = new ReentrantLock();
 
