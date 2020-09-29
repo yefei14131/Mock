@@ -101,14 +101,14 @@
             ,LAY_CHECKED: true  //是否全选状态
             ,cols: [[
                 {field:'groupID', type:'checkbox', title: '全选', width:60}
-                //2020-9-28 start modify for 添加链接跳转到接口列表
+                //2020-9-28 start add for 添加链接跳转到接口列表
                 //,{field:'groupCode', title: 'groupCode'}
                 //,{field:'groupName', title: 'groupName'}
                 ,{field:'groupCode', title: 'groupCode',
                     templet: '<div><a href="/mock_server/rest/mapping/list.html?groupID={{d.groupID}}&groupCode={{d.groupCode}}">{{d.groupCode}}</a></div>'}
                 ,{field:'groupName', title: 'groupName',
                     templet: '<div><a href="/mock_server/rest/mapping/list.html?groupID={{d.groupID}}&groupCode={{d.groupCode}}">{{d.groupName}}</a></div>'}
-                //2020-9-28 end modify for 添加链接跳转到接口列表
+                //2020-9-28 end add for 添加链接跳转到接口列表
 
                 ,{field:'sourceHost', title: 'sourceHost'}
                 ,{field:'sourcePort', title: 'sourcePort', width:100}
