@@ -101,8 +101,10 @@
             ,LAY_CHECKED: true  //是否全选状态
             ,cols: [[
                 {field:'groupID', type:'checkbox', title: '全选', width:60}
-                ,{field:'groupCode', title: 'groupCode'}
-                ,{field:'groupName', title: 'groupName'}
+                ,{field:'groupCode', title: 'groupCode',
+                    templet: '<div><a href="/mock_server/rest/mapping/list.html?groupID={{d.groupID}}&groupCode={{d.groupCode}}">{{d.groupCode}}</a></div>'}
+                ,{field:'groupName', title: 'groupName',
+                    templet: '<div><a href="/mock_server/rest/mapping/list.html?groupID={{d.groupID}}&groupCode={{d.groupCode}}">{{d.groupName}}</a></div>'}
                 ,{field:'sourceHost', title: 'sourceHost'}
                 ,{field:'sourcePort', title: 'sourcePort', width:100}
                 ,{field:'sortIndex', title: 'sortIndex', width:100}

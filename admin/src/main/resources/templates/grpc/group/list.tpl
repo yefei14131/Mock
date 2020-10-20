@@ -79,7 +79,8 @@
             , LAY_CHECKED: true  //是否全选状态
             , cols: [[
                 {field:'groupID', type:'checkbox', title: '全选', width:60}
-                ,{field:'groupName', title: 'groupName'}
+                ,{field:'groupName', title: 'groupName',
+                   templet: '<div><a href="/mock_server/grpc/mapping/list.html?groupID={{d.groupID}}&groupName={{d.groupName}}">{{d.groupName}}</a></div>'}
                 ,{field:'sortIndex', title: 'sortIndex', width:100}
                 ,{field:'isActive', title: 'isActive', width:100}
 
