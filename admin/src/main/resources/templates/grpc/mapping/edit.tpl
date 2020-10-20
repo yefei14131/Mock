@@ -10,7 +10,7 @@
         </span>
     </div>
     <hr>
-    <form class="layui-form" action="//mock_server/grpc/mapping/save" method="post" id="item-form"
+    <form class="layui-form" action="/mock_server/grpc/mapping/save" method="post" id="item-form"
           style="padding: 15px;">
         <input type="hidden" name="requestID" value="0">
 
@@ -127,6 +127,27 @@
                 <i class="layui-icon">&#xe608;</i> 添加
             </button>
             <button class="layui-btn layui-btn-xs layui-btn-radius layui-btn-warm rules-btn-save">
+                <i class="layui-icon">&#xe608;</i> 保存
+            </button>
+        </div>
+    </div>
+    <div class="layui-colla-item">
+        <h2 class="layui-colla-title">全局变量添加</h2>
+        <div class="layui-colla-content mapping-global-var" editing="false">
+            <blockquote class="layui-elem-quote layui-quote-nm layui-bg-gray">
+                提供临时全局变量存储：<br>
+                变量名和变量值都可以使用请求参数的变量
+                变量有效期，暂时是30s，在代码里写死
+            </blockquote>
+
+            <div class="layui-colla-content-item">
+
+            </div>
+
+            <button class="layui-btn layui-btn-xs layui-btn-radius global-var-btn-add">
+                <i class="layui-icon">&#xe608;</i> 添加
+            </button>
+            <button class="layui-btn layui-btn-xs layui-btn-radius layui-btn-warm global-var-btn-save">
                 <i class="layui-icon">&#xe608;</i> 保存
             </button>
         </div>
@@ -254,7 +275,7 @@
             window.form = layui.form;
             window.element = layui.element;
 
-            var jsList = ["/js/grpc_script.js", "/js/mapping_rules.js", "/js/mapping_task.js"]
+            var jsList = ["/js/grpc_script.js", "/js/mapping_rules.js", "/js/mapping_task.js", "/js/mapping_global_var.js"]
 
             jsList.forEach(function (url) {
                 loadJs(url)
@@ -350,6 +371,12 @@
                         var requestID = $("[name=requestID]").val().trim()
 
                         queryJobs(requestID, protocol);
+
+                    } else if ($(data.content).hasClass("mapping-global-var")) {
+
+                        var requestID = $("[name=requestID]").val().trim()
+
+                        queryGlobalVar(requestID, protocol);
                     }
                 }
             });
