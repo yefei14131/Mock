@@ -1,4 +1,4 @@
-package org.yefei.qa.mock.dao.common;
+package org.yefei.qa.mock.dao;
 
 import org.yefei.qa.mock.model.gen.pojo.TblMappingGlobalVar;
 
@@ -16,5 +16,5 @@ public interface IMappingGlobalVarDao {
 
     int deleteGlobalVar(int globalVarID);
 
-    List<TblMappingGlobalVar> queryGlobalVar(int requestID, String protocol);
+    List<TblMappingGlobalVar> queryGlobalVarList(int requestID, String protocol);
 }

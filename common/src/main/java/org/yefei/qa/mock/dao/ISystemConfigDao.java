@@ -1,4 +1,4 @@
-package org.yefei.qa.mock.dao.common;
+package org.yefei.qa.mock.dao;
 
 import org.yefei.qa.mock.model.gen.pojo.TblSystemConfig;
 
@@ -18,4 +18,8 @@ public interface ISystemConfigDao {
     int deleteSystemConfig(int configID);
 
     int updateSystemConfig(TblSystemConfig tblSystemConfig);
+
+    TblSystemConfig queryTblSystemConfig(int configType);
+
+    TblSystemConfig getSystemConfigByID(int configID);
 }

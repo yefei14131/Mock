@@ -2,7 +2,7 @@ package org.yefei.qa.mock.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.yefei.qa.mock.dao.common.ISystemConfigDao;
+import org.yefei.qa.mock.dao.ISystemConfigDao;
 import org.yefei.qa.mock.enums.SystemConfigTypeEnum;
 import org.yefei.qa.mock.model.gen.pojo.TblSystemConfig;
 import org.yefei.qa.mock.service.ISystemConfigService;

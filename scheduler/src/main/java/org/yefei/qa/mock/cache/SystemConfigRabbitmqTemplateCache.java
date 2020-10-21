@@ -1,7 +1,5 @@
 package org.yefei.qa.mock.cache;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.ConnectionFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +14,6 @@ import org.yefei.qa.mock.model.bean.config.RabbitmqConfigBean;
 import org.yefei.qa.mock.model.gen.pojo.TblMappingRulesDetail;
 import org.yefei.qa.mock.model.gen.pojo.TblSystemConfig;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -54,12 +51,6 @@ public class SystemConfigRabbitmqTemplateCache extends BaseGuavaCache{
 
             return genRabbitTemplate(rabbitmqConfigBean);
 
-        } catch (JsonParseException e) {
-            log.error(ExceptionUtils.getStackTrace(e));
-        } catch (JsonMappingException e) {
-            log.error(ExceptionUtils.getStackTrace(e));
-        } catch (IOException e) {
-            log.error(ExceptionUtils.getStackTrace(e));
         } catch (Exception e) {
             log.error(ExceptionUtils.getStackTrace(e));
         }

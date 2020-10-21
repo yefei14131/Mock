@@ -3,8 +3,8 @@ package org.yefei.qa.mock.cache;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.yefei.qa.mock.contants.GuavaContants;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.stereotype.Component;
 import org.yefei.qa.mock.dao.ITblRestRequestMappingDao;
 import org.yefei.qa.mock.model.gen.pojo.TblRestRequestMapping;
 
@@ -16,23 +16,15 @@ import java.util.concurrent.ExecutionException;
  * @author: yefei
  * @date: 2018/8/31 01:26
  */
-@Configuration
+@Component
 @Slf4j
-public class RestRequestMappingCache extends BaseGuavaCache {
+@DependsOn("guavaCacheSubject")
+public class RestRequestMappingCache extends TimeChangeAbledCache {
 
     private static final List<TblRestRequestMapping> empty = new ArrayList<>();
 
     @Autowired
     private ITblRestRequestMappingDao tblRestRequestMappingDao;
-
-
-    public void updateCacheTime(long duration) {
-        super.updateCacheTime(duration, GuavaContants.EXPIRE_TIME_UNIT);
-    }
-
-    public RestRequestMappingCache(){
-        super(GuavaContants.EXPIRE_DURATION, GuavaContants.EXPIRE_TIME_UNIT);
-    }
 
     /**
      * 缓存数据加载方法

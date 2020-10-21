@@ -4,9 +4,9 @@ import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.yefei.qa.mock.cache.GuavaCacheSubject;
 import org.yefei.qa.mock.model.bean.notice.GrpcJarRefreshNoticeContent;
 import org.yefei.qa.mock.model.bean.notice.SystemNotice;
-import org.yefei.qa.mock.service.ICacheManager;
 
 /**
  * @author yefei
@@ -17,7 +17,7 @@ import org.yefei.qa.mock.service.ICacheManager;
 public class SystemNoticeHandler {
 
     @Autowired
-    private ICacheManager cacheManager;
+    private GuavaCacheSubject guavaCacheSubject;
 
     @Autowired
     private GrpcBizServiceImpl grpcBizService;
@@ -26,7 +26,7 @@ public class SystemNoticeHandler {
         try {
             switch (systemNotice.getNoticeType()) {
                 case CACHE_TIME:
-                    cacheManager.refreshCacheTime();
+                    guavaCacheSubject.refreshCacheTime();
                     break;
 
                 case GRPC_JAR:

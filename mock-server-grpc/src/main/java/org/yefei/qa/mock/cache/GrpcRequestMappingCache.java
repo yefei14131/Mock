@@ -3,6 +3,7 @@ package org.yefei.qa.mock.cache;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import org.yefei.qa.mock.dao.IGrpcMappingDao;
 import org.yefei.qa.mock.model.gen.pojo.TblGrpcRequestMapping;
@@ -18,11 +19,11 @@ import java.util.concurrent.ExecutionException;
 
 @Component
 @Slf4j
-public class GrpcRequestMappingCache extends BaseGuavaCache {
+@DependsOn("guavaCacheSubject")
+public class GrpcRequestMappingCache extends TimeChangeAbledCache {
 
     @Autowired
     private IGrpcMappingDao grpcMappingDao;
-
 
     private List<TblGrpcRequestMapping> empty = new ArrayList<>();
     /**

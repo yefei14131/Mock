@@ -1,8 +1,7 @@
 package org.yefei.qa.mock.dao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.yefei.qa.mock.config.ApplicationContextProvider;
+import org.springframework.stereotype.Repository;
 import org.yefei.qa.mock.dao.ISystemConfigDao;
 import org.yefei.qa.mock.model.gen.dao.TblSystemConfigMapper;
 import org.yefei.qa.mock.model.gen.pojo.TblSystemConfig;
@@ -14,14 +13,11 @@ import java.util.List;
  * @author: yefei
  * @date: 2018/10/4 22:14
  */
-@Service
+@Repository
 public class SystemConfigDaoImpl implements ISystemConfigDao {
 
     @Autowired
     private TblSystemConfigMapper tblSystemConfigMapper;
-
-    @Autowired
-    private ApplicationContextProvider applicationContextProvider;
 
     @Override
     public int insertSystemConfig(TblSystemConfig tblSystemConfig) {
@@ -65,5 +61,10 @@ public class SystemConfigDaoImpl implements ISystemConfigDao {
         example.createCriteria().andConfigTypeEqualTo(configType);
         List<TblSystemConfig> tblSystemConfigs = tblSystemConfigMapper.selectByExample(example);
         return (tblSystemConfigs.size() > 0) ? tblSystemConfigs.get(0) : null;
+    }
+
+    @Override
+    public TblSystemConfig getSystemConfigByID(int configID) {
+        return tblSystemConfigMapper.selectByPrimaryKey(configID);
     }
 }

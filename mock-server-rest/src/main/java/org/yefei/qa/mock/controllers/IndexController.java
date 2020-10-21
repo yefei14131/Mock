@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.yefei.qa.mock.config.ResponseAdapter;
 import org.yefei.qa.mock.debugger.SystemDebugger;
+import org.yefei.qa.mock.enums.ProtocolEnum;
 import org.yefei.qa.mock.exception.CannotMatchRequestException;
 import org.yefei.qa.mock.exception.ServerBaseException;
 import org.yefei.qa.mock.exception.WelcomeException;
@@ -16,6 +17,7 @@ import org.yefei.qa.mock.service.IMappingJobService;
 import org.yefei.qa.mock.service.IRequestMacther;
 import org.yefei.qa.mock.service.IRequestScriptService;
 import org.yefei.qa.mock.service.IResponseWriter;
+import org.yefei.qa.mock.service.impl.GlobalDataService;
 import org.yefei.qa.mock.utils.RequestUtils;
 
 import javax.servlet.http.Cookie;
@@ -53,6 +55,9 @@ public class IndexController {
 
     @Autowired
     private RestPluginExecutor restPluginExecutor;
+
+    @Autowired
+    private GlobalDataService globalDataService;
 
     @RequestMapping("/**")
     public void index(HttpServletRequest request, HttpServletResponse response) {
@@ -137,6 +142,9 @@ public class IndexController {
             }
 
             systemDebugger.addSystemLog("path命中的记录为", recordedRequest.getTblRestRequestMapping());
+
+            // 保存全局变量
+            globalDataService.saveGlobalVars(recordedRequest.getTblRestRequestMapping().getRequestID(), ProtocolEnum.HTTP, userDefined, params);
 
             // 发送异步任务
             requestJobService.addJobs(recordedRequest.getTblRestRequestMapping(), userDefined, params, headers, cookies);

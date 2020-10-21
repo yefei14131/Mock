@@ -15,7 +15,7 @@ import javax.annotation.PostConstruct;
 @Slf4j
 public class GrpcBizServiceImpl extends GrpcProtocolService {
 
-    //    @PostConstruct
+    @PostConstruct
     public void init() {
         super.init();
     }
