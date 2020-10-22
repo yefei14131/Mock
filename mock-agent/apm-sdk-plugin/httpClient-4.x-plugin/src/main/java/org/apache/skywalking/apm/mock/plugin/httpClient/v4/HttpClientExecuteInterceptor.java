@@ -81,6 +81,7 @@ public class HttpClientExecuteInterceptor implements InstanceMethodsAroundInterc
             if (mockResponse != null) {
                 CloseableHttpResponse resp = buildResponse(mockResponse);
                 result.defineReturnValue(resp);
+                logger.debug("mock响应数据, uri: uri, body: {}", uri, new String(mockResponse.getBody()));
             }
 
         } catch (Exception e) {
