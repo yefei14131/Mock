@@ -164,6 +164,9 @@
                 var same = dataHelper.data.same
                 var diff = dataHelper.data.diff
 
+                console.log("diffResult: ", diff);
+                console.log("sameResult: ", same);
+
                 var diffResult = new JSONFormat(JSON.stringify(diff), 4).toString();
                 var sameResult = new JSONFormat(JSON.stringify(same), 4).toString();
 
@@ -174,7 +177,7 @@
 
 
             } catch (e) {
-                console.log(e)
+                console.error(e)
                 layer.info('解析异常！')
             } finally {
                 return false;
