@@ -34,6 +34,7 @@ public class GrpcServiceProvider implements IGrpcServiceProvider {
         return servicerMap.containsKey(serviceName) ? servicerMap.get(serviceName).get(methodFullName) : null;
     }
 
+    @Override
     public boolean updateItem(String localJarFilePath) {
         try {
             scanGrpcClassFromJars(localJarFilePath);

@@ -15,3 +15,4 @@
 # limitations under the License.
 
 grpc-1.x=org.apache.skywalking.apm.mock.plugin.grpc.v1.define.AbstractStubInstrumentation
+grpc-1.x=org.apache.skywalking.apm.mock.plugin.grpc.v1.define.HRpcGrpcClientInstrumentation
