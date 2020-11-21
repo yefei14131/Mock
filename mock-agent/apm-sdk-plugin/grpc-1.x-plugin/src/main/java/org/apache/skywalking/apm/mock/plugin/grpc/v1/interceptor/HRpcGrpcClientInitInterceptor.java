@@ -52,20 +52,23 @@ public class HRpcGrpcClientInitInterceptor implements InstanceMethodsAroundInter
 
         // 获取属性channel，注入拦截器，写入动态字段
         Field channelField = getChannelField(objInst);
-        channelField.setAccessible(true);
-        Object channel = channelField.get(objInst);
-        if (channel != null) {
-            if (channel instanceof Channel) {
-                objInst.setSkyWalkingDynamicField(ClientInterceptors.intercept((Channel) channel, new GRPCClientInterceptor()));
-                logger.info("HRpcGrpcClient.channel enhance success: {}", objInst.getClass().getName());
+        if (channelField != null) {
+            channelField.setAccessible(true);
+            Object channel = channelField.get(objInst);
+            if (channel != null) {
+                if (channel instanceof Channel) {
+                    objInst.setSkyWalkingDynamicField(ClientInterceptors.intercept((Channel) channel, new GRPCClientInterceptor()));
+                    logger.info("HRpcGrpcClient.channel enhance success: {}", objInst.getClass().getName());
+                } else {
+                    logger.info("after HRpcGrpcClient.init, channel is not instanceof Channel, real class: {}", channel.getClass().getName());
+                }
+
             } else {
-                logger.info("after HRpcGrpcClient.init, channel is not instanceof Channel, real class: {}", channel.getClass().getName());
+                logger.info("after HRpcGrpcClient.init, channel is null");
             }
-
         } else {
-            logger.info("after HRpcGrpcClient.init, channel is null");
+            logger.info("after HRpcGrpcClient.init, {} 没有 channel 属性", objInst.getClass().getName());
         }
-
         return ret;
     }
 

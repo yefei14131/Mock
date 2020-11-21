@@ -73,7 +73,7 @@ public class HllChannelProxyInterceptor implements InstanceMethodsAroundIntercep
     @Override
     public Object afterMethod(EnhancedInstance objInst, Method method, Object[] allArguments, Class<?>[] argumentsTypes,
                               Object ret) throws Throwable {
-        return objInst.getSkyWalkingDynamicField();
+        return objInst.getSkyWalkingDynamicField() != null ? objInst.getSkyWalkingDynamicField() : ret;
     }
 
     @Override
