@@ -16,7 +16,7 @@
  *
  */
 
-package org.apache.skywalking.apm.mock.plugin.grpc.v1;
+package org.apache.skywalking.apm.mock.plugin.grpc.v1.interceptor;
 
 import io.grpc.Channel;
 import io.grpc.ClientInterceptors;
@@ -26,27 +26,48 @@ import org.apache.skywalking.apm.mock.agent.core.plugin.interceptor.enhance.Enha
 import org.apache.skywalking.apm.mock.agent.core.plugin.interceptor.enhance.InstanceConstructorInterceptor;
 import org.apache.skywalking.apm.mock.agent.core.plugin.interceptor.enhance.InstanceMethodsAroundInterceptor;
 import org.apache.skywalking.apm.mock.agent.core.plugin.interceptor.enhance.MethodInterceptResult;
+import org.apache.skywalking.apm.mock.plugin.grpc.v1.GRPCClientInterceptor;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
- * {@link AbstractStubInterceptor} add the interceptor for every ClientCall.
+ * {@link HllChannelProxyInterceptor} add the interceptor for every ClientCall.
  *
- * @author zhang xin
+ * @author yefei
  */
-public class AbstractStubInterceptor implements InstanceMethodsAroundInterceptor, InstanceConstructorInterceptor {
-    private static final ILog logger = LogManager.getLogger(AbstractStubInterceptor.class);
+public class HllChannelProxyInterceptor implements InstanceMethodsAroundInterceptor, InstanceConstructorInterceptor {
+    private static final ILog logger = LogManager.getLogger(HllChannelProxyInterceptor.class);
+    private static final String CHANNEL_PROPERTY_NAME = "channel";
 
     @Override
     public void onConstruct(EnhancedInstance objInst, Object[] allArguments) {
-        Channel channel = (Channel) allArguments[0];
-        objInst.setSkyWalkingDynamicField(ClientInterceptors.intercept(channel, new GRPCClientInterceptor()));
-        logger.info("grpc AbstractStub onConstruct: {}", objInst.getClass().getName());
+        logger.info("hll ChannelProxy Construct: {}", objInst.getClass().getName());
+
+        try {
+            // 获取属性channel，注入拦截器，写入动态字段
+            Field channelField = objInst.getClass().getDeclaredField(CHANNEL_PROPERTY_NAME);
+            channelField.setAccessible(true);
+            Object channel = channelField.get(objInst);
+            if (channel != null) {
+                if (channel instanceof Channel) {
+                    objInst.setSkyWalkingDynamicField(ClientInterceptors.intercept((Channel) channel, new GRPCClientInterceptor()));
+                    logger.info("ChannelProxy Construct enhance success: {}", objInst.getClass().getName());
+                } else {
+                    logger.info("after ChannelProxy Construct, channel is not instanceof Channel, real class: {}", channel.getClass().getName());
+                }
+            } else {
+                logger.info("after ChannelProxy Construct, channel is null");
+            }
+        } catch (Exception e) {
+            logger.error("ChannelProxy Construct error", e);
+        }
     }
 
     @Override
     public void beforeMethod(EnhancedInstance objInst, Method method, Object[] allArguments, Class<?>[] argumentsTypes,
                              MethodInterceptResult result) throws Throwable {
+
     }
 
     @Override

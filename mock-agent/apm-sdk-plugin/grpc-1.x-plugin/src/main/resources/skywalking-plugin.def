@@ -16,3 +16,4 @@
 
 grpc-1.x=org.apache.skywalking.apm.mock.plugin.grpc.v1.define.AbstractStubInstrumentation
 grpc-1.x=org.apache.skywalking.apm.mock.plugin.grpc.v1.define.HRpcGrpcClientInstrumentation
+grpc-1.x=org.apache.skywalking.apm.mock.plugin.grpc.v1.define.HllChannelProxyInstrumentation
