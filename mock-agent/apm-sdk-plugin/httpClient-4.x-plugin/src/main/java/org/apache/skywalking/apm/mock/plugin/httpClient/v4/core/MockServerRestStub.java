@@ -9,6 +9,7 @@ import org.apache.http.Header;
 import org.apache.skywalking.apm.mock.agent.core.logging.api.ILog;
 import org.apache.skywalking.apm.mock.agent.core.logging.api.LogManager;
 import org.apache.skywalking.apm.mock.agent.core.mock.MockManager;
+import org.apache.skywalking.apm.mock.plugin.httpClient.v4.core.bean.HttpRequestContent;
 import org.apache.skywalking.apm.mock.plugin.httpClient.v4.core.bean.MockResponse;
 import org.apache.skywalking.apm.mock.plugin.httpClient.v4.core.bean.OKHttpClientInstance;
 
@@ -26,7 +27,7 @@ public class MockServerRestStub {
 
     private static final ILog logger = LogManager.getLogger(MockServerRestStub.class);
 
-    public static MockResponse getMockResponse(String host, String uri, Header[] headers, String content) {
+    public static MockResponse getMockResponse(String host, String uri, Header[] headers, HttpRequestContent httpRequestContent) {
         // 准备header
         Headers okHeaders = null;
         if (headers != null && headers.length > 0) {
@@ -37,12 +38,12 @@ public class MockServerRestStub {
             okHeaders = Headers.of(headerMap);
         }
 
-        return getMockResponse(MockManager.buildMockUrl(host, uri), okHeaders, content);
+        return getMockResponse(MockManager.buildMockUrl(host, uri), okHeaders, httpRequestContent);
 
     }
 
-    private static void setBody(Request.Builder requestBuilder, String content) {
-
+    private static void setBody(Request.Builder requestBuilder, HttpRequestContent httpRequestContent) {
+        String content = httpRequestContent.getContent();
         if (StringUtils.isNotEmpty(content)) {
             // form 表单
             if (content.startsWith("[")) {
@@ -53,19 +54,20 @@ public class MockServerRestStub {
                 });
 
                 requestBuilder.post(RequestBody.create(new Gson().toJson(body).getBytes()));
-
+                requestBuilder.header("Content-Type", "application/json");
             } else if (content.startsWith("{")) {
                 // content-type: json
                 requestBuilder.post(RequestBody.create(content.getBytes()));
+                requestBuilder.header("Content-Type", "application/json");
             } else {
                 requestBuilder.post(RequestBody.create(content.getBytes()));
+                requestBuilder.header("Content-Type", httpRequestContent.getContentType());
                 return;
             }
-            requestBuilder.header("Content-Type", "application/json");
         }
     }
 
-    private static MockResponse getMockResponse(String url, Headers headers, String content) {
+    private static MockResponse getMockResponse(String url, Headers headers, HttpRequestContent httpRequestContent) {
         logger.debug("准备调用mock服务: {}", url);
         Request.Builder requestBuilder = new Request.Builder().url(url);
 
@@ -73,7 +75,7 @@ public class MockServerRestStub {
             requestBuilder.headers(headers);
         }
 
-        setBody(requestBuilder, content);
+        setBody(requestBuilder, httpRequestContent);
 
         Request request = requestBuilder.build();
 

@@ -35,6 +35,7 @@ import org.apache.skywalking.apm.mock.agent.core.plugin.interceptor.enhance.Inst
 import org.apache.skywalking.apm.mock.agent.core.plugin.interceptor.enhance.MethodInterceptResult;
 import org.apache.skywalking.apm.mock.agent.core.util.HualalaHttpUtils;
 import org.apache.skywalking.apm.mock.plugin.httpClient.v4.core.MockServerRestStub;
+import org.apache.skywalking.apm.mock.plugin.httpClient.v4.core.bean.HttpRequestContent;
 import org.apache.skywalking.apm.mock.plugin.httpClient.v4.core.bean.MockHttpResponseProxy;
 import org.apache.skywalking.apm.mock.plugin.httpClient.v4.core.bean.MockResponse;
 
@@ -76,7 +77,7 @@ public class HttpClientExecuteInterceptor implements InstanceMethodsAroundInterc
 
             // 请求header
             Header[] headers = httpRequest.getAllHeaders();
-            String requestContent = getRequestContent(httpRequest);
+            HttpRequestContent requestContent = getRequestContent(httpRequest);
             MockResponse mockResponse = MockServerRestStub.getMockResponse(httpHost.getHostName(), getMockRequestURI(uri), headers, requestContent);
             if (mockResponse != null) {
                 CloseableHttpResponse resp = buildResponse(mockResponse);
@@ -106,14 +107,13 @@ public class HttpClientExecuteInterceptor implements InstanceMethodsAroundInterc
     }
 
 
-    private String getRequestContent(HttpRequest httpRequest) {
+    private HttpRequestContent getRequestContent(HttpRequest httpRequest) {
         try {
             if (httpRequest instanceof HttpEntityEnclosingRequest) {
                 HttpEntity requstEntity = ((HttpEntityEnclosingRequest) httpRequest).getEntity();
                 if (requstEntity == null) {
                     return null;
                 }
-
                 byte[] contentByte = EntityUtils.toByteArray(requstEntity);
 
                 ByteArrayInputStream inputStream = new ByteArrayInputStream(contentByte);
@@ -125,7 +125,10 @@ public class HttpClientExecuteInterceptor implements InstanceMethodsAroundInterc
 
                 ((HttpEntityEnclosingRequest) httpRequest).setEntity(basicHttpEntity);
 
-                return new String(contentByte);
+                HttpRequestContent httpRequestContent = new HttpRequestContent();
+                httpRequestContent.setContent(new String(contentByte));
+                httpRequestContent.setContentType(requstEntity.getContentType().getValue());
+                return httpRequestContent;
             }
         } catch (IOException e) {
             logger.error("转换http request 流对象出错", e);
