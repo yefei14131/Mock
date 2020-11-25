@@ -11,12 +11,14 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.yefei.qa.mock.debugger.SystemDebugger;
+import org.yefei.qa.mock.enums.ProtocolEnum;
 import org.yefei.qa.mock.exception.CannotMatchRequestException;
 import org.yefei.qa.mock.model.bean.RecordedRequest;
 import org.yefei.qa.mock.service.IMappingJobService;
 import org.yefei.qa.mock.service.IRequestMacther;
 import org.yefei.qa.mock.service.IRequestScriptService;
 import org.yefei.qa.mock.service.IResponseWriter;
+import org.yefei.qa.mock.service.impl.GlobalDataService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +46,9 @@ public class GrpcServerInterceptor implements ServerInterceptor {
 
     @Autowired
     private SystemDebugger systemDebugger;
+
+    @Autowired
+    private GlobalDataService globalDataService;
 
     private List<String> businessMethodList = Lists.newArrayList("mock.server.grpc.VariableService/PreDefine");
 
@@ -97,6 +102,9 @@ public class GrpcServerInterceptor implements ServerInterceptor {
                     }
 
                     systemDebugger.addSystemLog("path命中的记录为", recordedRequest.getTblGrpcRequestMapping());
+
+                    // 保存全局变量
+                    globalDataService.saveGlobalVars(recordedRequest.getTblGrpcRequestMapping().getRequestID(), ProtocolEnum.GRPC, userDefined, params);
 
                     // 发送异步任务
                     requestJobService.addJobs(recordedRequest.getTblGrpcRequestMapping(), userDefined, params);
