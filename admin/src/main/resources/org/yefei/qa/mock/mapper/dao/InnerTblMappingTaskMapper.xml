@@ -8,4 +8,5 @@
         <foreach collection="fieldList" item="field" separator=", ">${field.fieldName}</foreach>
         from tbl_mapping_task where jobID = #{sourceJobID};
     </insert>
+
 </mapper>

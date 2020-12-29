@@ -16,4 +16,7 @@ public interface InnerTblMappingRulesDetailMapper {
 
     @Delete("DELETE FROM tbl_mapping_rules_detail WHERE requestID NOT IN ( SELECT requestID FROM tbl_rest_request_mapping) AND protocol = #{protocol}")
     int deleteUnRelationRestMappingRulesDetail(String protocol);
+
+    @Delete("DELETE FROM tbl_mapping_rules_detail WHERE requestID NOT IN ( SELECT requestID FROM tbl_grpc_request_mapping) AND protocol = #{protocol}")
+    int deleteUnRelationGrpcMappingRulesDetail(String protocol);
 }

@@ -83,7 +83,7 @@ public class MappingRulesDetailDaoImpl implements IMappingRulesDetailDao {
      */
     @Override
     public int deleteUnRelationGrpcMappingRulesDetail() {
-        return innerTblMappingRulesDetailMapper.deleteUnRelationRestMappingRulesDetail(ProtocolEnum.GRPC.getProtocol());
+        return innerTblMappingRulesDetailMapper.deleteUnRelationGrpcMappingRulesDetail(ProtocolEnum.GRPC.getProtocol());
     }
 
 }

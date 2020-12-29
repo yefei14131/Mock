@@ -8,4 +8,32 @@
         <foreach collection="fieldList" item="field" separator=", ">${field.fieldName}</foreach>
         from tbl_rest_request_script where groupID = #{groupID} and path = #{sourcePath};
     </insert>
+
+    <delete id="deleteUnRelationMappingScript">
+        DELETE
+        FROM
+        tbl_rest_request_script
+        WHERE
+        scriptID NOT IN (
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        script.scriptID
+        FROM
+        tbl_rest_request_script AS script,
+        (
+        SELECT DISTINCT
+        groupID,
+        path
+        FROM
+        tbl_rest_request_mapping
+        ) AS mapping
+        WHERE
+        script.groupID = mapping.groupID
+        AND script.path = mapping.path
+        ) AS tbl_exist
+        );
+    </delete>
 </mapper>

@@ -45,6 +45,14 @@
         </encoder>
     </appender>
 
+    <logger name="org.yefei.qa.mock.mapper.dao" level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <logger name="org.yefei.qa.mock.model.gen.mapper" level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
     <root level="info">
         <appender-ref ref="STDOUT" />
         <!--<appender-ref ref="FILE_STDOUT"/>-->

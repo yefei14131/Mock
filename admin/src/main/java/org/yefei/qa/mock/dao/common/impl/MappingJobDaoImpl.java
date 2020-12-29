@@ -107,7 +107,7 @@ public class MappingJobDaoImpl implements IMappingJobDao {
      */
     @Override
     public int deleteUnRelationGrpcMappingJob() {
-        return innerTblMappingJobMapper.deleteUnRelationRestMappingJob(ProtocolEnum.GRPC.getProtocol());
+        return innerTblMappingJobMapper.deleteUnRelationGrpcMappingJob(ProtocolEnum.GRPC.getProtocol());
     }
 
 }

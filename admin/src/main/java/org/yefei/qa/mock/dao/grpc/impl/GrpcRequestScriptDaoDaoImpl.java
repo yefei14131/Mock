@@ -92,28 +92,16 @@ public class GrpcRequestScriptDaoDaoImpl implements IGrpcRequestScriptDao {
         return example;
     }
 
-//
-//    @Override
-//    public int updateGroupCode(int groupID, String groupCode){
-//        TblGrpcRequestScript tblGrpcRequestScript = new TblGrpcRequestScript();
-//        tblGrpcRequestScript.setGroupName(groupCode);
-//        tblGrpcRequestScript.setServiceName(groupCode);
-//
-//        TblGrpcRequestScriptExample example = new TblGrpcRequestScriptExample();
-//        TblGrpcRequestScriptExample.Criteria criteria = example.createCriteria();
-////        criteria.andGroupIDEqualTo(groupID);
-//
-//        return tblGrpcRequestScriptMapper.updateByExampleSelective(tblGrpcRequestScript, example);
-//    }
-
     @Override
-    public int updateMethodName(int groupID, String newMethod, String orgMethod) {
+    public int updateServiceAndMethodName(String sourceServiceName, String sourceMethodName, String destServiceName, String destMethodName) {
         TblGrpcRequestScript tblGrpcRequestScript = new TblGrpcRequestScript();
-        tblGrpcRequestScript.setMethodName(newMethod);
+        tblGrpcRequestScript.setMethodName(destMethodName);
+        tblGrpcRequestScript.setServiceName(destServiceName);
 
         TblGrpcRequestScriptExample example = new TblGrpcRequestScriptExample();
         TblGrpcRequestScriptExample.Criteria criteria = example.createCriteria();
-        criteria.andGroupIDEqualTo(groupID).andMethodNameEqualTo(newMethod);
+        criteria.andServiceNameEqualTo(sourceServiceName)
+                .andMethodNameEqualTo(sourceMethodName);
 
         return tblGrpcRequestScriptMapper.updateByExampleSelective(tblGrpcRequestScript, example);
     }
@@ -124,12 +112,13 @@ public class GrpcRequestScriptDaoDaoImpl implements IGrpcRequestScriptDao {
     }
 
     @Override
-    public int clone(int groupID, String sourcePath, String destPath, List<BeanScanner.BeanField> mappingScriptFields) {
+    public int clone(String sourceServiceName, String sourceMethodName, String destServiceName, String destMethodName, List<BeanScanner.BeanField> mappingScriptFields) {
 
         HashMap params = new HashMap<>();
-        params.put("groupID", groupID);
-        params.put("sourcePath", sourcePath);
-        params.put("destPath", destPath);
+        params.put("sourceServiceName", sourceServiceName);
+        params.put("sourceMethodName", sourceMethodName);
+        params.put("destServiceName", destServiceName);
+        params.put("destMethodName", destMethodName);
         params.put("fieldList", mappingScriptFields);
 
         return innerTblGrpcMappingScriptMapper.cloneScript(params);

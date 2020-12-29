@@ -63,13 +63,6 @@ public class MappingTaskDaoImpl implements IMappingTaskDao {
 
     @Override
     public int cloneTask(int sourceJobID, int destJobID, List<BeanScanner.BeanField> fieldList) {
-//        HashMap params = new HashMap<>();
-//        params.put("sourceRequestID", sourceRequestID);
-//        params.put("protocol", protocol);
-//        params.put("destRequestID", destRequestID);
-//        params.put("fieldList", fieldList);
-//        params.put("jobID", 0);
-//
 
         return innerTblMappingTaskMapper.cloneTask(sourceJobID, destJobID, fieldList);
     }

@@ -2,10 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.yefei.qa.mock.mapper.dao.InnerTblGrpcMappingScriptMapper">
     <insert id="cloneScript" parameterType="java.util.HashMap" useGeneratedKeys="true">
-        insert into tbl_grpc_request_script (path,
+        insert into tbl_grpc_request_script (serviceName, methodName,
         <foreach collection="fieldList" item="field" separator=", ">${field.fieldName}</foreach>
-        ) select #{destPath},
+        ) select #{destServiceName} as serviceName, #{destMethodName} as methodName,
         <foreach collection="fieldList" item="field" separator=", ">${field.fieldName}</foreach>
-        from tbl_grpc_request_script where groupID = #{groupID} and path = #{sourcePath};
+        from tbl_grpc_request_script where serviceName = #{sourceServiceName} and methodName = #{sourceMethodName};
     </insert>
+
+    <delete id="deleteUnRelationMappingScript">
+        DELETE
+        FROM
+            tbl_grpc_request_script
+        WHERE
+            scriptID NOT IN (
+                SELECT
+                    *
+                FROM
+                    (
+                        SELECT
+                            script.scriptID
+                        FROM
+                            tbl_grpc_request_script AS script,
+                            (
+                                SELECT DISTINCT
+                                    serviceName,
+                                    methodName
+                                FROM
+                                    tbl_grpc_request_mapping
+                            ) AS mapping
+                        WHERE
+                            script.serviceName = mapping.serviceName
+                        AND script.methodName = mapping.methodName
+                    ) AS tbl_exist
+            );
+    </delete>
 </mapper>

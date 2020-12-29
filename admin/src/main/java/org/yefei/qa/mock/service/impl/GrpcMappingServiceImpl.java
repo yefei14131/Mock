@@ -3,6 +3,7 @@ package org.yefei.qa.mock.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.yefei.qa.mock.config.BeanScanner;
+import org.yefei.qa.mock.dao.common.IInnerMappingGlobalVarDao;
 import org.yefei.qa.mock.dao.common.IMappingJobDao;
 import org.yefei.qa.mock.dao.common.IMappingRulesDetailDao;
 import org.yefei.qa.mock.dao.common.IMappingTaskDao;
@@ -41,6 +42,9 @@ public class GrpcMappingServiceImpl implements IGrpcMappingService {
 
     @Autowired
     private IMappingRulesDetailDao mappingRulesDetailDao;
+
+    @Autowired
+    private IInnerMappingGlobalVarDao innerMappingGlobalVarDao;
 
     @Autowired
     private BeanScanner beanScanner;
@@ -84,6 +88,7 @@ public class GrpcMappingServiceImpl implements IGrpcMappingService {
             mappingRulesDetailDao.deleteUnRelationGrpcMappingRulesDetail();
             mappingJobDao.deleteUnRelationGrpcMappingJob();
             mappingTaskDao.deleteUnRelationMappingTask();
+            innerMappingGlobalVarDao.deleteUnRelationGrpcMappingGlobalVar();
 
             // 推送给agent
             webSocketMappingPusher.pushGrpcMapping();
@@ -100,19 +105,22 @@ public class GrpcMappingServiceImpl implements IGrpcMappingService {
 
     private int updateGrpcRequestMapping(TblGrpcRequestMapping grpcRequestMapping) {
         TblGrpcRequestMapping mapping = grpcMappingDao.getMapping(grpcRequestMapping.getRequestID());
+        String orgServiceName = mapping.getServiceName();
         String orgMethodName = mapping.getMethodName();
 
         if (grpcMappingDao.updateGrpcRequestMapping(grpcRequestMapping) > 0) {
             if (!orgMethodName.equals(grpcRequestMapping.getMethodName())) {
-                //查询记录中是否还存在 原methodName,如果存在，则复制一份script，如果不存在则修改script
+                //查询记录中是否还存在 原orgServiceName+methodName,如果存在，则复制一份script，如果不存在则修改script
                 TblGrpcRequestMappingExample example = new TblGrpcRequestMappingExample();
-                example.createCriteria().andGroupIDEqualTo(grpcRequestMapping.getGroupID()).andMethodNameEqualTo(orgMethodName);
+                example.createCriteria()
+                        .andServiceNameEqualTo(grpcRequestMapping.getServiceName())
+                        .andMethodNameEqualTo(orgMethodName);
 
                 if (grpcMappingDao.countMapping(example) == 0) {
-                    grpcRequestScriptDao.updateMethodName(grpcRequestMapping.getGroupID(), grpcRequestMapping.getMethodName(), orgMethodName);
+                    grpcRequestScriptDao.updateServiceAndMethodName(orgServiceName, orgMethodName, grpcRequestMapping.getServiceName(), grpcRequestMapping.getMethodName());
                 } else {
-                    List<BeanScanner.BeanField> mappingScriptFields = beanScanner.getBeanFields("TblGrpcRequestScript", "scriptID", "path", "updateTime");
-                    grpcRequestScriptDao.clone(mapping.getGroupID(), orgMethodName, grpcRequestMapping.getMethodName(), mappingScriptFields);
+                    List<BeanScanner.BeanField> mappingScriptFields = beanScanner.getBeanFields("TblGrpcRequestScript", "scriptID", "serviceName", "methodName", "updateTime");
+                    grpcRequestScriptDao.clone(orgServiceName, orgMethodName, grpcRequestMapping.getServiceName(), grpcRequestMapping.getMethodName(), mappingScriptFields);
                 }
             }
 
@@ -131,6 +139,7 @@ public class GrpcMappingServiceImpl implements IGrpcMappingService {
         List<BeanScanner.BeanField> mappingJobFields = beanScanner.getBeanFields("TblMappingJob", "requestID", "jobID", "updateTime");
         List<BeanScanner.BeanField> mappingTaskFields = beanScanner.getBeanFields("TblMappingTask", "jobID", "taskID", "updateTime");
         List<BeanScanner.BeanField> mappingRulesDetailFields = beanScanner.getBeanFields("TblMappingRulesDetail", "requestID", "rulesDetailID", "updateTime");
+        List<BeanScanner.BeanField> mappingGlobalVarFields = beanScanner.getBeanFields("TblMappingGlobalVar", "requestID", "globalVarID", "updateTime");
 
         int destRequestID = grpcMappingDao.cloneGrpcMapping(sourceRequestID, grpcMappingFields);
 
@@ -146,7 +155,9 @@ public class GrpcMappingServiceImpl implements IGrpcMappingService {
             }
         });
 
-        mappingRulesDetailDao.cloneMappingRules(sourceRequestID, ProtocolEnum.HTTP.getProtocol(), destRequestID, mappingRulesDetailFields);
+        mappingRulesDetailDao.cloneMappingRules(sourceRequestID, protocolEnum.getProtocol(), destRequestID, mappingRulesDetailFields);
+
+        innerMappingGlobalVarDao.cloneMappingGlobalVar(sourceRequestID, protocolEnum.getProtocol(), destRequestID, mappingGlobalVarFields);
 
         return true;
     }

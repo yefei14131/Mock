@@ -3,6 +3,7 @@ package org.yefei.qa.mock.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.yefei.qa.mock.config.BeanScanner;
+import org.yefei.qa.mock.dao.common.IInnerMappingGlobalVarDao;
 import org.yefei.qa.mock.dao.common.IMappingJobDao;
 import org.yefei.qa.mock.dao.common.IMappingRulesDetailDao;
 import org.yefei.qa.mock.dao.common.IMappingTaskDao;
@@ -50,6 +51,9 @@ public class RestMappingServiceImpl implements IRestMappingService {
     private IMappingRulesDetailDao mappingRulesDetailDao;
 
     @Autowired
+    private IInnerMappingGlobalVarDao innerMappingGlobalVarDao;
+
+    @Autowired
     private BeanScanner beanScanner;
 
     private final ProtocolEnum protocolEnum = ProtocolEnum.HTTP;
@@ -85,16 +89,15 @@ public class RestMappingServiceImpl implements IRestMappingService {
 
     @Override
     public boolean deleteRestMapping(int requestID){
-        TblRestRequestMapping mapping = restMappingDao.getMapping(requestID);
         if (restMappingDao.deleteRestRequestMaster(requestID) > 0 ){
             restRequestScriptDao.deleteUnRelationMappingScript();
             mappingRulesDetailDao.deleteUnRelationRestMappingRulesDetail();
             mappingJobDao.deleteUnRelationRestMappingJob();
             mappingTaskDao.deleteUnRelationMappingTask();
-        }
+            innerMappingGlobalVarDao.deleteUnRelationRestMappingGlobalVar();
 
-//        webSocketPusher.pushPatchRestMapping(null, Lists.newArrayList(mapping));
-        webSocketMappingPusher.pushRestMapping();
+            webSocketMappingPusher.pushRestMapping();
+        }
         return true;
     }
 
@@ -122,7 +125,6 @@ public class RestMappingServiceImpl implements IRestMappingService {
                 }
             }
 
-//            webSocketPusher.pushPatchRestMapping(Lists.newArrayList(restRequestMapping), Lists.newArrayList(mapping));
             webSocketMappingPusher.pushRestMapping();
 
             return 1;
@@ -137,6 +139,7 @@ public class RestMappingServiceImpl implements IRestMappingService {
         List<BeanScanner.BeanField> mappingJobFields = beanScanner.getBeanFields("TblMappingJob", "requestID", "jobID", "updateTime");
         List<BeanScanner.BeanField> mappingTaskFields = beanScanner.getBeanFields("TblMappingTask", "jobID", "taskID", "updateTime");
         List<BeanScanner.BeanField> mappingRulesDetailFields = beanScanner.getBeanFields("TblMappingRulesDetail", "requestID", "rulesDetailID", "updateTime");
+        List<BeanScanner.BeanField> mappingGlobalVarFields = beanScanner.getBeanFields("TblMappingGlobalVar", "requestID", "globalVarID", "updateTime");
 
         int destRequestID = restMappingDao.cloneRestMapping(sourceRequestID, restMappingFields);
 
@@ -153,8 +156,9 @@ public class RestMappingServiceImpl implements IRestMappingService {
             }
         });
 
-
         mappingRulesDetailDao.cloneMappingRules(sourceRequestID, protocolEnum.getProtocol(), destRequestID, mappingRulesDetailFields);
+
+        innerMappingGlobalVarDao.cloneMappingGlobalVar(sourceRequestID, protocolEnum.getProtocol(), destRequestID, mappingGlobalVarFields);
 
         return true;
     }
@@ -177,9 +181,6 @@ public class RestMappingServiceImpl implements IRestMappingService {
             if (groupHostMap.containsKey(mapping.getGroupCode())) {
                 RestMappingAgentSimple item = new RestMappingAgentSimple();
                 mappingList.add(item);
-//                item.setHost(groupHostMap.get(mapping.getGroupCode()));
-//                item.setUri(mapping.getPath());
-//                item.setUriPrefix("/" + mapping.getGroupCode());
                 AgentMappingTransfer.restMapping2AgentMapping(mapping, item, groupHostMap.get(mapping.getGroupCode()));
             }
         });

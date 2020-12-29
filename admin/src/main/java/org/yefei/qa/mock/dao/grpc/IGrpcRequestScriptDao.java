@@ -22,13 +22,11 @@ public interface IGrpcRequestScriptDao {
 
     long countGrpcScript(String serviceName, String methodName);
 
-//    int updateGroupCode(int groupID, String groupCode);
-
-    int updateMethodName(int groupID, String newMethod, String orgMethod);
+    int updateServiceAndMethodName(String sourceServiceName, String sourceMethod, String destServiceName, String destMethodName);
 
     TblGrpcRequestScript getScript(int scriptID);
 
-    int clone(int groupID, String sourceMethod, String destMethod, List<BeanScanner.BeanField> mappingScriptFields);
+    int clone(String sourceServiceName, String sourceMethod, String destServiceName, String destMethodName, List<BeanScanner.BeanField> mappingScriptFields);
 
     int deleteUnRelationMappingScript();
 }
