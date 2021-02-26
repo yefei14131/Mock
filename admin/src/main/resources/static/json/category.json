@@ -1,78 +1,89 @@
 {
-    "system":[
+  "system": [
+    {
+      "title": "系统设置",
+      "url": "/mock_server/system/config.html",
+      "sub": [
         {
-            "title":"系统设置",
-            "url":"/mock_server/system/config.html",
-            "sub":[
-                {
-                    "title":"系统设置",
-                    "url":"/mock_server/system/config.html"
-                }
-                ,{
-                    "title":"运行日志",
-                    "url":"/mock_server/system/log/list.html"
-              },
-              {
-                "title": "agent在线列表",
-                "url": "/mock_server/system/agent/list.html"
-              }
-            ]
-        }
-    ],
-    "rest":[
+          "code": "system-config",
+          "title": "系统设置",
+          "url": "/mock_server/system/config.html"
+        },
         {
-          "title": "rest mock配置",
-            "url":"/mock_server/rest/group/list.html",
-            "sub":[
-                {
-                    "title":"分组列表",
-                    "url":"/mock_server/rest/group/list.html"
-                }
-            ]
-        }
-    ],
-    "grpc":[
+          "code": "mock-log",
+          "title": "运行日志",
+          "url": "/mock_server/system/log/list.html"
+        },
         {
-          "title": "grpc mock配置",
-            "url":"/mock_server/grpc/group/list.html",
-            "sub":[
-                {
-                    "title":"分组列表",
-                    "url":"/mock_server/grpc/group/list.html"
-                },
-              {
-                "title": "grpc interface 配置",
-                "url": "/mock_server/system/grpc/interface/list.html"
-                }
-            ]
+          "code": "agent-list",
+          "title": "agent在线列表",
+          "url": "/mock_server/system/agent/list.html"
         }
-    ],
-    "tools":[
+      ]
+    }
+  ],
+  "rest": [
+    {
+      "title": "rest mock配置",
+      "url": "/mock_server/rest/group/list.html",
+      "sub": [
         {
-            "title":"工具",
-            "url": "/mock_server/tools/grpc_log_decoder",
-            "sub":[
-                {
-                    "title":"GRPC日志解码",
-                    "url":"/mock_server/tools/grpc_log_decoder.html"
-                },
-                {
-                    "title": "订单IDC信息查询",
-                    "url": "/mock_server/tools/order_idc.html"
-                },
-                {
-                    "title": "Json差异对比",
-                    "url": "/mock_server/tools/json_diff.html"
-                },
-                {
-                    "title": "Json差异Key对比",
-                    "url": "/mock_server/tools/json_key_diff.html"
-                },
-                {
-                    "title": "PrepareSql合并",
-                    "url": "/mock_server/tools/prepare_sql.html"
-                }
-            ]
+          "code": "rest-group-list",
+          "title": "分组列表",
+          "url": "/mock_server/rest/group/list.html"
         }
-    ]
+      ]
+    }
+  ],
+  "grpc": [
+    {
+      "title": "grpc mock配置",
+      "url": "/mock_server/grpc/group/list.html",
+      "sub": [
+        {
+          "code": "grpc-group-list",
+          "title": "分组列表",
+          "url": "/mock_server/grpc/group/list.html"
+        },
+        {
+          "code": "grpc-config",
+          "title": "grpc interface 配置",
+          "url": "/mock_server/system/grpc/interface/list.html"
+        }
+      ]
+    }
+  ],
+  "tools": [
+    {
+      "title": "工具",
+      "url": "/mock_server/tools/grpc_log_decoder",
+      "sub": [
+        {
+          "code": "grpc_log_decoder",
+          "title": "GRPC日志解码",
+          "url": "/mock_server/tools/grpc_log_decoder.html"
+        },
+        {
+          "code": "order_idc",
+          "title": "订单IDC信息查询",
+          "url": "/mock_server/tools/order_idc.html"
+        },
+        {
+          "code": "json_diff",
+          "title": "Json差异对比",
+          "url": "/mock_server/tools/json_diff.html"
+        },
+        {
+          "code": "json_key_diff",
+          "title": "Json差异Key对比",
+          "url": "/mock_server/tools/json_key_diff.html"
+        },
+        {
+          "code": "prepare_sql",
+          "title": "PrepareSql合并",
+          "url": "/mock_server/tools/prepare_sql.html"
+        }
+      ]
+    }
+  ]
 }

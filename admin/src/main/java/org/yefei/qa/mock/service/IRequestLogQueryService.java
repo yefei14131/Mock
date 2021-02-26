@@ -15,5 +15,9 @@ public interface IRequestLogQueryService {
 
     List<TblRequestLog> queryRequestLog(int page, int pageSize);
 
+    List<TblRequestLog> queryRequestLogByKeywords(String keywords, int page, int pageSize);
+
     long countRequestLog();
+
+    long countRequestLogByKeywords(String keywords);
 }

@@ -40,7 +40,7 @@ public class GrpcMappingController extends BaseController {
     @Autowired
     private BeanScanner beanScanner;
 
-    private final String nav = "grpc";
+    private final String horizontalNav = "grpc";
 
 
     @RequestMapping(value = "/list.html", method = RequestMethod.GET)
@@ -48,7 +48,7 @@ public class GrpcMappingController extends BaseController {
 
         ModelAndView view = new ModelAndView("grpc/mapping/list");
 
-        this.buildCategory(view, nav);
+        this.buildCategory(view, horizontalNav, "grpc-group-list");
         List<BeanScanner.BeanField> fields = beanScanner.getBeanFields("TblGrpcRequestMapping", "updateTime", "responseBody");
         view.addObject("fields", fields);
         view.addObject("groupID", groupID);
@@ -67,7 +67,7 @@ public class GrpcMappingController extends BaseController {
 
         ModelAndView view = new ModelAndView("grpc/mapping/edit");
 
-        this.buildCategory(view, nav);
+        this.buildCategory(view, horizontalNav, "grpc-group-list");
 
         List<BeanScanner.BeanField> fields = getFields();
         view.addObject("fields", fields);

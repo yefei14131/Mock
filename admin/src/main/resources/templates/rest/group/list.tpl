@@ -48,6 +48,7 @@
         </div>
         <div class="clear"></div>
     </div>
+    <hr>
     <div style="/* padding: 15px; */" id="group-list" lay-even  lay-filter="group-list"></div>
 
 </div>

@@ -40,7 +40,7 @@ public class RestMappingController extends BaseController {
     @Autowired
     private BeanScanner beanScanner;
 
-    private final String nav = "rest";
+    private final String horizontalNav = "rest";
 
 
     @RequestMapping(value = "/list.html", method = RequestMethod.GET)
@@ -48,7 +48,7 @@ public class RestMappingController extends BaseController {
 
         ModelAndView view = new ModelAndView("rest/mapping/list");
 
-        this.buildCategory(view, nav);
+        this.buildCategory(view, horizontalNav, "rest-group-list");
         List<BeanScanner.BeanField> fields = beanScanner.getBeanFields("TblRestRequestMapping", "updateTime", "responseBody");
         view.addObject("fields", fields);
         view.addObject("groupID", groupID);
@@ -65,7 +65,7 @@ public class RestMappingController extends BaseController {
 
         ModelAndView view = new ModelAndView("rest/mapping/edit");
 
-        this.buildCategory(view, nav);
+        this.buildCategory(view, horizontalNav, "rest-group-list");
 
         List<BeanScanner.BeanField> fields = getFields();
         view.addObject("fields", fields);

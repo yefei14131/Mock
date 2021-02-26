@@ -47,7 +47,7 @@ public class GrpcGroupController extends BaseController {
     @Autowired
     private BeanScanner beanScanner;
 
-    private final String nav = "grpc";
+    private final String horizontalNav = "grpc";
 
 
     @RequestMapping(value = "/export.htm", method = RequestMethod.GET)
@@ -109,7 +109,7 @@ public class GrpcGroupController extends BaseController {
 
         ModelAndView view = new ModelAndView("grpc/group/list");
 
-        this.buildCategory(view, nav);
+        this.buildCategory(view, horizontalNav, "grpc-group-list");
         List<BeanScanner.BeanField> fields = getFields();
         view.addObject("fields", fields);
 
@@ -123,7 +123,7 @@ public class GrpcGroupController extends BaseController {
 
         ModelAndView view = new ModelAndView("grpc/group/edit");
 
-        this.buildCategory(view, nav);
+        this.buildCategory(view, horizontalNav, "grpc-group-list");
 
 //        TblGrpcRequestGroup group = grpcGroupService.getGroup(groupID);
 //        view.addObject("group", group);

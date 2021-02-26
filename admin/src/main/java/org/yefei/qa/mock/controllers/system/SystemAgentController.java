@@ -42,14 +42,14 @@ public class SystemAgentController extends BaseController {
     @Autowired
     private IAgentManagerService agentManagerService;
 
-    private final String nav = "system";
+    private final String horizontalNav = "system";
 
     @RequestMapping(value = "/list.html", method = RequestMethod.GET)
-    public ModelAndView mappingList() throws IOException {
+    public ModelAndView agentList() throws IOException {
 
         ModelAndView view = new ModelAndView("system/agent_list");
 
-        this.buildCategory(view, nav);
+        this.buildCategory(view, horizontalNav, "agent-list");
 
         return view;
     }

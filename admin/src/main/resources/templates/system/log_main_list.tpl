@@ -4,11 +4,26 @@
     <!-- 内容主体区域 -->
     <div class="content-head">
         <span class="layui-breadcrumb">
-              <a><cite>调用日志</cite></a>
+            <a><cite>系统</cite></a>
+            <a><cite>调用日志</cite></a>
         </span>
-        <div class="layui-btn-container" style="padding: 15px 0px 0px 5px">
+        <!--<div class="layui-btn-container" style="padding: 15px 0px 0px 5px">-->
+        <div class="head-container right">
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">关键字:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="keywords" placeholder="日志关键字" autocomplete="off" class="layui-input"
+                               style="display: inline; width: auto;" value="${keywords}">
+                        &nbsp;&nbsp;
+                        <button class="layui-btn" lay-submit lay-filter="formDemo">搜索</button>
+                    </div>
+                </div>
+            </form>
+            <!--</div>-->
         </div>
     </div>
+    <hr>
     <div style="/* padding: 15px; */" id="item-list" lay-even ></div>
 
 </div>
@@ -39,7 +54,7 @@
         return date.getFullYear() + "-" + fillZero(date.getMonth()+1) + "-" + fillZero(date.getDate()) + " " + fillZero(date.getHours()) + ":" + fillZero(date.getMinutes()) + ":" +  fillZero(date.getSeconds()) + "." + fillZeroPlus(date.getMilliseconds())
     }
 
-    layui.use('table', function(){
+    layui.use(['table', 'form'], function () {
         var table = layui.table;
 
         table.render({
@@ -47,6 +62,7 @@
             ,url:'/mock_server/system/log/list.ajax'
             ,method:"post"
             ,contentType : "application/json"
+            , where: {keywords: "${keywords}"}
             ,page: true
             ,limit: 20
             //,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增

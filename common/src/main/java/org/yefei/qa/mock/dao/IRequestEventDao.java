@@ -15,4 +15,8 @@ public interface IRequestEventDao {
     List<TblRequestEvent> queryRequestEvent(String traceID);
 
     void deleteHistoryData(int beforeDay);
+
+    List<String> queryTraceIdsByKeywords(String keywords, int page, int pageSize);
+
+    long countByKeywords(String keywords);
 }

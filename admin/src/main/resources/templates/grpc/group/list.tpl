@@ -4,10 +4,10 @@
     <!-- 内容主体区域 -->
     <div class="content-head">
         <span class="layui-breadcrumb">
-        <a href="">GRPC</a>
-        <a href="">分组</a>
-         <a><cite>列表</cite></a>
-    </span>
+            <a href="">GRPC</a>
+            <a href="">分组</a>
+            <a><cite>列表</cite></a>
+        </span>
         <div class="head-container right">
             <a href="/mock_server/grpc/group/info.html">
                 <svg class="icon">
@@ -21,11 +21,10 @@
             <svg class="icon group-export icon-unvaliable" aria-hidden="true" id="group-export">
                 <use xlink:href="#icon-daochu"></use>
             </svg>
-
-
         </div>
         <div class="clear"></div>
     </div>
+    <hr>
     <div style="/* padding: 15px; */" id="group-list" lay-even lay-filter="group-list"></div>
 
 </div>

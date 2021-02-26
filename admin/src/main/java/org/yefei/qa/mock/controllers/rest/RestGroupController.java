@@ -47,7 +47,7 @@ public class RestGroupController extends BaseController{
     @Autowired
     private BeanScanner beanScanner;
 
-    private final String nav = "rest";
+    private final String horizontalNav = "rest";
 
 
     @RequestMapping(value = "/export.htm", method = RequestMethod.GET)
@@ -108,7 +108,7 @@ public class RestGroupController extends BaseController{
 
         ModelAndView view = new ModelAndView("rest/group/list");
 
-        this.buildCategory(view, nav);
+        this.buildCategory(view, horizontalNav, "rest-group-list");
         List<BeanScanner.BeanField> fields = getFields(
 
         );
@@ -124,7 +124,7 @@ public class RestGroupController extends BaseController{
 
         ModelAndView view = new ModelAndView("rest/group/edit");
 
-        this.buildCategory(view, nav);
+        this.buildCategory(view, horizontalNav, "rest-group-list");
 
 //        TblRestRequestGroup group = restGroupService.getGroup(groupID);
 //        view.addObject("group", group);

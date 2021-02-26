@@ -22,7 +22,7 @@ import java.util.HashMap;
 @RequestMapping("/mock_server/tools")
 public class ToolsController extends BaseController {
 
-    private final String nav = "tools";
+    private final String horizontalNav = "tools";
 
     @Autowired
     private ResponseAdapter responseAdapter;
@@ -30,7 +30,7 @@ public class ToolsController extends BaseController {
     @RequestMapping(value = "/{tool}.html", method = RequestMethod.GET)
     public ModelAndView allM(@PathVariable String tool) throws IOException {
         ModelAndView view = new ModelAndView("tools/" + tool);
-        this.buildCategory(view, nav);
+        this.buildCategory(view, horizontalNav, tool);
         return view;
 
     }

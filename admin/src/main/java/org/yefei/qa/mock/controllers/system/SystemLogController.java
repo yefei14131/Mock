@@ -2,13 +2,11 @@ package org.yefei.qa.mock.controllers.system;
 
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.yefei.qa.mock.config.BeanScanner;
 import org.yefei.qa.mock.config.ResponseAdapter;
@@ -42,16 +40,17 @@ public class SystemLogController extends BaseController {
     private BeanScanner beanScanner;
 
 
-    private final String nav = "system";
+    private final String horizontalNav = "system";
 
     @RequestMapping(value = "/list.html", method = RequestMethod.GET)
-    public ModelAndView mappingList() throws IOException {
+    public ModelAndView mappingList(@RequestParam(name = "keywords", defaultValue = "") String keywords) throws IOException {
 
         ModelAndView view = new ModelAndView("system/log_main_list");
 
-        this.buildCategory(view, nav);
+        this.buildCategory(view, horizontalNav, "mock-log");
         List<BeanScanner.BeanField> fields = beanScanner.getBeanFields("TblRequestLog", "requestID", "updateTime", "responseTime");
         view.addObject("fields", fields);
+        view.addObject("keywords", keywords);
 
         return view;
     }
@@ -64,10 +63,16 @@ public class SystemLogController extends BaseController {
         try {
 
             int page = params.getInteger("page");
+            String keywords = params.getString("keywords");
             int pageSize = params.getInteger("limit");
 
-            resp.put("list", logQueryService.queryRequestLog(page, pageSize));
-            resp.put("total", logQueryService.countRequestLog());
+            if (StringUtils.isNotBlank(keywords)) {
+                resp.put("list", logQueryService.queryRequestLogByKeywords(keywords, page, pageSize));
+                resp.put("total", logQueryService.countRequestLogByKeywords(keywords));
+            } else {
+                resp.put("list", logQueryService.queryRequestLog(page, pageSize));
+                resp.put("total", logQueryService.countRequestLog());
+            }
 
             return responseAdapter.success(resp);
 

@@ -54,10 +54,14 @@
     <div class="layui-logo">MockServer后台</div>
     <!-- 头部区域（可配合layui已有的水平导航） -->
     <ul class="layui-nav layui-layout-left">
-      <li class="layui-nav-item"><a href="/mock_server/rest/group/list.html">REST</a></li>
-      <li class="layui-nav-item"><a href="/mock_server/grpc/group/list.html">GRPC</a></li>
-      <li class="layui-nav-item"><a href="/mock_server/system/config.html">SYSTEM</a></li>
-      <li class="layui-nav-item"><a href="/mock_server/tools/grpc_log_decoder.html">TOOLS</a></li>
+        <li class="layui-nav-item <#if 'rest' == horizontalNav>layui-this</#if>"><a
+                href="/mock_server/rest/group/list.html">REST</a></li>
+        <li class="layui-nav-item <#if 'grpc' == horizontalNav>layui-this</#if>"><a
+                href="/mock_server/grpc/group/list.html">GRPC</a></li>
+        <li class="layui-nav-item <#if 'system' == horizontalNav>layui-this</#if>"><a
+                href="/mock_server/system/config.html">SYSTEM</a></li>
+        <li class="layui-nav-item <#if 'tools' == horizontalNav>layui-this</#if>"><a
+                href="/mock_server/tools/grpc_log_decoder.html">TOOLS</a></li>
 
       <!-- <li class="layui-nav-item">
         <a href="javascript:;">其它系统</a>
@@ -93,16 +97,29 @@
 
 
         <#list category as c >
+          <!--<li class="layui-nav-item layui-nav-itemed">-->
+          <!--<a class="" href="javascript:;">${c["title"]}</a>-->
+          <!--<#if c['sub'] ?? >-->
+          <!--<#list c["sub"] as sub>-->
+          <!--<dl class="layui-nav-child">-->
+          <!--<dd><a href="${sub["url"]}">${sub["title"]}</a></dd>-->
+          <!--</dl>-->
+          <!--</#list>-->
+          <!--</#if>-->
+          <!--</li>-->
+
+
+          <#if c['sub'] ?? >
+          <#list c["sub"] as sub>
           <li class="layui-nav-item layui-nav-itemed">
-            <a class="" href="javascript:;">${c["title"]}</a>
-              <#if c['sub'] ?? >
-                <#list c["sub"] as sub>
-                  <dl class="layui-nav-child">
-                    <dd><a href="${sub["url"]}">${sub["title"]}</a></dd>
-                  </dl>
-                </#list>
-              </#if>
+              <a class=" <#if verticalNav == sub.code>layui-this</#if>" href='${sub["url"]}'>${sub["title"]}</a>
           </li>
+      </
+        #list>
+    </
+      #if>
+
+
       </#list>
 
       <!--

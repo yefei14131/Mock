@@ -48,18 +48,18 @@ public class SystemConfigController extends BaseController{
     @Autowired
     private ObjectMapper jacksonFormater;
 
-    private final String nav = "system";
+    private final String horizontalNav = "system";
 
     @RequestMapping(value = "/config.html", method = RequestMethod.GET)
     public ModelAndView config() throws IOException {
 
-        ModelAndView view = new ModelAndView("system/edit");
+        ModelAndView view = new ModelAndView("system/system_config_edit");
         view.addObject("configs", SystemConfigTypeEnum.values());
         for (SystemConfigTypeEnum item : SystemConfigTypeEnum.values()){
             item.getTypeID();
             item.getTypeName();
         }
-        this.buildCategory(view, nav);
+        this.buildCategory(view, horizontalNav, "system-config");
         return view;
 
     }

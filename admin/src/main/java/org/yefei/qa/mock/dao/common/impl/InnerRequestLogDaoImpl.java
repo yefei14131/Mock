@@ -21,7 +21,7 @@ public class InnerRequestLogDaoImpl implements IInnerRequestLogDao {
     private InnerTblRequestLogMapper tblRequestLogMapper;
 
     @Override
-    public List<TblRequestLog> queryRequestLogByExample(InnerTblRequestLogExample tblRequestLogExample) {
+    public List<TblRequestLog> queryRequestLogByExample(TblRequestLogExample tblRequestLogExample) {
        return tblRequestLogMapper.selectByExample(tblRequestLogExample);
     }
 

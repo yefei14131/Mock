@@ -4,6 +4,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.yefei.qa.mock.dao.IRequestEventDao;
+import org.yefei.qa.mock.model.gen.dao.CommonInnerTblRequestEventMapper;
 import org.yefei.qa.mock.model.gen.dao.TblRequestEventMapper;
 import org.yefei.qa.mock.model.gen.pojo.TblRequestEvent;
 import org.yefei.qa.mock.model.gen.pojo.TblRequestEventExample;
@@ -20,6 +21,9 @@ public class RequestEventDaoImpl implements IRequestEventDao {
 
     @Autowired
     private TblRequestEventMapper tblRequestEventMapper;
+
+    @Autowired
+    private CommonInnerTblRequestEventMapper commonInnerTblRequestEventMapper;
 
     @Override
     public void insert(TblRequestEvent requestEvent) {
@@ -38,5 +42,16 @@ public class RequestEventDaoImpl implements IRequestEventDao {
         TblRequestEventExample example = new TblRequestEventExample();
         example.createCriteria().andUpdateTimeLessThan(DateUtils.addDays(new Date(), beforeDay));
         tblRequestEventMapper.deleteByExample(example);
+    }
+
+    @Override
+    public List<String> queryTraceIdsByKeywords(String keywords, int page, int pageSize) {
+        int offset = pageSize * (page - 1);
+        return commonInnerTblRequestEventMapper.queryTraceIdsByKeywords(keywords, offset, pageSize);
+    }
+
+    @Override
+    public long countByKeywords(String keywords) {
+        return commonInnerTblRequestEventMapper.countByKeywords(keywords);
     }
 }

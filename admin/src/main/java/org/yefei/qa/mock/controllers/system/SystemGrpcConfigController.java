@@ -43,14 +43,14 @@ public class SystemGrpcConfigController extends BaseController {
     @Autowired
     private GrpcServiceProvider grpcServiceProvider;
 
-    private final String nav = "grpc";
+    private final String horizontalNav = "grpc";
 
     @RequestMapping(value = "/list.html", method = RequestMethod.GET)
     public ModelAndView list() throws IOException {
 
         ModelAndView view = new ModelAndView("grpc/interface/interface_list");
 
-        this.buildCategory(view, nav);
+        this.buildCategory(view, horizontalNav, "grpc-config");
         List<BeanScanner.BeanField> fields = beanScanner.getBeanFields("TblGrpcInterfaceJar", "updateTime");
         view.addObject("fields", fields);
 
@@ -111,7 +111,7 @@ public class SystemGrpcConfigController extends BaseController {
 
         ModelAndView view = new ModelAndView("grpc/interface/interface_edit");
 
-        this.buildCategory(view, nav);
+        this.buildCategory(view, horizontalNav, "grpc-config");
         List<BeanScanner.BeanField> fields = beanScanner.getBeanFields("TblGrpcInterfaceJar", "updateTime");
         view.addObject("fields", fields);
         view.addObject("itemID", itemID);

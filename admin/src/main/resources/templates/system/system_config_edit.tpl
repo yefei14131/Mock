@@ -4,6 +4,7 @@
     <!-- 内容主体区域 -->
 	<div class="content-head">
         <span class="layui-breadcrumb">
+			<a><cite>系统</cite></a>
             <a><cite>全局配置</cite></a>
         </span>
 	</div>

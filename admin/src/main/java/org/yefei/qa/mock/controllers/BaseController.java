@@ -16,9 +16,29 @@ public class BaseController {
     @Autowired
     protected ICategoryService categoryService;
 
-    public void buildCategory(ModelAndView modelAndView, String nav) throws IOException {
-        JSONArray category = this.categoryService.getCategory(nav);
-        modelAndView.addObject("category", category);
+    /**
+     * 导航
+     *
+     * @param modelAndView  model对象
+     * @param horizontalNav 当前水平的key
+     * @throws IOException
+     */
+    public void buildCategory(ModelAndView modelAndView, String horizontalNav) throws IOException {
+        this.buildCategory(modelAndView, horizontalNav, "");
+    }
 
+    /**
+     * 导航
+     *
+     * @param modelAndView  model对象
+     * @param horizontalNav 当前水平的key
+     * @param verticalNav   当前垂直导航的key
+     * @throws IOException
+     */
+    public void buildCategory(ModelAndView modelAndView, String horizontalNav, String verticalNav) throws IOException {
+        JSONArray category = this.categoryService.getCategory(horizontalNav);
+        modelAndView.addObject("category", category);
+        modelAndView.addObject("horizontalNav", horizontalNav);
+        modelAndView.addObject("verticalNav", verticalNav);
     }
 }

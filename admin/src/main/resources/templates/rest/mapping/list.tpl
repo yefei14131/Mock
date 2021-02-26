@@ -17,6 +17,7 @@
         </div>
         <div class="clear"></div>
     </div>
+    <hr>
     <div style="/* padding: 15px; */" id="item-list" lay-even ></div>
 </div>
 
