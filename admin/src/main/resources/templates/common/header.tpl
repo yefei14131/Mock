@@ -110,16 +110,12 @@
 
 
           <#if c['sub'] ?? >
-          <#list c["sub"] as sub>
-          <li class="layui-nav-item layui-nav-itemed">
-              <a class=" <#if verticalNav == sub.code>layui-this</#if>" href='${sub["url"]}'>${sub["title"]}</a>
-          </li>
-      </
-        #list>
-    </
-      #if>
-
-
+            <#list c["sub"] as sub>
+              <li class="layui-nav-item layui-nav-itemed">
+                  <a class=" <#if verticalNav == sub.code>layui-this</#if>" href='${sub["url"]}'>${sub["title"]}</a>
+              </li>
+            </#list>
+          </#if>
       </#list>
 
       <!--
