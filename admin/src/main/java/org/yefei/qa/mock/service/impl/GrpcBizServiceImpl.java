@@ -17,7 +17,7 @@ public class GrpcBizServiceImpl extends GrpcProtocolService {
 
     @PostConstruct
     public void init() {
-//        super.init();
+        super.init();
     }
 
 }
