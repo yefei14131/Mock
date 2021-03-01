@@ -31,6 +31,15 @@ public class VariableManager {
         return innerGetVariableValue(variableName, null, dataPools);
     }
 
+
+    /**
+     * 获取变量的值
+     *
+     * @param variableName   变量名
+     * @param cachedDataPool 缓存map，遇到变量值，优先从这个缓存里取。如果是从外部变量池里获取的，会更新到这个缓存里。减少变量的查找次数
+     * @param dataPools      变量池数组
+     * @return
+     */
     private static String innerGetVariableValue(String variableName, HashMap<String, String> cachedDataPool, HashMap... dataPools) {
         if (cachedDataPool == null) {
             cachedDataPool = new HashMap<>();
@@ -50,8 +59,19 @@ public class VariableManager {
     }
 
 
-    //TODO 参考 spring PropertySource ?
-    private static String innerReplaceContent(String content, HashMap<String, String> cachedVariable, HashMap... dataPools) {
+    /**
+     * 递归替换文本，文本里可能包含变量，本方法会从变量池里取出变量并替换掉
+     * 1、没有变量的情况，原样返回。输入  this is an apple.  输出 this is an apple.
+     * 2、有变量的时候，变量池里有对应的变量，就会替换变量并返回。 输入 this is an ${fruit}. 输出 this is an apple.
+     * 3、有变量的时候，变量池里有对应的变量，变量会被替换成空字符串并返回。 输入 this is an ${fruit}. 输出 this is an .
+     * 4、支持嵌套变量，变量池里存在的变量 user=yefei， yefei_fruit=apple。 输入 this is an ${${user}_fruit}. 输出 this is an apple.
+     *
+     * @param content        需要替换的原文本
+     * @param cachedVariable 缓存map，遇到变量值，优先从这个缓存里取。如果是从外部变量池里获取的，会更新到这个缓存里。减少变量的查找次数
+     * @param dataPools      变量池数组
+     * @return
+     */
+    private static String innerDeepReplaceContent(String content, HashMap<String, String> cachedVariable, HashMap... dataPools) {
         if (cachedVariable == null) {
             cachedVariable = new HashMap<>();
         }
@@ -79,7 +99,7 @@ public class VariableManager {
                         contentCopy = replace(contentCopy, variableName, variableValue);
                     } else {
                         // 嵌套变量
-                        String replacedVariableName = innerReplaceContent(variableName, cachedVariable, dataPools);
+                        String replacedVariableName = innerDeepReplaceContent(variableName, cachedVariable, dataPools);
                         String variableValue = innerGetVariableValue(replacedVariableName, cachedVariable, dataPools);
 
                         cachedVariable.put(variableName, variableValue);
@@ -102,9 +122,15 @@ public class VariableManager {
         return input.replace(varReg, variableValue);
     }
 
+    /**
+     *  替换文本，文本里可能包含变量，本方法会从变量池里取出变量并替换掉
+     * @param content   需要替换的文本
+     * @param dataPools 变量池
+     * @return 替换后的文本
+     */
     public static String replaceContent(String content, HashMap... dataPools) {
         HashMap<String, String> cachedVariable = new HashMap<>();
-        return innerReplaceContent(content, cachedVariable, dataPools);
+        return innerDeepReplaceContent(content, cachedVariable, dataPools);
     }
 
 

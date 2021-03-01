@@ -44,12 +44,21 @@ public class HitCondition {
         // 获取变量的值
         String requestValue = VariableManager.getVariableValue(realVariableName, dataPools);
 
-        return isHit(requestValue);
+        // 生成真实的变量值。需要比较的变量值是一个变量的情况
+        String realVariableValue = VariableManager.replaceContent(rules.getVariableValue(), dataPools);
+
+        return isHit(requestValue, realVariableValue);
     }
 
-    private boolean isHit(String requestValue){
+    /**
+     * 是否命中记录
+     *
+     * @param requestValue 根据变量名获得的值
+     * @param recordValue  根据需要比对的值或者的值（支持变量）
+     * @return
+     */
+    private boolean isHit(String requestValue, String recordValue) {
         String compareWay = rules.getCompareWay();
-        String recordValue = rules.getVariableValue();
 
         if (CompareWayEnum.EQUALS.getCode().equals(compareWay)) {
             //字符串相等
@@ -113,8 +122,9 @@ public class HitCondition {
     }
 
 
-
-    // 组合条件， 相当于 ( cond1 && cond2  )
+    /**
+     *  组合条件， 相当于 ( cond1 && cond2  )
+     */
     private boolean isMultMatch(HashMap... dataPools) {
         Boolean flag = null;
         for(int i = 0; i < subConditions.size(); i++){
