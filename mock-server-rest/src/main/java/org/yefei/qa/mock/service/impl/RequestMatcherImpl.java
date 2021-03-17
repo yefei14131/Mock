@@ -1,11 +1,13 @@
 package org.yefei.qa.mock.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.yefei.qa.mock.cache.GlobalDataPool;
 import org.yefei.qa.mock.cache.MappingRulesDetailCache;
 import org.yefei.qa.mock.cache.RestRequestMappingCache;
+import org.yefei.qa.mock.debugger.SystemDebugger;
 import org.yefei.qa.mock.model.bean.HitCondition;
 import org.yefei.qa.mock.model.bean.RecordedRequest;
 import org.yefei.qa.mock.model.gen.pojo.TblMappingRulesDetail;
@@ -33,6 +35,9 @@ public class RequestMatcherImpl  implements IRequestMacther {
 
     @Autowired
     private GlobalDataPool globalDataPool;
+
+    @Autowired
+    private SystemDebugger systemDebugger;
 
     private HitCondition buildHitCondition(Integer requestID){
         List<TblMappingRulesDetail> tblMappingRulesDetails = mappingRulesDetailCache.queryRestMappingRulesDetailsByRequestID(requestID);
@@ -64,8 +69,15 @@ public class RequestMatcherImpl  implements IRequestMacther {
     @Override
     public RecordedRequest matchRecordedRequest(List<RecordedRequest> recordedRequests, HashMap userDefined, HashMap params, HashMap<String, String> headers, HashMap<String, String> cookies) {
         for (RecordedRequest recordedRequest: recordedRequests){
-            if (recordedRequest.isMatch(userDefined, params, headers, cookies, globalDataPool.getAll())) {
-                return recordedRequest;
+            try {
+                if (recordedRequest.isMatch(userDefined, params, headers, cookies, globalDataPool.getAll())) {
+                    return recordedRequest;
+                }
+            } catch (Exception e) {
+                systemDebugger.addSystemLog(
+                        "执行匹配规则出错，requestId: " + recordedRequest.getTblRestRequestMapping().getRequestID(),
+                        ExceptionUtils.getStackTrace(e));
+                throw e;
             }
         }
 
