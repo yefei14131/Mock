@@ -1,17 +1,7 @@
 /*
  Navicat MySQL Data Transfer
 
- Source Server         : dohko.mysql.001.master.hualala.com
- Source Server Type    : MySQL
- Source Server Version : 50723
- Source Host           : dohko.mysql.001.master.hualala.com
- Source Database       : db_mock_server
-
- Target Server Type    : MySQL
- Target Server Version : 50723
- File Encoding         : utf-8
-
- Date: 06/24/2020 20:49:04 PM
+ Date: 04/02/2021 18:02:53 PM
 */
 
 SET NAMES utf8;
@@ -34,7 +24,7 @@ CREATE TABLE `tbl_agent_instance` (
   `updateTime` datetime DEFAULT NULL COMMENT '最后更新时间',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `serviceName` (`serviceName`,`agentName`,`ip`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=208 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=1722 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 --  Table structure for `tbl_grpc_interface_jar`
@@ -51,7 +41,7 @@ CREATE TABLE `tbl_grpc_interface_jar` (
   `isActive` bit(1) DEFAULT NULL,
   PRIMARY KEY (`itemID`),
   UNIQUE KEY `groupID` (`groupID`,`artifactID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `tbl_grpc_request_group`
@@ -64,7 +54,7 @@ CREATE TABLE `tbl_grpc_request_group` (
   `isActive` bit(1) NOT NULL,
   `updateTime` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`groupID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `tbl_grpc_request_mapping`
@@ -82,7 +72,7 @@ CREATE TABLE `tbl_grpc_request_mapping` (
   `isActive` bit(1) DEFAULT NULL,
   `updateTime` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`requestID`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=175 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `tbl_grpc_request_script`
@@ -99,7 +89,21 @@ CREATE TABLE `tbl_grpc_request_script` (
   `sortIndex` int(11) NOT NULL DEFAULT '99',
   `updateTime` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`scriptID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Table structure for `tbl_mapping_global_var`
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_mapping_global_var`;
+CREATE TABLE `tbl_mapping_global_var` (
+  `globalVarID` int(11) NOT NULL AUTO_INCREMENT,
+  `requestID` int(11) NOT NULL,
+  `protocol` varchar(20) NOT NULL,
+  `varName` varchar(255) NOT NULL,
+  `varValue` varchar(255) NOT NULL,
+  `updateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`globalVarID`)
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 --  Table structure for `tbl_mapping_job`
@@ -115,7 +119,7 @@ CREATE TABLE `tbl_mapping_job` (
   `isActive` bit(1) NOT NULL,
   `updateTime` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`jobID`)
-) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=409 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 --  Table structure for `tbl_mapping_rules_detail`
@@ -134,7 +138,7 @@ CREATE TABLE `tbl_mapping_rules_detail` (
   `operator` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '&&' COMMENT '逻辑运算符:  &&   ||',
   `updateTime` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`rulesDetailID`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=506 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 --  Table structure for `tbl_mapping_task`
@@ -149,7 +153,7 @@ CREATE TABLE `tbl_mapping_task` (
   `isActive` bit(1) NOT NULL,
   `updateTime` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`taskID`)
-) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=394 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 --  Table structure for `tbl_request_event`
@@ -163,7 +167,7 @@ CREATE TABLE `tbl_request_event` (
   `updateTime` datetime(3) DEFAULT NULL,
   PRIMARY KEY (`requestEventID`),
   KEY `traceID` (`traceID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=207231 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=1215640 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 --  Table structure for `tbl_request_log`
@@ -178,7 +182,7 @@ CREATE TABLE `tbl_request_log` (
   `responseTime` datetime(3) DEFAULT NULL,
   `updateTime` datetime(3) DEFAULT NULL,
   PRIMARY KEY (`requestID`)
-) ENGINE=InnoDB AUTO_INCREMENT=19597 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=157241 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 --  Table structure for `tbl_rest_request_group`
@@ -197,7 +201,7 @@ CREATE TABLE `tbl_rest_request_group` (
   `updateTime` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`groupID`),
   UNIQUE KEY `groupCode` (`groupCode`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 --  Table structure for `tbl_rest_request_mapping`
@@ -210,6 +214,7 @@ CREATE TABLE `tbl_rest_request_mapping` (
   `path` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `memo` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '备注',
   `responseBody` mediumtext CHARACTER SET utf8 NOT NULL,
+  `responseHeader` varchar(1000) CHARACTER SET utf8 NOT NULL DEFAULT '{}' COMMENT '响应header， json格式',
   `responseType` varchar(255) CHARACTER SET utf8 NOT NULL COMMENT '返回的数据类型：json  html  xml',
   `responseDelay` bigint(20) NOT NULL DEFAULT '0',
   `sortIndex` int(11) NOT NULL DEFAULT '99',
@@ -217,7 +222,7 @@ CREATE TABLE `tbl_rest_request_mapping` (
   `updateTime` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`requestID`),
   KEY `modulesName_path` (`groupCode`,`path`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=188 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=289 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 --  Table structure for `tbl_rest_request_script`
@@ -235,7 +240,7 @@ CREATE TABLE `tbl_rest_request_script` (
   `updateTime` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`scriptID`),
   KEY `modulesName_path` (`groupCode`,`path`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 --  Table structure for `tbl_rules_compare_method`
