@@ -1,6 +1,8 @@
 package org.yefei.qa.mock.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,26 +57,39 @@ public class ResponseWriterImpl implements IResponseWriter{
                         }
                     }
 
-                    writeContent(response, recordedRequestMapping.getResponseBody(), recordedRequestMapping, userDefined, params);
-                    log.info("request uri: {}, response:{} ", recordedRequestMapping.getPath(), recordedRequestMapping.getResponseBody());
+                    writeContent(response, recordedRequestMapping, userDefined, params);
                 }
             }
         }
 
     }
 
-    private void writeContent(HttpServletResponse response, String content, TblRestRequestMapping recordedRequestMapping, HashMap userDefined, HashMap params) throws IOException {
-        systemDebugger.addSystemLog("准备输出响应结果", content);
+    private void writeContent(HttpServletResponse response, TblRestRequestMapping recordedRequestMapping, HashMap userDefined, HashMap params) throws IOException {
+        systemDebugger.addSystemLog("准备输出响应结果 header:", recordedRequestMapping.getResponseHeader());
+        systemDebugger.addSystemLog("准备输出响应结果 body:", recordedRequestMapping.getResponseBody());
+
         HashMap<String, Object> preDefine = globalDataPool.getAll();
         systemDebugger.addSystemLog("预定义变量", preDefine);
 
-        String outputContent = VariableManager.replaceContent(content, userDefined, params, preDefine);
+        String outputHeader = VariableManager.replaceContent(recordedRequestMapping.getResponseHeader(), userDefined, params, preDefine);
+        systemDebugger.addSystemLog("最终输出响应结果 header:", outputHeader);
+        writeHeader(response, outputHeader);
+
+        String outputContent = VariableManager.replaceContent(recordedRequestMapping.getResponseBody(), userDefined, params, preDefine);
         outputContent = restPluginExecutor.buildFinalResponseContent(recordedRequestMapping.getGroupCode(), recordedRequestMapping.getPath(), params, outputContent);
-        log.info("response:{} ", outputContent);
-        systemDebugger.addSystemLog("最终输出响应结果", outputContent);
+        systemDebugger.addSystemLog("最终输出响应结果 body:", outputContent);
         response.getWriter().write(outputContent);
         response.flushBuffer();
+    }
 
+
+    private void writeHeader(HttpServletResponse response, String headerJson) {
+        if (StringUtils.isBlank(headerJson) || "{}".equals(headerJson.trim())) {
+            return;
+        }
+
+        HashMap<String, String> headers = JSONObject.parseObject(headerJson, HashMap.class);
+        headers.entrySet().forEach(header -> response.addHeader(header.getKey(), header.getValue()));
     }
 
 }

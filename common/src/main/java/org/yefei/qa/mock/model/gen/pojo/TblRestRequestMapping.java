@@ -13,6 +13,8 @@ public class TblRestRequestMapping {
 
     private String memo;
 
+    private String responseHeader;
+
     private String responseType;
 
     private Long responseDelay;
@@ -63,6 +65,14 @@ public class TblRestRequestMapping {
 
     public void setMemo(String memo) {
         this.memo = memo == null ? null : memo.trim();
+    }
+
+    public String getResponseHeader() {
+        return responseHeader;
+    }
+
+    public void setResponseHeader(String responseHeader) {
+        this.responseHeader = responseHeader == null ? null : responseHeader.trim();
     }
 
     public String getResponseType() {

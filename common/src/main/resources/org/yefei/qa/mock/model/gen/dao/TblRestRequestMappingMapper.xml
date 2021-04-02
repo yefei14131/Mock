@@ -7,6 +7,7 @@
     <result column="groupCode" jdbcType="VARCHAR" property="groupCode" />
     <result column="path" jdbcType="VARCHAR" property="path" />
     <result column="memo" jdbcType="VARCHAR" property="memo" />
+      <result column="responseHeader" jdbcType="VARCHAR" property="responseHeader"/>
     <result column="responseType" jdbcType="VARCHAR" property="responseType" />
     <result column="responseDelay" jdbcType="BIGINT" property="responseDelay" />
     <result column="sortIndex" jdbcType="INTEGER" property="sortIndex" />
@@ -75,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    requestID, groupID, groupCode, path, memo, responseType, responseDelay, sortIndex, 
-    isActive, updateTime
+      requestID, groupID, groupCode, path, memo, responseHeader, responseType, responseDelay,
+      sortIndex, isActive, updateTime
   </sql>
   <sql id="Blob_Column_List">
     responseBody
@@ -133,14 +134,14 @@
     <selectKey keyProperty="requestID" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into tbl_rest_request_mapping (groupID, groupCode, path, 
-      memo, responseType, responseDelay, 
-      sortIndex, isActive, updateTime, 
-      responseBody)
-    values (#{groupID,jdbcType=INTEGER}, #{groupCode,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
-      #{memo,jdbcType=VARCHAR}, #{responseType,jdbcType=VARCHAR}, #{responseDelay,jdbcType=BIGINT}, 
-      #{sortIndex,jdbcType=INTEGER}, #{isActive,jdbcType=BIT}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{responseBody,jdbcType=LONGVARCHAR})
+      insert into tbl_rest_request_mapping (groupID, groupCode, path,
+      memo, responseHeader, responseType,
+      responseDelay, sortIndex, isActive,
+      updateTime, responseBody)
+      values (#{groupID,jdbcType=INTEGER}, #{groupCode,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR},
+      #{memo,jdbcType=VARCHAR}, #{responseHeader,jdbcType=VARCHAR}, #{responseType,jdbcType=VARCHAR},
+      #{responseDelay,jdbcType=BIGINT}, #{sortIndex,jdbcType=INTEGER}, #{isActive,jdbcType=BIT},
+      #{updateTime,jdbcType=TIMESTAMP}, #{responseBody,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.yefei.qa.mock.model.gen.pojo.TblRestRequestMapping">
     <selectKey keyProperty="requestID" order="AFTER" resultType="java.lang.Integer">
@@ -160,6 +161,9 @@
       <if test="memo != null">
         memo,
       </if>
+        <if test="responseHeader != null">
+            responseHeader,
+        </if>
       <if test="responseType != null">
         responseType,
       </if>
@@ -192,6 +196,9 @@
       <if test="memo != null">
         #{memo,jdbcType=VARCHAR},
       </if>
+        <if test="responseHeader != null">
+            #{responseHeader,jdbcType=VARCHAR},
+        </if>
       <if test="responseType != null">
         #{responseType,jdbcType=VARCHAR},
       </if>
@@ -236,6 +243,9 @@
       <if test="record.memo != null">
         memo = #{record.memo,jdbcType=VARCHAR},
       </if>
+        <if test="record.responseHeader != null">
+            responseHeader = #{record.responseHeader,jdbcType=VARCHAR},
+        </if>
       <if test="record.responseType != null">
         responseType = #{record.responseType,jdbcType=VARCHAR},
       </if>
@@ -266,6 +276,7 @@
       groupCode = #{record.groupCode,jdbcType=VARCHAR},
       path = #{record.path,jdbcType=VARCHAR},
       memo = #{record.memo,jdbcType=VARCHAR},
+      responseHeader = #{record.responseHeader,jdbcType=VARCHAR},
       responseType = #{record.responseType,jdbcType=VARCHAR},
       responseDelay = #{record.responseDelay,jdbcType=BIGINT},
       sortIndex = #{record.sortIndex,jdbcType=INTEGER},
@@ -283,6 +294,7 @@
       groupCode = #{record.groupCode,jdbcType=VARCHAR},
       path = #{record.path,jdbcType=VARCHAR},
       memo = #{record.memo,jdbcType=VARCHAR},
+      responseHeader = #{record.responseHeader,jdbcType=VARCHAR},
       responseType = #{record.responseType,jdbcType=VARCHAR},
       responseDelay = #{record.responseDelay,jdbcType=BIGINT},
       sortIndex = #{record.sortIndex,jdbcType=INTEGER},
@@ -307,6 +319,9 @@
       <if test="memo != null">
         memo = #{memo,jdbcType=VARCHAR},
       </if>
+        <if test="responseHeader != null">
+            responseHeader = #{responseHeader,jdbcType=VARCHAR},
+        </if>
       <if test="responseType != null">
         responseType = #{responseType,jdbcType=VARCHAR},
       </if>
@@ -334,6 +349,7 @@
       groupCode = #{groupCode,jdbcType=VARCHAR},
       path = #{path,jdbcType=VARCHAR},
       memo = #{memo,jdbcType=VARCHAR},
+      responseHeader = #{responseHeader,jdbcType=VARCHAR},
       responseType = #{responseType,jdbcType=VARCHAR},
       responseDelay = #{responseDelay,jdbcType=BIGINT},
       sortIndex = #{sortIndex,jdbcType=INTEGER},
@@ -348,6 +364,7 @@
       groupCode = #{groupCode,jdbcType=VARCHAR},
       path = #{path,jdbcType=VARCHAR},
       memo = #{memo,jdbcType=VARCHAR},
+      responseHeader = #{responseHeader,jdbcType=VARCHAR},
       responseType = #{responseType,jdbcType=VARCHAR},
       responseDelay = #{responseDelay,jdbcType=BIGINT},
       sortIndex = #{sortIndex,jdbcType=INTEGER},

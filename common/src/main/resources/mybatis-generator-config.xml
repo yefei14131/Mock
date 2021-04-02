@@ -188,15 +188,15 @@
         <!--<generatedKey column="ID" sqlStatement="MySql" identity="true"/>-->
         <!--</table>-->
 
-        <table tableName="tbl_mapping_global_var"
-               enableCountByExample="true"
-               enableDeleteByExample="true"
-               enableSelectByExample="true"
-               enableUpdateByExample="true"
-               enableUpdateByPrimaryKey="true">
-            <property name="useActualColumnNames" value="true"/>
-            <generatedKey column="globalVarID" sqlStatement="MySql" identity="true"/>
-        </table>
+        <!--<table tableName="tbl_mapping_global_var"-->
+        <!--enableCountByExample="true"-->
+        <!--enableDeleteByExample="true"-->
+        <!--enableSelectByExample="true"-->
+        <!--enableUpdateByExample="true"-->
+        <!--enableUpdateByPrimaryKey="true">-->
+        <!--<property name="useActualColumnNames" value="true"/>-->
+        <!--<generatedKey column="globalVarID" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
 
     </context>
 </generatorConfiguration>

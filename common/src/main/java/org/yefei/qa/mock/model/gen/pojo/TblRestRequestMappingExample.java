@@ -435,6 +435,76 @@ public class TblRestRequestMappingExample {
             return (Criteria) this;
         }
 
+        public Criteria andResponseHeaderIsNull() {
+            addCriterion("responseHeader is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponseHeaderIsNotNull() {
+            addCriterion("responseHeader is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponseHeaderEqualTo(String value) {
+            addCriterion("responseHeader =", value, "responseHeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponseHeaderNotEqualTo(String value) {
+            addCriterion("responseHeader <>", value, "responseHeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponseHeaderGreaterThan(String value) {
+            addCriterion("responseHeader >", value, "responseHeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponseHeaderGreaterThanOrEqualTo(String value) {
+            addCriterion("responseHeader >=", value, "responseHeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponseHeaderLessThan(String value) {
+            addCriterion("responseHeader <", value, "responseHeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponseHeaderLessThanOrEqualTo(String value) {
+            addCriterion("responseHeader <=", value, "responseHeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponseHeaderLike(String value) {
+            addCriterion("responseHeader like", value, "responseHeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponseHeaderNotLike(String value) {
+            addCriterion("responseHeader not like", value, "responseHeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponseHeaderIn(List<String> values) {
+            addCriterion("responseHeader in", values, "responseHeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponseHeaderNotIn(List<String> values) {
+            addCriterion("responseHeader not in", values, "responseHeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponseHeaderBetween(String value1, String value2) {
+            addCriterion("responseHeader between", value1, value2, "responseHeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponseHeaderNotBetween(String value1, String value2) {
+            addCriterion("responseHeader not between", value1, value2, "responseHeader");
+            return (Criteria) this;
+        }
+
         public Criteria andResponseTypeIsNull() {
             addCriterion("responseType is null");
             return (Criteria) this;
