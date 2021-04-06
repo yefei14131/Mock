@@ -1,17 +1,17 @@
-package org.apache.skywalking.apm.mock.plugin.httpClient.v4.core;
+package org.apache.skywalking.apm.mock.agent.core.mock.rest;
 
 
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import okhttp3.*;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.Header;
 import org.apache.skywalking.apm.mock.agent.core.logging.api.ILog;
 import org.apache.skywalking.apm.mock.agent.core.logging.api.LogManager;
 import org.apache.skywalking.apm.mock.agent.core.mock.MockManager;
-import org.apache.skywalking.apm.mock.plugin.httpClient.v4.core.bean.HttpRequestContent;
-import org.apache.skywalking.apm.mock.plugin.httpClient.v4.core.bean.MockResponse;
-import org.apache.skywalking.apm.mock.plugin.httpClient.v4.core.bean.OKHttpClientInstance;
+import org.apache.skywalking.apm.mock.agent.core.mock.rest.bean.MockResponse;
+import org.apache.skywalking.apm.mock.agent.core.mock.rest.bean.OKHttpClientInstance;
+import org.apache.skywalking.apm.mock.agent.core.mock.rest.bean.RequestContent;
+import org.apache.skywalking.apm.mock.agent.core.mock.rest.bean.RequestHeader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,23 +27,26 @@ public class MockServerRestStub {
 
     private static final ILog logger = LogManager.getLogger(MockServerRestStub.class);
 
-    public static MockResponse getMockResponse(String host, String uri, Header[] headers, HttpRequestContent httpRequestContent) {
+    /**
+     * 调用mock服务获取mock响应结果，发生请求异常、mock规则未匹配会返回null
+     *
+     * @param host           请求原本的host
+     * @param uri            请求原本的uri
+     * @param headers        请求原本的header，map格式
+     * @param requestContent 请求体
+     * @return
+     */
+    public static MockResponse getMockResponse(String host, String uri, RequestHeader headers, RequestContent requestContent) {
         // 准备header
         Headers okHeaders = null;
-        if (headers != null && headers.length > 0) {
-            HashMap<String, String> headerMap = new HashMap<>();
-            for (Header header : headers) {
-                headerMap.put(header.getName(), header.getValue());
-            }
-            okHeaders = Headers.of(headerMap);
+        if (headers != null && headers.size() > 0) {
+            okHeaders = Headers.of(headers);
         }
-
-        return getMockResponse(MockManager.buildMockUrl(host, uri), okHeaders, httpRequestContent);
-
+        return getMockResponse(MockManager.buildMockUrl(host, uri), okHeaders, requestContent);
     }
 
-    private static void setBody(Request.Builder requestBuilder, HttpRequestContent httpRequestContent) {
-        String content = httpRequestContent.getContent();
+    private static void setRequestBody(Request.Builder requestBuilder, RequestContent requestContent) {
+        String content = requestContent.getContent();
         if (StringUtils.isNotEmpty(content)) {
             // form 表单
             if (content.startsWith("[")) {
@@ -61,13 +64,13 @@ public class MockServerRestStub {
                 requestBuilder.header("Content-Type", "application/json");
             } else {
                 requestBuilder.post(RequestBody.create(content.getBytes()));
-                requestBuilder.header("Content-Type", httpRequestContent.getContentType());
+                requestBuilder.header("Content-Type", requestContent.getContentType());
                 return;
             }
         }
     }
 
-    private static MockResponse getMockResponse(String url, Headers headers, HttpRequestContent httpRequestContent) {
+    private static MockResponse getMockResponse(String url, Headers headers, RequestContent requestContent) {
         logger.debug("准备调用mock服务: {}", url);
         Request.Builder requestBuilder = new Request.Builder().url(url);
 
@@ -75,7 +78,7 @@ public class MockServerRestStub {
             requestBuilder.headers(headers);
         }
 
-        setBody(requestBuilder, httpRequestContent);
+        setRequestBody(requestBuilder, requestContent);
 
         Request request = requestBuilder.build();
 
@@ -112,6 +115,13 @@ public class MockServerRestStub {
         return null;
     }
 
+    /**
+     * mock server 是否响应正确的业务数据
+     * mock 响应异常会在header里添加mockserver_response_error
+     *
+     * @param response
+     * @return
+     */
     private static boolean mockRespSuccess(Response response) {
         return response.header("mockserver_response_error") == null;
     }

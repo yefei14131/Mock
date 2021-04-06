@@ -5,6 +5,7 @@ import org.apache.skywalking.apm.mock.agent.core.boot.DefaultNamedThreadFactory;
 import org.apache.skywalking.apm.mock.agent.core.conf.Config;
 import org.apache.skywalking.apm.mock.agent.core.logging.api.ILog;
 import org.apache.skywalking.apm.mock.agent.core.logging.api.LogManager;
+import org.apache.skywalking.apm.mock.agent.core.mock.websocket.client.MockWebSocketClient;
 import org.apache.skywalking.apm.mock.util.RunnableWithExceptionProtection;
 
 import java.net.Inet4Address;

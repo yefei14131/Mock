@@ -1,4 +1,4 @@
-package org.apache.skywalking.apm.mock.plugin.httpClient.v4.core.bean;
+package org.apache.skywalking.apm.mock.agent.core.mock.rest.bean;
 
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;

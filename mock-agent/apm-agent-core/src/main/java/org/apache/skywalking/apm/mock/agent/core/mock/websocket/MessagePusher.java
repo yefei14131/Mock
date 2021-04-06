@@ -1,6 +1,7 @@
 package org.apache.skywalking.apm.mock.agent.core.mock.websocket;
 
 import org.apache.commons.lang3.SerializationUtils;
+import org.apache.skywalking.apm.mock.agent.core.mock.websocket.client.MockWebSocketClient;
 import org.yefei.qa.mock.network.websocket.message.AbstractMessageUpData;
 import org.yefei.qa.mock.network.websocket.message.MessageUp;
 import org.yefei.qa.mock.network.websocket.message.MessageUpType;

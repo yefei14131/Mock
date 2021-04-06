@@ -28,17 +28,12 @@ import java.util.concurrent.TimeUnit;
 public class MockServerAdminService implements BootService {
 
     private static final ILog logger = LogManager.getLogger(MockServerAdminService.class);
-    private String mappingQueryAddr;
     private HashMap<String, List<RestMappingAgentSimple>> restMockingData = new HashMap<>();
     private HashSet<String> grpcMockingData = new HashSet<>();
-    private OkHttpClient okHttpClient;
-    private final int SUCCESS_CODE = 0;
     private boolean useAble = true;
 
     @Override
     public void prepare() throws Throwable {
-        mappingQueryAddr = Config.Agent.MOCKSERVER_ADMIN_ADDR + "/api/mapping/list";
-        okHttpClient = initOkHttp();
     }
 
     @Override
@@ -62,54 +57,6 @@ public class MockServerAdminService implements BootService {
                 .build();
     }
 
-
-    private void updateMockData() {
-        logger.info("updateMockData, {}", mappingQueryAddr);
-        Call call = okHttpClient.newCall(new Request.Builder().url(mappingQueryAddr).build());
-        Response response = null;
-        byte[] bytes = null;
-        try {
-            response = call.execute();
-            bytes = response.body().bytes();
-            AgentMapingResponse agentMapingResponse = new Gson().fromJson(new String(bytes), AgentMapingResponse.class);
-            logger.debug(new String(bytes));
-            if (SUCCESS_CODE == agentMapingResponse.getCode()) {
-
-                HashMap<String, List<RestMappingAgentSimple>> restData = new HashMap<>();
-                agentMapingResponse.getData().getRest().forEach(restMapping -> {
-                    String key = genRestKey(restMapping.getHost(), restMapping.getUri());
-                    if (restData.containsKey(key)) {
-                        restData.get(key).add(restMapping);
-                    } else {
-                        restData.put(key, Collections.singletonList(restMapping));
-                    }
-                });
-
-                restMockingData = restData;
-
-                HashSet<String> grpcData = new HashSet<>();
-                agentMapingResponse.getData().getGrpc().forEach(grpcMappingAgentSimple -> {
-                    grpcData.add(getFullMethod(grpcMappingAgentSimple));
-                });
-                grpcMockingData = grpcData;
-
-            } else {
-                logger.info("mock query mapping, response code error. {}", new String(bytes));
-            }
-
-        } catch (Exception e) {
-            logger.error("mock query mapping error", e);
-        } finally {
-            try {
-                if (response != null) {
-                    response.close();
-                }
-            } catch (Exception e) {
-
-            }
-        }
-
-    }
 
     public boolean isMocking() {
         return useAble;

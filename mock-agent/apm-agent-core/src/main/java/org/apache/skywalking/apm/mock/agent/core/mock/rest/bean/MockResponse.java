@@ -1,4 +1,4 @@
-package org.apache.skywalking.apm.mock.plugin.httpClient.v4.core.bean;
+package org.apache.skywalking.apm.mock.agent.core.mock.rest.bean;
 
 import lombok.Data;
 import okhttp3.Headers;

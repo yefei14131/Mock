@@ -1,7 +1,9 @@
-package org.apache.skywalking.apm.mock.agent.core.mock.websocket;
+package org.apache.skywalking.apm.mock.agent.core.mock.websocket.client;
 
 import org.apache.skywalking.apm.mock.agent.core.logging.api.ILog;
 import org.apache.skywalking.apm.mock.agent.core.logging.api.LogManager;
+import org.apache.skywalking.apm.mock.agent.core.mock.websocket.MessageReceiver;
+import org.apache.skywalking.apm.mock.agent.core.mock.websocket.MockServerAdminWebSocketClient;
 import org.apache.skywalking.apm.mock.websocket.client.WebSocketClient;
 import org.apache.skywalking.apm.mock.websocket.handshake.ServerHandshake;
 
@@ -32,7 +34,7 @@ public class MockWebSocketClient extends WebSocketClient {
 
     @Override
     public void onMessage(String message) {
-        logger.info("接收到websocket消息：STRING");
+        logger.info("接收到websocket消息：STRING, 暂不处理");
 
     }
 
