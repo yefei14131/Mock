@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
  * @author yefei
  * @date: 2020/4/23
  */
-public enum OKHttpClientInstance {
+public enum OkHttpClientInstance {
     INSTANCE {
         @Override
         public OkHttpClient instance() {

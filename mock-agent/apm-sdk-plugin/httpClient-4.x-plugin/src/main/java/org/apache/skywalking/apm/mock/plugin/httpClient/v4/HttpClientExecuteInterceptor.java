@@ -30,7 +30,7 @@ import org.apache.skywalking.apm.mock.agent.core.plugin.interceptor.enhance.Enha
 import org.apache.skywalking.apm.mock.agent.core.plugin.interceptor.enhance.InstanceMethodsAroundInterceptor;
 import org.apache.skywalking.apm.mock.agent.core.plugin.interceptor.enhance.MethodInterceptResult;
 import org.apache.skywalking.apm.mock.agent.core.util.HualalaHttpUtils;
-import org.apache.skywalking.apm.mock.plugin.httpClient.v4.core.bean.HttpAdaptor;
+import org.apache.skywalking.apm.mock.plugin.httpClient.v4.mock.HttpAdaptor;
 
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -71,7 +71,7 @@ public class HttpClientExecuteInterceptor implements InstanceMethodsAroundInterc
             if (mockResponse != null) {
                 CloseableHttpResponse resp = HttpAdaptor.buildResponse(mockResponse);
                 result.defineReturnValue(resp);
-                logger.debug("mock响应数据, uri: uri, body: {}", uri, new String(mockResponse.getBody()));
+                logger.debug("mock响应数据, uri: {}, header: {} , body: {}", uri, mockResponse.getHeaders().toString(), new String(mockResponse.getBody()));
             }
 
         } catch (Exception e) {
@@ -108,7 +108,8 @@ public class HttpClientExecuteInterceptor implements InstanceMethodsAroundInterc
             URL url = new URL(uri);
 
             String requestPath = url.getPath();
-            return (requestPath != null && requestPath.length() > 0 ? requestPath : "/") + "?" + url.getQuery();
+            requestPath = requestPath != null && requestPath.length() > 0 ? requestPath : "/";
+            return url.getQuery() == null ? requestPath : requestPath + "?" + url.getQuery();
         } else {
             return uri;
         }
@@ -118,25 +119,4 @@ public class HttpClientExecuteInterceptor implements InstanceMethodsAroundInterc
         String lowerUrl = uri.toLowerCase();
         return lowerUrl.startsWith("http") || lowerUrl.startsWith("https");
     }
-
-    private String buildSpanValue(HttpHost httpHost, String uri) {
-        if (isUrl(uri)) {
-            return uri;
-        } else {
-            StringBuilder buff = new StringBuilder();
-            buff.append(httpHost.getSchemeName().toLowerCase());
-            buff.append("://");
-            buff.append(httpHost.getHostName());
-            buff.append(":");
-            buff.append(port(httpHost));
-            buff.append(uri);
-            return buff.toString();
-        }
-    }
-
-    private int port(HttpHost httpHost) {
-        int port = httpHost.getPort();
-        return port > 0 ? port : "https".equals(httpHost.getSchemeName().toLowerCase()) ? 443 : 80;
-    }
-
 }

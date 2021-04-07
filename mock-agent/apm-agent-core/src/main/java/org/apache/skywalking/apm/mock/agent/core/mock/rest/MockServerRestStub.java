@@ -9,7 +9,7 @@ import org.apache.skywalking.apm.mock.agent.core.logging.api.ILog;
 import org.apache.skywalking.apm.mock.agent.core.logging.api.LogManager;
 import org.apache.skywalking.apm.mock.agent.core.mock.MockManager;
 import org.apache.skywalking.apm.mock.agent.core.mock.rest.bean.MockResponse;
-import org.apache.skywalking.apm.mock.agent.core.mock.rest.bean.OKHttpClientInstance;
+import org.apache.skywalking.apm.mock.agent.core.mock.rest.bean.OkHttpClientInstance;
 import org.apache.skywalking.apm.mock.agent.core.mock.rest.bean.RequestContent;
 import org.apache.skywalking.apm.mock.agent.core.mock.rest.bean.RequestHeader;
 
@@ -22,8 +22,9 @@ import java.util.HashMap;
  */
 public class MockServerRestStub {
 
-
-    private static OkHttpClient okHttpClient = OKHttpClientInstance.INSTANCE.instance();
+    private static final String MOCK_AGENT_CLIENT_HEADER = "mock-agent-client";
+    private static final String MOCK_SERVER_RESPONSE_ERROR_HEADER = "mockserver_response_error";
+    private static OkHttpClient okHttpClient = OkHttpClientInstance.INSTANCE.instance();
 
     private static final ILog logger = LogManager.getLogger(MockServerRestStub.class);
 
@@ -34,14 +35,15 @@ public class MockServerRestStub {
      * @param uri            请求原本的uri
      * @param headers        请求原本的header，map格式
      * @param requestContent 请求体
-     * @return
+     * @returnmo
      */
     public static MockResponse getMockResponse(String host, String uri, RequestHeader headers, RequestContent requestContent) {
         // 准备header
-        Headers okHeaders = null;
-        if (headers != null && headers.size() > 0) {
-            okHeaders = Headers.of(headers);
+        if (headers == null) {
+            headers = new RequestHeader();
         }
+        headers.put(MOCK_AGENT_CLIENT_HEADER, "true");
+        Headers okHeaders = Headers.of(headers);
         return getMockResponse(MockManager.buildMockUrl(host, uri), okHeaders, requestContent);
     }
 
@@ -55,15 +57,14 @@ public class MockServerRestStub {
                 list.forEach(item -> {
                     body.putAll(item);
                 });
-
-                requestBuilder.post(RequestBody.create(new Gson().toJson(body).getBytes()));
+                requestBuilder.post(RequestBody.create(MediaType.parse("application/json"), new Gson().toJson(body).getBytes()));
                 requestBuilder.header("Content-Type", "application/json");
             } else if (content.startsWith("{")) {
                 // content-type: json
-                requestBuilder.post(RequestBody.create(content.getBytes()));
+                requestBuilder.post(RequestBody.create(MediaType.parse("application/json"), content.getBytes()));
                 requestBuilder.header("Content-Type", "application/json");
             } else {
-                requestBuilder.post(RequestBody.create(content.getBytes()));
+                requestBuilder.post(RequestBody.create(MediaType.parse(requestContent.getContentType()), content.getBytes()));
                 requestBuilder.header("Content-Type", requestContent.getContentType());
                 return;
             }
@@ -85,7 +86,7 @@ public class MockServerRestStub {
         Call call = okHttpClient.newCall(request);
 
         Response response = null;
-        byte[] bytes = null;
+        byte[] bytes;
         try {
 
             response = call.execute();
@@ -95,10 +96,10 @@ public class MockServerRestStub {
                 logger.debug("mock 服务返回异常：code：{}, body: {}", response.code(), response.body().string());
                 return null;
             }
-            logger.debug("mock服务返回: {}， 请求url: {}", new String(bytes), url);
+            logger.debug("mock服务返回, body: {}， header: {}, 请求url: {}", new String(bytes), response.headers().toString(), url);
             MockResponse mockResponse = new MockResponse();
             mockResponse.setBody(bytes);
-            mockResponse.setHeaders(response.headers());
+            mockResponse.setHeaders(new MockResponse.Headers(response.headers()));
 
             return mockResponse;
         } catch (Exception e) {
@@ -123,7 +124,7 @@ public class MockServerRestStub {
      * @return
      */
     private static boolean mockRespSuccess(Response response) {
-        return response.header("mockserver_response_error") == null;
+        return response.header(MOCK_SERVER_RESPONSE_ERROR_HEADER) == null;
     }
 
 }

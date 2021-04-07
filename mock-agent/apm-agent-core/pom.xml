@@ -50,14 +50,15 @@
         <shade.io.netty.target>${shade.package}.${shade.io.netty.source}</shade.io.netty.target>
         <shade.io.opencensus.source>io.opencensus</shade.io.opencensus.source>
         <shade.io.opencensus.target>${shade.package}.${shade.io.opencensus.source}</shade.io.opencensus.target>
+        <shade.okhttp.source>okhttp3</shade.okhttp.source>
+        <shade.okhttp.target>${shade.package}.mock.${shade.okhttp.source}</shade.okhttp.target>
         <ststem-rules.version>1.18.0</ststem-rules.version>
         <lombok.version>1.18.0</lombok.version>
-        <okhttp.version>4.1.0</okhttp.version>
+        <okhttp.version>3.7.0</okhttp.version>
         <slf4j.version>1.7.25</slf4j.version>
         <commons-lang3.version>3.7</commons-lang3.version>
         <logback-classic.version>1.1.11</logback-classic.version>
         <WebSocket.version>1.3.5</WebSocket.version>
-        <okhttp.version>4.1.0</okhttp.version>
 
     </properties>
 
@@ -78,11 +79,6 @@
             <groupId>org.yefei.qa.mock</groupId>
             <artifactId>apm-third-websocket</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp</artifactId>
-            <version>${okhttp.version}</version>
         </dependency>
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
@@ -229,6 +225,10 @@
                                 <relocation>
                                     <pattern>${shade.io.opencensus.source}</pattern>
                                     <shadedPattern>${shade.io.opencensus.target}</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>${shade.okhttp.source}</pattern>
+                                    <shadedPattern>${shade.okhttp.target}</shadedPattern>
                                 </relocation>
                             </relocations>
                             <filters>

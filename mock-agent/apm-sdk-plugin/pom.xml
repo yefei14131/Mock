@@ -36,13 +36,9 @@
     <modules>
         <module>httpClient-4.x-plugin</module>
         <module>grpc-1.x-plugin</module>
+        <module>okhttp-3.x-plugin</module>
     </modules>
     <dependencies>
-        <!--<dependency>-->
-        <!--<groupId>org.yefei.qa.mock</groupId>-->
-        <!--<artifactId>common-protocol</artifactId>-->
-        <!--<version>${project.version}</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>org.yefei.qa.mock</groupId>
             <artifactId>apm-agent-core</artifactId>

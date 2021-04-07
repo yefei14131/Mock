@@ -1,11 +1,9 @@
-package org.apache.skywalking.apm.mock.plugin.httpClient.v4.core.bean;
+package org.apache.skywalking.apm.mock.plugin.httpClient.v4.mock;
 
-import kotlin.Pair;
 import org.apache.http.*;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.entity.BasicHttpEntity;
 import org.apache.http.entity.InputStreamEntity;
-import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicHttpResponse;
 import org.apache.http.message.BasicStatusLine;
 import org.apache.http.util.EntityUtils;
@@ -18,7 +16,6 @@ import org.apache.skywalking.apm.mock.agent.core.mock.rest.bean.RequestHeader;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.Iterator;
 
 /**
  * @author yefei
@@ -84,12 +81,9 @@ public class HttpAdaptor {
 
         BasicHttpResponse httpResponse = new BasicHttpResponse(statusLine);
         httpResponse.setEntity(httpEntity);
-
-        Iterator<Pair<String, String>> headerIterator = mockResponse.getHeaders().iterator();
-        while (headerIterator.hasNext()) {
-            Pair<String, String> next = headerIterator.next();
-            httpResponse.setHeader(new BasicHeader(next.getFirst(), next.getSecond()));
-        }
+        mockResponse.getHeaders().forEach((header, value) -> {
+            httpResponse.setHeader(header, value.get(0));
+        });
 
         MockHttpResponseProxy mockHttpResponseProxy = new MockHttpResponseProxy(httpResponse);
 

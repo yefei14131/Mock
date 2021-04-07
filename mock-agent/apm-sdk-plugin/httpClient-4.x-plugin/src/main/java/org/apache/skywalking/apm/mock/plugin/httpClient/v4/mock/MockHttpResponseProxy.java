@@ -1,4 +1,4 @@
-package org.apache.skywalking.apm.mock.plugin.httpClient.v4.core.bean;
+package org.apache.skywalking.apm.mock.plugin.httpClient.v4.mock;
 
 import org.apache.http.*;
 import org.apache.http.client.methods.CloseableHttpResponse;

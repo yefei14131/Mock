@@ -35,7 +35,7 @@ public class MessageReceiver {
                     break;
             }
         } catch (Exception e) {
-            logger.error("websocket接收消息异常", e);
+            logger.info("websocket接收消息异常", e);
         }
     }
 }
