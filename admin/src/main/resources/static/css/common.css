@@ -5,3 +5,15 @@
 .clear {
     clear: both;
 }
+
+.rest-mapping-detail .layui-input-block {
+    margin-left: 140px;
+}
+
+.rest-mapping-detail {
+    padding: 15px;
+}
+
+.mapping-url-demon {
+    color: #888;
+}

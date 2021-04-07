@@ -12,6 +12,9 @@
     <hr>
     <form class="layui-form" action="/mock_server/grpc/mapping/save" method="post" id="item-form"
           style="padding: 15px;">
+
+        <blockquote class="layui-elem-quote layui-quote-nm mapping-url-demon"><span>grpc服务地址：</span><span class="url"></span></blockquote>
+
         <input type="hidden" name="requestID" value="0">
 
         <#list fields as field >
@@ -267,6 +270,22 @@
         }
     }
 
+    // 显示本次mock的请求实例
+    function renderMockRequestDemo() {
+        var hostname = "xxx.grpc.mock.com"
+        var port = 6565
+
+        if (!serverInfo || !serverInfo['host']) {
+            console.log("没有配置mock grpc的请求域名, 使用默认域名")
+        } else {
+            hostname = serverInfo['host'];
+            port = serverInfo['port'];
+        }
+        var url = hostname + ":" + port;
+        $(".mapping-url-demon .url").html(url)
+    }
+
+
     $(function () {
 
         layui.use(['layer', 'element', 'form'], function () {
@@ -285,6 +304,7 @@
             //获取mock服务的配置
             ajaxPost("/mock_server/system/server/get.ajax", {protocol: protocol}, function (response) {
                 serverInfo = response.data
+                renderMockRequestDemo();
             })
 
             //获取支持的脚本语言类型

@@ -10,10 +10,11 @@
 		</span>
 	</div>
 	<hr>
-	<form class="layui-form" action="/mock_server/rest/mapping/save" method="post" id="item-form"
-		  style="padding: 15px;">
-	  <input type="hidden" name="requestID" value="0">
+	<form class="layui-form rest-mapping-detail" action="/mock_server/rest/mapping/save" method="post" id="item-form" >
 
+		<blockquote class="layui-elem-quote layui-quote-nm mapping-url-demon"><span>请求url示例：</span><span class="url"></span></blockquote>
+
+		<input type="hidden" name="requestID" value="0">
 	  <#list fields as field >
 		<#if 'groupID' == field.fieldName>
 			<div class="layui-form-item layui-hide">
@@ -175,6 +176,7 @@ var rulesFields = []
 var groupID = '${groupID}';
 var groupCode = '${groupCode}';
 var path = '';
+var tmpPath = '';
 
 var serverInfo;
 
@@ -200,11 +202,53 @@ function saveMapping(callback){
         var newPath =  $("[name=path]:first").val()
         if(newPath != path){
             $(".mapping-scripts .layui-colla-content-item .layui-form").attr("editing", "true")
-            path = newPath
+            path = tmpPath = newPath
             saveScripts();
         }
     })
 }
+
+// 显示本次mock的请求实例
+function renderMockRequestDemo() {
+    var protocol = "http"
+	var hostname = "xxx.rest.mock.com"
+	var port = 8081
+
+	if (!serverInfo || !serverInfo['host']) {
+
+	} else {
+        hostname = serverInfo['host'];
+        port = serverInfo['port'];
+	}
+
+
+	// protocol :// hostname[:port] / path / [;parameters][?query]#fragment
+	if (port === 443) {
+        protocol = "https";
+	}
+
+	var urlArr = [];
+	urlArr.push(protocol);
+	urlArr.push("://");
+	urlArr.push(hostname);
+
+	if (port !== 443 && port !== 80) {
+        urlArr.push(":");
+        urlArr.push(port);
+	}
+	urlArr.push("/");
+	urlArr.push(groupCode);
+    urlArr.push(tmpPath);
+
+	var url = urlArr.join("");
+	$(".mapping-url-demon .url").html(url)
+}
+
+$(document).on("change", "[name=path]", function(){
+    tmpPath = $("[name=path]").val()
+    renderMockRequestDemo();
+})
+
 
 $(function () {
 
@@ -221,26 +265,31 @@ $(function () {
         })
 
         if (requestID > 0){
-            ajaxPost("/mock_server/rest/mapping/get.ajax", {requestID: requestID}, function (response) {
-                for ( var fieldName in response.data){
-                    var fieldValue = response.data[fieldName]
-                    $('[name='+ fieldName +']').val(fieldValue + '')
+			(function queryMapping() {
+				ajaxPost("/mock_server/rest/mapping/get.ajax", {requestID: requestID}, function (response) {
+					for ( var fieldName in response.data){
+						var fieldValue = response.data[fieldName]
+						$('[name='+ fieldName +']').val(fieldValue + '')
 
-                    if (fieldName == 'isActive'){
-                        $('[name='+ fieldName +']').next(".layui-form-select").find("input").val(fieldValue ? "有效" : "无效")
-                    }
+						if (fieldName == 'isActive'){
+							$('[name='+ fieldName +']').next(".layui-form-select").find("input").val(fieldValue ? "有效" : "无效")
+						}
 
-                }
+					}
 
-                groupID = response.data.groupID
-                groupCode = response.data.groupCode
-                path = response.data.path
-            })
+					groupID = response.data.groupID
+					groupCode = response.data.groupCode
+					path = tmpPath = response.data.path
+
+					renderMockRequestDemo()
+				})
+            })();
         }
 
         //获取mock服务的配置
         ajaxPost("/mock_server/system/server/get.ajax", {protocol: protocol}, function (response) {
             serverInfo = response.data
+            renderMockRequestDemo()
         })
 
         //获取支持的脚本语言类型
