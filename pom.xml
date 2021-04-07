@@ -18,7 +18,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <springboot.vertion>2.0.3.RELEASE</springboot.vertion>
-        <jackson.version>2.9.6</jackson.version>
+        <jackson.version>2.12.2</jackson.version>
         <jar.directory>target</jar.directory>
         <grpc.version>1.8.0</grpc.version>
         <netty.version>4.1.16.Final</netty.version>
