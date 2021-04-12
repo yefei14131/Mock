@@ -124,6 +124,8 @@ public class IndexController {
 
             //TODO  restful接口，path中包含变量  /order/${orderKey}/detail
 
+            systemDebugger.addSystemLog("全局变量", globalDataService.getGlobalVars());
+
             HashMap userDefined = new HashMap();
 
             // 执行用户自定义脚本

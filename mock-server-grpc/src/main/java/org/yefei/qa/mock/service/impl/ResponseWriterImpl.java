@@ -46,10 +46,10 @@ public class ResponseWriterImpl implements IResponseWriter {
                 log.info("request {}/{}, response:{} ", recordedRequestMapping.getServiceName(), recordedRequestMapping.getMethodName(), recordedRequestMapping.getResponseBody());
                 systemDebugger.addSystemLog("匹配前的输出结果", recordedRequestMapping.getResponseBody());
 
-                HashMap<String, Object> preDefine = globalDataPool.getAll();
-                systemDebugger.addSystemLog("预定义变量", preDefine);
+                HashMap<String, Object> globalData = globalDataPool.getAll();
+                systemDebugger.addSystemLog("全局变量", globalData);
 
-                String outputContent = VariableManager.replaceContent(recordedRequest.getTblGrpcRequestMapping().getResponseBody(), userDefined, params, preDefine);
+                String outputContent = VariableManager.replaceContent(recordedRequest.getTblGrpcRequestMapping().getResponseBody(), userDefined, params, globalData);
 
                 Class respClass = ((MethodDescriptor.PrototypeMarshaller) serverCall.getMethodDescriptor().getResponseMarshaller()).getMessagePrototype().getClass();
                 Method newBuilderMethod = respClass.getDeclaredMethod("newBuilder");

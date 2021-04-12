@@ -85,6 +85,8 @@ public class GrpcServerInterceptor implements ServerInterceptor {
 
                     log.info("grpc timeout: {}", headers.get(GrpcUtil.TIMEOUT_KEY));
 
+                    systemDebugger.addSystemLog("全局变量", globalDataService.getGlobalVars());
+
                     // 自定义变量
                     HashMap userDefined = new HashMap();
 

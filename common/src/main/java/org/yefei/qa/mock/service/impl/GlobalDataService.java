@@ -34,8 +34,9 @@ public class GlobalDataService {
                 globalDataPool.updateCache(varName, varValue);
             }
         });
-
-
     }
 
+    public HashMap<String, Object> getGlobalVars() {
+        return globalDataPool.getAll();
+    }
 }
