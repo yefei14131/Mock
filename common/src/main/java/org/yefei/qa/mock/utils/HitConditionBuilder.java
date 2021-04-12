@@ -1,5 +1,6 @@
 package org.yefei.qa.mock.utils;
 
+import org.yefei.qa.mock.debugger.SystemDebugger;
 import org.yefei.qa.mock.model.bean.HitCondition;
 import org.yefei.qa.mock.model.gen.pojo.TblMappingRulesDetail;
 
@@ -12,15 +13,15 @@ import java.util.List;
  */
 public class HitConditionBuilder {
 
-    public static HitCondition buildHitCondition(List<TblMappingRulesDetail> tblMappingRulesDetails){
+    public static HitCondition buildHitCondition(List<TblMappingRulesDetail> tblMappingRulesDetails, SystemDebugger systemDebugger) {
 
         //TODO 嵌套构建。 现在先只匹配一级。
-        HitCondition hitCondition = new HitCondition();
+        HitCondition hitCondition = new HitCondition(systemDebugger);
 
         if (tblMappingRulesDetails != null && tblMappingRulesDetails.size() > 0){
             ArrayList<HitCondition> subConditions = new ArrayList<HitCondition>();
             for (TblMappingRulesDetail tblMappingRulesDetail : tblMappingRulesDetails){
-                HitCondition subHitCondition = new HitCondition();
+                HitCondition subHitCondition = new HitCondition(systemDebugger);
                 subHitCondition.setRules(tblMappingRulesDetail);
                 subConditions.add(subHitCondition);
             }

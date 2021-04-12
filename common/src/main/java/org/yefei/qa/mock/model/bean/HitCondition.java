@@ -2,7 +2,6 @@ package org.yefei.qa.mock.model.bean;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.yefei.qa.mock.config.ApplicationContextStaticProvider;
 import org.yefei.qa.mock.debugger.SystemDebugger;
 import org.yefei.qa.mock.enums.CompareWayEnum;
 import org.yefei.qa.mock.enums.OperatorEnum;
@@ -26,6 +25,11 @@ public class HitCondition {
 
     private List<HitCondition> subConditions;
 
+    private SystemDebugger systemDebugger = null;
+
+    public HitCondition(SystemDebugger systemDebugger) {
+        this.systemDebugger = systemDebugger;
+    }
 
     public boolean isMatch(HashMap... dataPools) {
         if(subConditions != null && subConditions.size() > 0){
@@ -48,7 +52,6 @@ public class HitCondition {
 
         // 生成期望值。需要比较的变量值是一个变量的情况
         String expectValue = VariableManager.replaceContent(rules.getVariableValue(), dataPools);
-        SystemDebugger systemDebugger = ApplicationContextStaticProvider.getBean(SystemDebugger.class);
 
         StringBuilder matchDetails = new StringBuilder();
         matchDetails.append("变量名: ");
@@ -66,7 +69,9 @@ public class HitCondition {
         boolean isHit = isHit(realVariableValue, expectValue);
         matchDetails.append(isHit ? "匹配成功" : "匹配失败");
 
-        systemDebugger.addSystemLog("匹配规则执行情况", matchDetails.toString());
+        systemDebugger.addSystemLog(
+                String.format("匹配规则执行情况, requestId: %d, rulesId: %d", rules.getRequestID(), rules.getRulesDetailID())
+                , matchDetails.toString());
         return isHit;
     }
 

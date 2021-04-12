@@ -42,7 +42,7 @@ public class RequestMatcherImpl  implements IRequestMacther {
     private HitCondition buildHitCondition(Integer requestID){
         List<TblMappingRulesDetail> tblMappingRulesDetails = mappingRulesDetailCache.queryRestMappingRulesDetailsByRequestID(requestID);
 
-        return HitConditionBuilder.buildHitCondition(tblMappingRulesDetails);
+        return HitConditionBuilder.buildHitCondition(tblMappingRulesDetails, systemDebugger);
     }
 
 
