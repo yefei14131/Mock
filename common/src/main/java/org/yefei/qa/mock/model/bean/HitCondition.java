@@ -54,21 +54,29 @@ public class HitCondition {
         String expectValue = VariableManager.replaceContent(rules.getVariableValue(), dataPools);
 
         StringBuilder matchDetails = new StringBuilder();
-        matchDetails.append("变量名: ");
+        matchDetails.append("{");
+
+        matchDetails.append("\"变量名\":");
+        matchDetails.append("\"");
         matchDetails.append(realVariableName);
-        matchDetails.append("\n<br>");
+        matchDetails.append("\"");
 
-        matchDetails.append("期望值: ");
+        matchDetails.append("\"期望值\":");
+        matchDetails.append("\"");
         matchDetails.append(expectValue);
-        matchDetails.append("\n<br>");
+        matchDetails.append("\"");
 
-        matchDetails.append("实际值: ");
+        matchDetails.append("\"实际值\":");
+        matchDetails.append("\"");
         matchDetails.append(realVariableValue);
-        matchDetails.append("\n<br>");
+        matchDetails.append("\"");
 
         boolean isHit = isHit(realVariableValue, expectValue);
+        matchDetails.append("\"匹配结果\":");
+        matchDetails.append("\"");
         matchDetails.append(isHit ? "匹配成功" : "匹配失败");
-
+        matchDetails.append("\"");
+        matchDetails.append("}");
         systemDebugger.addSystemLog(
                 String.format("匹配规则执行情况, requestId: %d, rulesId: %d", rules.getRequestID(), rules.getRulesDetailID())
                 , matchDetails.toString());
