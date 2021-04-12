@@ -61,7 +61,6 @@ public class ResponseWriterImpl implements IResponseWriter {
 
                 com.google.protobuf.util.JsonFormat.parser().merge(outputContent, messageBuilder);
 
-
                 systemDebugger.addSystemLog("延迟输出响应结果", String.format("延迟时间 %d 毫秒", recordedRequestMapping.getResponseDelay()));
                 if (recordedRequestMapping.getResponseDelay() > 0) {
                     try {

@@ -27,10 +27,15 @@ public class VariableManager {
         return charAt.matches("[\\w\\$\\{\\}\\.]");
     }
 
+    /**
+     * 获取变量对应的值
+     * @param variableName  变量名。可能包含变量表达式，例如 user_age_${userId}
+     * @param dataPools     数据池，数组。
+     * @return
+     */
     public static String getVariableValue(String variableName, HashMap... dataPools) {
         return innerGetVariableValue(variableName, null, dataPools);
     }
-
 
     /**
      * 获取变量的值

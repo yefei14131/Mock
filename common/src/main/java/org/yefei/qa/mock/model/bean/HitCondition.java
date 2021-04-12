@@ -2,6 +2,8 @@ package org.yefei.qa.mock.model.bean;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.yefei.qa.mock.config.ApplicationContextStaticProvider;
+import org.yefei.qa.mock.debugger.SystemDebugger;
 import org.yefei.qa.mock.enums.CompareWayEnum;
 import org.yefei.qa.mock.enums.OperatorEnum;
 import org.yefei.qa.mock.exception.UnknownOperatorException;
@@ -41,13 +43,31 @@ public class HitCondition {
         // 生成真实的变量名。支持变量名是一个变量的情况
         String realVariableName = VariableManager.replaceContent(rules.getVariableName(), dataPools);
 
-        // 获取变量的值
-        String requestValue = VariableManager.getVariableValue(realVariableName, dataPools);
+        // 获取请求中实际的变量值
+        String realVariableValue = VariableManager.getVariableValue(realVariableName, dataPools);
 
-        // 生成真实的变量值。需要比较的变量值是一个变量的情况
-        String realVariableValue = VariableManager.replaceContent(rules.getVariableValue(), dataPools);
+        // 生成期望值。需要比较的变量值是一个变量的情况
+        String expectValue = VariableManager.replaceContent(rules.getVariableValue(), dataPools);
+        SystemDebugger systemDebugger = ApplicationContextStaticProvider.getBean(SystemDebugger.class);
 
-        return isHit(requestValue, realVariableValue);
+        StringBuilder matchDetails = new StringBuilder();
+        matchDetails.append("变量名: ");
+        matchDetails.append(realVariableName);
+        matchDetails.append("\n<br>");
+
+        matchDetails.append("期望值: ");
+        matchDetails.append(expectValue);
+        matchDetails.append("\n<br>");
+
+        matchDetails.append("实际值: ");
+        matchDetails.append(realVariableValue);
+        matchDetails.append("\n<br>");
+
+        boolean isHit = isHit(realVariableValue, expectValue);
+        matchDetails.append(isHit ? "匹配成功" : "匹配失败");
+
+        systemDebugger.addSystemLog("匹配规则执行情况", matchDetails.toString());
+        return isHit;
     }
 
     /**
