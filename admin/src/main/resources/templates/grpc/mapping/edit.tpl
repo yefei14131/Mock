@@ -122,6 +122,14 @@
     <div class="layui-colla-item">
         <h2 class="layui-colla-title">匹配条件</h2>
         <div class="layui-colla-content mapping-rules" editing="false">
+            <blockquote class="layui-elem-quote layui-quote-nm layui-bg-gray">
+                使用说明参考REST
+                <br><br>
+
+                匹配条件的执行顺序： sortIndex desc, rulesDetailID asc <br>
+                如果当前页面修改了 sortIndex，保存之后请一定要刷新看下顺序和operator是否有问题！ <br>
+            </blockquote>
+
             <div class="layui-colla-content-item">
 
             </div>
@@ -138,7 +146,9 @@
         <h2 class="layui-colla-title">全局变量添加</h2>
         <div class="layui-colla-content mapping-global-var" editing="false">
             <blockquote class="layui-elem-quote layui-quote-nm layui-bg-gray">
-                提供临时全局变量存储：<br>
+                使用说明参考REST
+                <br><br>
+
                 变量名和变量值都可以使用请求参数的变量
                 变量有效期，暂时是30s，在代码里写死
             </blockquote>

@@ -106,6 +106,20 @@
 		<div class="layui-colla-item">
 			<h2 class="layui-colla-title">匹配条件</h2>
 			<div class="layui-colla-content mapping-rules" editing="false">
+				<blockquote class="layui-elem-quote layui-quote-nm layui-bg-gray">
+
+					匹配条件是自定义的一组规则，mockserver在执行期间会用这些规则去判断是否命中当前请求。 <br><br>
+
+					variableName 是变量名，例如  userName 。执行匹配规则的时候，根据变量名去变量池获取对应的值，跟variableValue去做比对。 <br>
+					variableValue 是期望值 <br>
+					sortIndex 是排序，较大值优先执行<br>
+					变量池取值优先级： 自定义变量(可以在动态脚本里赋值) > 请求体参数  > headers > cookies > 全局变量 <br><br>
+
+					匹配条件的执行顺序： sortIndex desc, rulesDetailID asc <br> <br>
+					提示：如果当前页面修改了 sortIndex，保存之后请一定要刷新看下顺序和operator是否有正确！ <br>
+
+				</blockquote>
+
 				<div class="layui-colla-content-item">
 
 				</div>
@@ -122,9 +136,23 @@
 			<h2 class="layui-colla-title">全局变量添加</h2>
 			<div class="layui-colla-content mapping-global-var" editing="false">
 				<blockquote class="layui-elem-quote layui-quote-nm layui-bg-gray">
+
+
 					提供临时全局变量存储：<br>
-					变量名和变量值都可以使用请求参数的变量
+					如果当前的mapping被命中，会把配置的全局变量提取出来，以key-value的形式缓存到mockserver的应用内存中。<br><br>
+
+					应用场景举例：<br>
+					订单发起支付，支付通道返回支付中，业务服务使用通道返回的三方单号查询支付状态，这时mock需要返回订单支付成功状态和付款金额。
+					<br>
+					在支付请求中配置全局变量，缓存订单对应金额。可以这样配置  ${r'varName: orderAmount_${orderNo} , varValue: ${orderAmount} '}
+					<br>
+					在查询请求中可以直接使用金额: ${r'${orderAmount_${orderNo}}'}
+					<br>
+					<br>
+					变量名和变量值都可以使用请求参数的变量<br>
 					变量有效期，暂时是30s，在代码里写死
+
+
 				</blockquote>
 
 				<div class="layui-colla-content-item">
