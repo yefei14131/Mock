@@ -26,7 +26,7 @@ public class TblMappingRulesDetailDaoImpl implements ITblMappingRulesDetailDao {
         TblMappingRulesDetailExample.Criteria criteria = example.createCriteria();
         criteria.andRequestIDEqualTo(requestID).andProtocolEqualTo(ProtocolEnum.HTTP.getProtocol());
 
-        example.setOrderByClause("sortIndex desc");
+        example.setOrderByClause("sortIndex desc, rulesDetailID asc");
 
         return tblMappingRulesDetailMapper.selectByExample(example);
 

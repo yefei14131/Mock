@@ -52,7 +52,7 @@ public class MappingRulesDetailDaoImpl implements IMappingRulesDetailDao {
         TblMappingRulesDetailExample.Criteria criteria = example.createCriteria();
         criteria.andProtocolEqualTo(protocol).andRequestIDEqualTo(requestID);
 
-        example.setOrderByClause("sortIndex asc, updateTime asc");
+        example.setOrderByClause("sortIndex desc, rulesDetailID asc");
         return example;
     }
 
